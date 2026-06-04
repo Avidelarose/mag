@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ГЛАВНЫЙ ФОН — градиент + опционально изображение */
         body {
             background: linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%);
             background-attachment: fixed;
@@ -36,8 +35,6 @@
         .app-layout {
             display: flex;
             min-height: 100vh;
-            position: relative;
-            z-index: 2;
         }
 
         /* ЛЕВАЯ ПАНЕЛЬ */
@@ -54,7 +51,6 @@
             z-index: 100;
             transition: transform 0.3s ease;
             overflow-y: auto;
-            box-shadow: var(--shadow);
         }
 
         .logo-premium {
@@ -90,18 +86,14 @@
             color: #ff6b8a;
         }
 
-        /* ОСНОВНОЙ КОНТЕНТ — ЦЕНТРИРОВАНИЕ */
+        /* ОСНОВНОЙ КОНТЕНТ */
         .main-content {
             flex: 1;
             margin-left: 260px;
             padding: 24px 28px;
             max-width: calc(100% - 260px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
-        /* КАРТОЧКИ */
         .card {
             background: var(--card);
             backdrop-filter: blur(8px);
@@ -110,8 +102,6 @@
             margin-bottom: 24px;
             box-shadow: var(--shadow);
             border: 0.5px solid var(--border);
-            width: 100%;
-            max-width: 900px;
         }
 
         .section-title {
@@ -121,158 +111,91 @@
             color: #ffb3c6;
         }
 
-        /* СЕТКА ТОВАРОВ */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        /* КАРТОЧКА ТОВАРА (ПРЕМИУМ) */
-        .product-card {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 32px;
-            overflow: hidden;
+        /* ТОВАРЫ */
+        .product {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 28px;
+            padding: 16px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: center;
             border: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-[04.06.2026 9:20] САНЕК Sunshine: .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(217, 4, 41, 0.2);
-            border-color: var(--accent);
         }
 
-        .product-image {
+        /* Блок для картинки/видео */
+        .product-media {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #d90429, #9b1df0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-media img, .product-media video {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            background: linear-gradient(135deg, #2a0a1a, #1a0520);
         }
 
-        .product-video {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: none;
+        .product-emoji {
+            font-size: 2.2rem;
         }
-
-        .product-info {
-            padding: 18px;
+[04.06.2026 9:31] САНЕК Sunshine: .product-info {
+            flex: 1;
         }
 
         .product-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .product-description {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-bottom: 12px;
-            line-height: 1.4;
+            font-weight: 600;
+            font-size: 1rem;
         }
 
         .product-price {
-            font-size: 1.2rem;
-            font-weight: 700;
             color: #ff6b8a;
-            margin-bottom: 12px;
+            font-weight: 700;
+            margin-top: 6px;
         }
 
         .old-price {
             text-decoration: line-through;
             color: var(--text-light);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             margin-left: 8px;
         }
 
         .qty-control {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
             background: rgba(0, 0, 0, 0.4);
-            padding: 8px 16px;
+            padding: 5px 14px;
             border-radius: 40px;
-            margin-top: 12px;
         }
 
         .qty-btn {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
+            background: transparent;
             border: none;
             color: white;
-            width: 34px;
-            height: 34px;
-            border-radius: 30px;
             font-size: 1.2rem;
             cursor: pointer;
         }
 
-        .qty-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        /* ЧЕЛОВЕЧКИ СПРАВА */
-        .humans-sidebar {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 15px 12px;
-            border-radius: 60px;
-            border: 1px solid var(--border);
-        }
-
-        .human {
-            font-size: 2.2rem;
-            cursor: default;
-            transition: 0.15s;
-            filter: drop-shadow(0 0 5px #d90429);
-        }
-
-        .human:hover {
-            transform: scale(1.2);
-        }
-
-        .human.happy {
-            transform: scale(1.15) rotate(3deg);
-        }
-
-        .human.celebrate {
-            animation: bounceAnim 0.4s ease;
-        }
-
-        @keyframes bounceAnim {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.25) rotate(4deg); }
-            100% { transform: scale(1); }
-        }
-
-        /* УВЕЛИЧЕННАЯ КНОПКА */
+        /* КНОПКИ */
         .btn-primary {
             background: linear-gradient(135deg, #d90429, #9b1df0);
             color: white;
             border: none;
             width: 100%;
-            padding: 18px 30px;
-            font-size: 1.2rem;
+            padding: 18px;
+            font-size: 1rem;
             font-weight: 600;
             border-radius: 44px;
             cursor: pointer;
             margin-top: 16px;
-            transition: 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(217, 4, 41, 0.4);
         }
 
         .btn-outline {
@@ -286,11 +209,49 @@
             cursor: pointer;
         }
 
+        /* ЧЕЛОВЕЧКИ СПРАВА */
+        .humans-sidebar {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 10px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+        }
+
+        .human {
+            font-size: 2rem;
+            cursor: default;
+            transition: 0.15s;
+            filter: drop-shadow(0 0 5px #d90429);
+        }
+
+        .human.happy {
+            transform: scale(1.15) rotate(3deg);
+        }
+
+        .human.celebrate {
+            animation: bounceAnim 0.4s ease;
+        }
+
+        @keyframes bounceAnim {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(4deg); }
+            100% { transform: scale(1); }
+        }
+
         /* ФОРМЫ */
         .form-group {
             margin-bottom: 18px;
         }
-[04.06.2026 9:20] САНЕК Sunshine: input, select {
+
+        input, select {
             width: 100%;
             padding: 14px 16px;
             border-radius: 34px;
@@ -309,7 +270,6 @@
             border: 1px dashed var(--border);
         }
 
-        /* КОРЗИНА */
         .cart-item {
             display: flex;
             justify-content: space-between;
@@ -343,6 +303,13 @@
             text-decoration: none;
             color: white;
         }
+[04.06.2026 9:31] САНЕК Sunshine: .payment-info {
+            background: rgba(0,0,0,0.4);
+            border-radius: 32px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 24px;
+        }
 
         /* АДАПТИВ */
         @media (max-width: 700px) {
@@ -373,14 +340,15 @@
             .humans-sidebar {
                 right: 10px;
                 bottom: 10px;
-                padding: 10px 8px;
+                padding: 8px 6px;
                 gap: 8px;
             }
             .human {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
-            .products-grid {
-                grid-template-columns: 1fr;
+            .product-media {
+                width: 60px;
+                height: 60px;
             }
         }
 
@@ -406,18 +374,15 @@
         </ul>
     </div>
 
-    <!-- Кнопка для мобильного меню -->
     <div class="menu-toggle" id="menuToggle">☰ Меню</div>
 
-    <!-- Основной контент -->
     <div class="main-content">
-        <!-- Главная страница (каталог) -->
         <div id="mainPage" class="content-screen active">
             <div class="card">
-[04.06.2026 9:20] САНЕК Sunshine: <div class="section-title">✦ КОЛЛЕКЦИЯ 2025</div>
-                <div id="productsContainer" class="products-grid"></div>
+                <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
+                <div id="productsContainer"></div>
                 
-                <div class="payment-info" style="background: rgba(0,0,0,0.4); border-radius: 32px; padding: 24px; text-align: center; margin-top: 24px;">
+                <div class="payment-info">
                     <div style="font-size:1.2rem; font-weight:600;">💳 Как сделать заказ</div>
                     <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 089 05 896</span><br>(Т‑Банк, Александр)</p>
                     <p>2️⃣ Скриншот чека → оформите заказ</p>
@@ -427,18 +392,15 @@
             </div>
         </div>
 
-        <!-- Отзывы -->
         <div id="reviewsPage" class="content-screen" style="display:none;">
             <div class="card">
-                <div class="section-title">⭐ Отзывы покупателей</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Анна</div>🔥 Товар пришёл быстро, качество отличное! Спасибо NŌVA!</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично, очень доволен покупкой.</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Екатерина</div>🌸 Жилетка просто шикарная, буду заказывать ещё!</div>
+                <div class="section-title">⭐ Отзывы</div>
+                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Анна</div>🔥 Товар пришёл быстро, качество отличное!</div>
+                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично!</div>
+                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Екатерина</div>🌸 Жилетка шикарная!</div>
             </div>
         </div>
-
-        <!-- Корзина -->
-        <div id="cartPage" class="content-screen" style="display:none;">
+[04.06.2026 9:31] САНЕК Sunshine: <div id="cartPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">🛒 Корзина</div>
                 <div id="cartItemsList"></div>
@@ -447,36 +409,33 @@
             </div>
         </div>
 
-        <!-- О нас -->
         <div id="aboutPage" class="content-screen" style="display:none;">
             <div class="card">
-                <div class="section-title">📖 О магазине NŌVA</div>
-                <p style="margin-bottom: 16px;">Премиальный магазин из Челябинска. Мы доставляем товары от 1 дня по городу и области.</p>
-                <p>Каждый товар проходит проверку качества. Поддержка 24/7 в Telegram.</p>
-                <p style="margin-top: 16px;">✨ NŌVA — стиль, качество, забота о каждом клиенте.</p>
+                <div class="section-title">📖 О нас</div>
+                <p>Премиальный магазин из Челябинска. Доставка от 1 дня.</p>
+                <p>NŌVA — стиль, качество, забота о каждом клиенте.</p>
             </div>
         </div>
 
-        <!-- Экран оформления -->
         <div id="orderScreen" style="display:none;" class="card">
             <div class="section-title">✦ Оформление</div>
             <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div>
             <div class="form-group"><input type="tel" id="phone" placeholder="📞 Телефон"></div>
             <div class="form-group"><input type="text" id="social" placeholder="📱 Telegram / VK"></div>
-            <div class="form-group"><input type="text" id="address" placeholder="📍 Адрес доставки"></div>
+            <div class="form-group"><input type="text" id="address" placeholder="📍 Адрес"></div>
             <div class="form-group"><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
             <div class="form-group"><div class="file-label" id="fileLabel">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px;"></div></div>
-            <button id="submitOrderBtn" class="btn-primary">✅ Отправить заказ</button>
+            <button id="submitOrderBtn" class="btn-primary">✅ Отправить</button>
             <button id="closeOrderBtn" class="btn-outline">← Назад</button>
         </div>
-[04.06.2026 9:20] САНЕК Sunshine: <!-- Успех -->
+
         <div id="successScreen" style="display:none;" class="card">
             <div id="successContent"></div>
         </div>
     </div>
 </div>
 
-<!-- ЧЕЛОВЕЧКИ СПРАВА (ВСЕГДА ВИДНЫ) -->
+<!-- ЧЕЛОВЕЧКИ СПРАВА -->
 <div class="humans-sidebar" id="humansSidebar">
     <div class="human">🧑‍🎨</div>
     <div class="human">🤖</div>
@@ -484,34 +443,57 @@
 </div>
 
 <script>
-    // TELEGRAM
     const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
     const CHAT_ID = "5233384978";
 
-    // ТОВАРЫ С ФОТО, ВИДЕО И ОПИСАНИЕМ
+    // ============================================================
+    // 🔧 ТОВАРЫ — ДОБАВЛЯЙ КАРТИНКИ И ВИДЕО СЮДА
+    // ============================================================
+    // Поля:
+    //   - emoji: эмодзи (всегда есть, отображается если нет картинки)
+    //   - img: ссылка на картинку (оставь "" если нет картинки)
+    //   - video: ссылка на видео (оставь "" если нет видео)
+    //   - price: цена
+    //   - oldPrice: старая цена (опционально)
+    // ============================================================
     const PRODUCTS = [
-        { id: 1, name: "SSD 256 SP A56", price: 3650, description: "Высокоскоростной твердотельный накопитель 256GB. Отличное решение для ускорения работы ПК.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=SSD+256GB", video: "" },
-        { id: 2, name: "Чебурашка мягкий", price: 2600, description: "Мягкая игрушка Чебурашка. Отличный подарок для детей и взрослых.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Чебурашка", video: "" },
-        { id: 3, name: "Зарядка в авто с вольтметром", price: 800, description: "Автомобильное зарядное устройство с цифровым вольтметром. 2 порта USB.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Авто+зарядка", video: "" },
-        { id: 4, name: "Мини колода карт", price: 700, description: "Миниатюрная колода игральных карт. Удобно брать с собой.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Мини+карты", video: "" },
-        { id: 5, name: "Жилетка женская цветы", price: 2145, oldPrice: 2500, description: "Модная женская жилетка с цветочным принтом. Размеры S-XXL.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Жилетка+цветы", video: "" },
-        { id: 6, name: "Брелок четырёхлистник", price: 300, description: "Стильный брелок для ключей в виде четырёхлистника. Символ удачи.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Брелок", video: "" },
-        { id: 7, name: "Игрушечные сигареты", price: 1500, description: "Игрушечные сигареты с мыльными пузырями. Безопасно и весело.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Мыльные+пузыри", video: "" },
-        { id: 8, name: "Цифровой микроскоп", price: 4945, description: "Цифровой микроскоп с увеличением до 1000x. Для исследований и хобби.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Микроскоп", video: "https://www.w3schools.com/html/mov_bbb.mp4" },
-        { id: 9, name: "Игровое кресло", price: 9700, description: "Эргономичное игровое кресло с регулировкой высоты и наклона.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Игровое+кресло", video: "" },
-        { id: 10, name: "Сумка кожаная", price: 2375, oldPrice: 2500, description: "Сумка на плечо из натуральной кожи. Стильная и вместительная.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Сумка+кожаная", video: "" },
-        { id: 11, name: "Пистолет с пульками", price: 1450, description: "Реалистичный пистолет с пульками и гильзами. Пневматический.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Пистолет", video: "" },
-        { id: 12, name: "Кепка с листьями", price: 1350, description: "Модная кепка с принтом в виде листьев. Отличный аксессуар.", img: "https://placehold.co/400x300/2a0a1a/ff6b8a?text=Кепка+листья", video: "" }
+        { id: 1, name: "SSD 256 SP A56", price: 3650, emoji: "💾", img: "", video: "" },
+        { id: 2, name: "Чебурашка мягкий", price: 2600, emoji: "🧸", img: "", video: "" },
+        { id: 3, name: "Зарядка в авто с вольтметром", price: 800, emoji: "🔌", img: "", video: "" },
+        { id: 4, name: "Мини колода карт", price: 700, emoji: "🃏", img: "", video: "" },
+        { id: 5, name: "Жилетка женская цветы", price: 2145, emoji: "🌸", img: "", video: "", oldPrice: 2500 },
+        { id: 6, name: "Брелок четырёхлистник", price: 300, emoji: "🔑", img: "", video: "" },
+        { id: 7, name: "Игрушечные сигареты", price: 1500, emoji: "💨", img: "", video: "" },
+        { id: 8, name: "Цифровой микроскоп", price: 4945, emoji: "🔬", img: "", video: "" },
+        { id: 9, name: "Игровое кресло", price: 9700, emoji: "💺", img: "", video: "" },
+        { id: 10, name: "Сумка кожаная", price: 2375, emoji: "👜", img: "", video: "" },
+        { id: 11, name: "Пистолет с пульками", price: 1450, emoji: "🔫", img: "", video: "" },
+        { id: 12, name: "Кепка с листьями", price: 1350, emoji: "🧢", img: "", video: "" }
     ];
+[04.06.2026 9:31] САНЕК Sunshine: // ⬇️⬇️⬇️ ПРИМЕР ДОБАВЛЕНИЯ КАРТИНКИ И ВИДЕО (раскомментируй и замени ссылки) ⬇️⬇️⬇️
+    /*
+    { id: 8, name: "Цифровой микроскоп", price: 4945, emoji: "🔬", img: "images/microscope.jpg", video: "videos/microscope_demo.mp4" },
+    { id: 1, name: "SSD 256 SP A56", price: 3650, emoji: "💾", img: "https://example.com/ssd.jpg", video: "" },
+    */
 
     let cart = {};
     let receiptFile = null;
     let currentOrderItems = null;
 
+    // Функция для отображения медиа (картинка или видео)
+    function getProductMedia(p) {
+        if (p.video && p.video !== "") {
+            return <video class="product-media-video" style="width:100%; height:100%; object-fit:cover;" controls><source src="${p.video}" type="video/mp4"></video>;
+        } else if (p.img && p.img !== "") {
+            return <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='${p.emoji}'">;
+        }
+        return <div class="product-emoji">${p.emoji}</div>;
+    }
+
     function updateCartUI() {
-        let totalCount = 0;
-        for (let id in cart) totalCount += cart[id];
-        document.getElementById('cartCountBadge').innerText = totalCount;
+        let total = 0;
+        for (let id in cart) total += cart[id];
+        document.getElementById('cartCountBadge').innerText = total;
         renderCartList();
     }
 
@@ -521,23 +503,25 @@
         container.innerHTML = '';
         for (let p of PRODUCTS) {
             const qty = cart[p.id] || 0;
-[04.06.2026 9:20] САНЕК Sunshine: const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = 
-                <img class="product-image" src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=Фото+недоступно'">
-                ${p.video ? <video class="product-video" controls><source src="${p.video}" type="video/mp4"></video> : ''}
+            const div = document.createElement('div');
+            div.className = 'product';
+            
+            const hasMedia = (p.img && p.img !== "") || (p.video && p.video !== "");
+            const mediaHtml = hasMedia ? <div class="product-media">${getProductMedia(p)}</div> : <div class="product-emoji">${p.emoji}</div>;
+            
+            div.innerHTML = 
+                ${mediaHtml}
                 <div class="product-info">
                     <div class="product-name">${p.name}</div>
-                    <div class="product-description">${p.description}</div>
                     <div class="product-price">${p.price.toLocaleString()} ₽ ${p.oldPrice ? <span class="old-price">${p.oldPrice.toLocaleString()} ₽</span> : ''}</div>
-                    <div class="qty-control">
-                        <button class="qty-minus" data-id="${p.id}">−</button>
-                        <span class="qty-value">${qty}</span>
-                        <button class="qty-plus" data-id="${p.id}">+</button>
-                    </div>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-minus" data-id="${p.id}">−</button>
+                    <span>${qty}</span>
+                    <button class="qty-plus" data-id="${p.id}">+</button>
                 </div>
             ;
-            container.appendChild(card);
+            container.appendChild(div);
         }
         document.querySelectorAll('.qty-plus').forEach(btn => btn.onclick = () => { cart[btn.dataset.id] = (cart[btn.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
         document.querySelectorAll('.qty-minus').forEach(btn => btn.onclick = () => { let id=btn.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
@@ -565,7 +549,7 @@
         if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
         let total=0,totalQty=0,html='';
         for(let id in cart){
-            const p=PRODUCTS.find(x=>x.id==id);
+[04.06.2026 9:31] САНЕК Sunshine: const p=PRODUCTS.find(x=>x.id==id);
             if(p){
                 const q=cart[id];
                 const sum=p.price*q;
@@ -578,11 +562,11 @@
         currentOrderItems = {...cart};
         document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
         document.getElementById('orderScreen').style.display = 'block';
-        document.getElementById('successScreen').style.display = 'none';
     }
 
     function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.frequency.value=880; gain.gain.value=0.12; osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1046.5; gain2.gain.value=0.1; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
-[04.06.2026 9:20] САНЕК Sunshine: async function sendToTelegram(orderData){
+
+    async function sendToTelegram(orderData){
         let itemsText=''; let total=0,totalQty=0;
         for(let id in orderData.items){
             const p=PRODUCTS.find(x=>x.id==id);
@@ -615,9 +599,9 @@
             playHurray();
             document.getElementById('orderScreen').style.display='none';
             document.getElementById('successScreen').style.display='block';
-            document.getElementById('successContent').innerHTML=<div style="background:rgba(0,0,0,0.4);border-radius:32px;padding:32px;text-align:center;"><strong>ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>;
-            document.getElementById('newOrderBtn')?.addEventListener('click',()=>location.reload());
-        } else { alert("Ошибка. Проверьте бота @My_daaate_bot (/start)"); btn.disabled=false; btn.innerText="✅ Отправить заказ"; }
+            document.getElementById('successContent').innerHTML=<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>;
+[04.06.2026 9:31] САНЕК Sunshine: document.getElementById('newOrderBtn')?.addEventListener('click',()=>location.reload());
+        } else { alert("Ошибка. Проверьте бота @My_daaate_bot (/start)"); btn.disabled=false; btn.innerText="✅ Отправить"; }
     }
 
     function showPage(pageId){
@@ -634,43 +618,36 @@
     });
     document.getElementById('checkoutBtn')?.addEventListener('click',showOrderScreen);
     document.getElementById('closeOrderBtn')?.addEventListener('click',()=>{ showPage('cartPage'); });
-    document.getElementById('themeNavBtn')?.addEventListener('click',()=>{ alert('Тема и так премиум-тёмная'); });
+    document.getElementById('themeNavBtn')?.addEventListener('click',()=>{ document.body.style.background = document.body.style.background === 'linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%)' ? '#0a0a0a' : 'linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%)'; });
     document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
-[04.06.2026 9:20] САНЕК Sunshine: const fileInput=document.getElementById('receiptFile'), fileLabel=document.getElementById('fileLabel'), fileNameSpan=document.getElementById('fileNameSpan');
+
+    const fileInput=document.getElementById('receiptFile'), fileLabel=document.getElementById('fileLabel'), fileNameSpan=document.getElementById('fileNameSpan');
     fileInput?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fileNameSpan.innerText=📸 ${receiptFile.name}; } else { receiptFile=null; fileNameSpan.innerText=''; } });
     fileLabel?.addEventListener('click',()=>fileInput.click());
 
     // АНИМАЦИЯ ЧЕЛОВЕЧКОВ СПРАВА
-    function initSidebarHumans() {
-        const humans = document.querySelectorAll('.humans-sidebar .human');
-        if (humans.length === 0) return;
-        
-        // Реагируем на ввод в полях
-        const inputs = ['#phone', '#social', '#address'];
-        inputs.forEach(sel => {
-            const inp = document.querySelector(sel);
-            if (inp) {
-                inp.addEventListener('input', () => {
-                    humans.forEach(h => h.classList.add('happy'));
-                    setTimeout(() => humans.forEach(h => h.classList.remove('happy')), 300);
-                    if (inp.value.length > 2) {
-                        humans.forEach(h => h.classList.add('celebrate'));
-                        setTimeout(() => humans.forEach(h => h.classList.remove('celebrate')), 500);
-                    }
-                });
-            }
-        });
-        
-        // Автоматическое шевеление каждые 3 секунды
-        setInterval(() => {
-            humans.forEach(h => h.classList.add('happy'));
-            setTimeout(() => humans.forEach(h => h.classList.remove('happy')), 400);
-        }, 3000);
-    }
+    const sidebarHumans = document.querySelectorAll('.humans-sidebar .human');
+    const inputs = ['#phone', '#social', '#address'];
+    inputs.forEach(sel => {
+        const inp = document.querySelector(sel);
+        if (inp) {
+            inp.addEventListener('input', () => {
+                sidebarHumans.forEach(h => h.classList.add('happy'));
+                setTimeout(() => sidebarHumans.forEach(h => h.classList.remove('happy')), 300);
+                if (inp.value.length > 2) {
+                    sidebarHumans.forEach(h => h.classList.add('celebrate'));
+                    setTimeout(() => sidebarHumans.forEach(h => h.classList.remove('celebrate')), 500);
+                }
+            });
+        }
+    });
+    setInterval(() => {
+        sidebarHumans.forEach(h => h.classList.add('happy'));
+        setTimeout(() => sidebarHumans.forEach(h => h.classList.remove('happy')), 400);
+    }, 3000);
 
     renderProducts();
     updateCartUI();
-    initSidebarHumans();
 </script>
 </body>
 </html>
