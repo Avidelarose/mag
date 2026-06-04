@@ -1,49 +1,39 @@
-<!DOCTYPE html>
+[04.06.2026 8:18] САНЕК Sunshine: <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>NŌVA — премиальный магазин</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NŌVA — премиум магазин</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
         }
 
-        /* Светлая тема (по умолчанию) */
         :root {
             --bg: #f5f5f7;
-            --card-bg: rgba(255,255,255,0.96);
-            --text-primary: #1c1c1e;
-            --text-secondary: #8e8e93;
-            --border-light: #e9e9ef;
+            --card: #ffffff;
+            --text: #1c1c1e;
+            --text-light: #8e8e93;
+            --border: #e9e9ef;
             --accent: #d90429;
-            --accent-light: #fff0f2;
-            --shadow: 0 20px 40px rgba(0,0,0,0.08);
-            --human-brightness: 1;
         }
 
-        /* Тёмная тема */
         body.dark {
             --bg: #000000;
-            --card-bg: #1c1c1e;
-            --text-primary: #ffffff;
-            --text-secondary: #98989e;
-            --border-light: #2c2c2e;
-            --accent-light: #2a0a10;
-            --shadow: 0 20px 40px rgba(0,0,0,0.4);
-            --human-brightness: 0.9;
+            --card: #1c1c1e;
+            --text: #ffffff;
+            --text-light: #98989e;
+            --border: #2c2c2e;
         }
 
         body {
             background: var(--bg);
-            font-family: -apple-system, 'SF Pro Text', 'Segoe UI', system-ui, Helvetica, sans-serif;
+            font-family: -apple-system, 'SF Pro Text', system-ui, Helvetica, sans-serif;
             padding: 20px;
-            color: var(--text-primary);
-            transition: background 0.3s, color 0.2s;
+            color: var(--text);
         }
 
         .container {
@@ -51,61 +41,58 @@
             margin: 0 auto;
         }
 
-        /* Шапка с переключателем темы */
-        .header-bar {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        .theme-toggle {
-            background: var(--card-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 40px;
-            padding: 8px 18px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--text-primary);
-            backdrop-filter: blur(10px);
-        }
-
-        .screen {
-            background: var(--card-bg);
-            backdrop-filter: blur(0px);
-            border-radius: 48px;
-            padding: 28px 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            border: 0.5px solid rgba(255,255,255,0.1);
-        }
-
-        .hidden { display: none; }
 
         h1 {
             font-size: 2rem;
             font-weight: 620;
-            letter-spacing: -0.02em;
             background: linear-gradient(135deg, var(--accent) 0%, #ff6b6b 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 6px;
         }
 
-        .subtitle {
+        .theme-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 8px 18px;
             font-size: 0.85rem;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border-light);
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .screen {
+            background: var(--card);
+            border-radius: 44px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.02);
+            border: 0.5px solid var(--border);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border);
             display: inline-block;
             padding-bottom: 4px;
+            margin-bottom: 20px;
         }
 
-        /* карточки товаров */
-        .product-card {
-            background: var(--card-bg);
+        /* товары */
+        .product {
+            background: var(--card);
             border-radius: 32px;
             padding: 16px;
             margin-bottom: 16px;
@@ -113,13 +100,13 @@
             gap: 14px;
             flex-wrap: wrap;
             align-items: center;
-            transition: 0.25s;
-            border: 0.5px solid var(--border-light);
+            border: 0.5px solid var(--border);
         }
-        .product-card.selected {
+
+        .product.selected {
             border: 1px solid var(--accent);
-            background: var(--accent-light);
         }
+
         .product-emoji {
             font-size: 2rem;
             background: var(--bg);
@@ -130,11 +117,30 @@
             align-items: center;
             justify-content: center;
         }
-        .product-name { font-weight: 590; font-size: 1rem; }
-        .product-price { color: var(--accent); font-weight: 600; margin-top: 6px; }
-        .old-price { text-decoration: line-through; color: var(--text-secondary); font-size: 0.75rem; margin-left: 8px; }
 
-        .quantity-control {
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 590;
+            font-size: 1rem;
+        }
+
+        .product-price {
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        .product-old {
+            text-decoration: line-through;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+
+        .qty-control {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -142,63 +148,56 @@
             padding: 4px 12px;
             border-radius: 40px;
         }
-        .quantity-btn {
-            background: var(--card-bg);
+
+        .qty-btn {
+            background: var(--card);
             border: none;
             width: 34px;
             height: 34px;
             border-radius: 30px;
             font-size: 1.2rem;
             cursor: pointer;
-            color: var(--text-primary);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            color: var(--text);
+        }
+[04.06.2026 8:18] САНЕК Sunshine: /* формы */
+        .form-group {
+            margin-bottom: 22px;
         }
 
-        /* формы */
-        .form-group { margin-bottom: 22px; }
-        label { font-weight: 510; display: block; margin-bottom: 8px; font-size: 0.9rem; }
+        label {
+            font-weight: 510;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
         input, select {
             width: 100%;
             padding: 16px 18px;
             border-radius: 34px;
-            border: 1px solid var(--border-light);
-            background: var(--card-bg);
-            color: var(--text-primary);
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
             font-size: 1rem;
             font-family: inherit;
         }
+
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(217,4,41,0.2);
+            box-shadow: 0 0 0 3px rgba(217,4,41,0.1);
         }
-
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
-        }
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg);
-            padding: 10px 18px;
-            border-radius: 40px;
-            border: 1px solid var(--border-light);
-        }
-        .radio-option.selected { background: var(--accent); border-color: var(--accent); color: white; }
-        .radio-option.selected label { color: white; }
 
         .file-label {
             background: var(--bg);
             padding: 16px;
-            border-radius: 36px;
+            border-radius: 34px;
             text-align: center;
             cursor: pointer;
-            border: 1px dashed var(--border-light);
+            border: 1px dashed var(--border);
         }
+
+        /* кнопки */
         .btn-primary {
             background: var(--accent);
             color: white;
@@ -209,9 +208,9 @@
             font-weight: 590;
             border-radius: 44px;
             cursor: pointer;
-            transition: 0.2s;
+            margin-top: 8px;
         }
-        .btn-primary:active { transform: scale(0.97); }
+
         .btn-outline {
             background: transparent;
             border: 1.5px solid var(--accent);
@@ -220,96 +219,92 @@
             border-radius: 44px;
             width: 100%;
             margin-top: 12px;
+            cursor: pointer;
         }
 
         /* человечки */
-        .humanoid-area {
+        .humans {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 15px 0;
-            flex-wrap: wrap;
+            gap: 24px;
+            margin: 16px 0 20px;
         }
+
         .human {
             font-size: 3rem;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-            transition: transform 0.2s, filter 0.2s;
+            transition: 0.15s;
             cursor: default;
         }
-        .human.happy { transform: scale(1.12) rotate(3deg); filter: brightness(var(--human-brightness)); }
-        .celebrate { animation: bouncePop 0.45s ease; }
-        @keyframes bouncePop {
+
+        .human.happy {
+            transform: scale(1.12) rotate(3deg);
+        }
+
+        .human.celebrate {
+            animation: bounce 0.4s ease;
+        }
+
+        @keyframes bounce {
             0% { transform: scale(1); }
-            50% { transform: scale(1.25) rotate(5deg); }
+            50% { transform: scale(1.22) rotate(4deg); }
             100% { transform: scale(1); }
         }
 
-        .final-question {
-            font-size: 1.7rem;
-            font-weight: 620;
-            text-align: center;
-            margin: 20px 0;
-            color: var(--text-primary);
-        }
-        .final-buttons { display: flex; gap: 16px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
         .success-box {
-            background: #2a6b3c20;
-            border-radius: 40px;
+            background: rgba(42,107,60,0.15);
+            border-radius: 36px;
             padding: 30px 20px;
             text-align: center;
-            color: var(--accent);
         }
-        footer { text-align: center; color: var(--text-secondary); font-size: 0.7rem; margin-top: 20px; }
 
         @media (max-width: 550px) {
             body { padding: 12px; }
             .screen { padding: 20px 16px; border-radius: 36px; }
-            .final-question { font-size: 1.4rem; }
-            .human { font-size: 2.4rem; }
+            .human { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header-bar">
+    <div class="header">
         <h1>nōva</h1>
-        <button id="themeSwitcher" class="theme-toggle">🌙 Тёмная тема</button>
+        <button class="theme-btn" id="themeToggle">🌙 Тёмная тема</button>
     </div>
 
-    <!-- экран товары -->
+    <!-- экран товаров -->
     <div id="shopScreen" class="screen">
-        <div class="subtitle">Челябинск · доставка 24h</div>
-        <div id="productsList"></div>
-        <button id="toOrderBtn" class="btn-primary">Перейти к оформлению →</button>
+        <div class="badge">Челябинск · доставка от 1 дня</div>
+        <div id="productsContainer"></div>
+        <button id="goToOrderBtn" class="btn-primary">Перейти к оформлению →</button>
     </div>
 
     <!-- экран оформления -->
     <div id="orderScreen" class="screen hidden">
-        <div class="subtitle">заполните данные</div>
-        <div id="humanContainer" class="humanoid-area"></div>
+        <div class="badge">заполните данные</div>
+        <div id="orderHumans" class="humans"></div>
         <div style="background: var(--bg); border-radius: 32px; padding: 18px; margin-bottom: 24px;">
             <strong>ваш заказ</strong>
-            <div id="orderSummary" style="margin-top: 10px;"></div>
+            <div id="orderSummary" style="margin-top: 12px;"></div>
         </div>
         <div class="form-group"><label>📞 Телефон</label><input type="tel" id="phone" placeholder="+7 900 000 00 00"></div>
         <div class="form-group"><label>📱 Telegram / VK</label><input type="text" id="social" placeholder="@nickname"></div>
-        <div class="form-group"><label>📍 Адрес доставки</label><input type="text" id="address" placeholder="Челябинск, улица..."></div>
-        <div class="form-group"><label>⏰ Время доставки</label><select id="timeOption"><option>Не важно</option><option>09:00-12:00</option><option>12:00-15:00</option><option>15:00-18:00</option><option>18:00-21:00</option></select></div>
-        <div class="form-group"><label>🧾 Фото чека (СБП 89630905896 Т-Банк)</label><div class="file-label" id="fileLabel">📎 Загрузить фото чека<input type="file" id="receiptPhoto" accept="image/*" style="display:none"></div><div id="fileName" class="file-name" style="margin-top:6px; font-size:0.7rem;"></div></div>
-        <button id="sendOrderBtn" class="btn-primary">✅ Оформить заказ</button>
+        <div class="form-group"><label>📍 Адрес доставки</label><input type="text" id="address" placeholder="Челябинск, улица, дом"></div>
+[04.06.2026 8:18] САНЕК Sunshine: <div class="form-group"><label>⏰ Желаемое время</label><select id="timeSelect"><option>Не важно</option><option>09:00-12:00</option><option>12:00-15:00</option><option>15:00-18:00</option><option>18:00-21:00</option></select></div>
+        <div class="form-group"><label>🧾 Фото чека (СБП 89630905896 Т-Банк)</label><div class="file-label" id="fileLabel">📎 Загрузить фото чека<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:8px; font-size:0.75rem;"></div></div>
+        <button id="submitOrderBtn" class="btn-primary">✅ Оформить заказ</button>
         <button id="backToShopBtn" class="btn-outline">← назад</button>
     </div>
 
-    <!-- финальный экран -->
-    <div id="finalScreen" class="screen hidden">
-        <div id="finalContent"></div>
+    <!-- экран успеха -->
+    <div id="successScreen" class="screen hidden">
+        <div id="successContent"></div>
     </div>
 </div>
 
 <script>
-    // -------------------- ТЕЛЕГРАМ --------------------
-    const TELEGRAM_BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
-    const TELEGRAM_CHAT_ID = "5233384978";
+    // -------------------- TELEGRAM --------------------
+    const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
+    const CHAT_ID = "5233384978";
 
     // -------------------- ТОВАРЫ --------------------
     const PRODUCTS = [
@@ -329,43 +324,272 @@
 
     let cart = {};
     let receiptFile = null;
-    let finalStep = "main";
-    let currentOrderData = null;
-    let audioCtx = null;
 
-    // -------------------- ЗВУК "УРА" (web audio) --------------------
-    function playHurraySound() {
+    // -------------------- ЗВУК "УРА" --------------------
+    function playHurray() {
         try {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
             osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            gain.connect(ctx.destination);
             osc.frequency.value = 880;
-            gain.gain.value = 0.2;
+            gain.gain.value = 0.12;
             osc.start();
-            gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.8);
-            osc.stop(audioCtx.currentTime + 0.8);
-            // дополнительный весёлый тон
+            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.7);
+            osc.stop(ctx.currentTime + 0.7);
             setTimeout(() => {
-                const osc2 = audioCtx.createOscillator();
-                const gain2 = audioCtx.createGain();
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
                 osc2.connect(gain2);
-                gain2.connect(audioCtx.destination);
+                gain2.connect(ctx.destination);
                 osc2.frequency.value = 1046.5;
-                gain2.gain.value = 0.15;
+                gain2.gain.value = 0.1;
                 osc2.start();
-                gain2.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.5);
-                osc2.stop(audioCtx.currentTime + 0.5);
-            }, 150);
-        } catch(e) { console.log("звук не поддержан"); }
+                gain2.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
+                osc2.stop(ctx.currentTime + 0.5);
+            }, 140);
+        } catch(e) {}
     }
+
+    // -------------------- ОТРИСОВКА ТОВАРОВ --------------------
+    function renderProducts() {
+        const container = document.getElementById('productsContainer');
+        container.innerHTML = '';
+        for (let p of PRODUCTS) {
+            const qty = cart[p.id] || 0;
+            const div = document.createElement('div');
+            div.className = product ${qty > 0 ? 'selected' : ''};
+            div.innerHTML = `
+                <div class="product-emoji">${p.emoji}</div>
+                <div class="product-info">
+                    <div class="product-name">${p.name}</div>
+[04.06.2026 8:18] САНЕК Sunshine: <div class="product-price">${p.price.toLocaleString()} ₽ ${p.oldPrice ? <span class="product-old">${p.oldPrice.toLocaleString()} ₽</span> : ''}</div>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" data-id="${p.id}" data-delta="-1">−</button>
+                    <span>${qty}</span>
+                    <button class="qty-btn" data-id="${p.id}" data-delta="1">+</button>
+                </div>
+            ;
+            container.appendChild(div);
+        }
+        document.querySelectorAll('.qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                const delta = parseInt(btn.dataset.delta);
+                const newVal = (cart[id] || 0) + delta;
+                if (newVal <= 0) delete cart[id];
+                else cart[id] = newVal;
+                renderProducts();
+            });
+        });
+    }
+
+    // -------------------- ОБНОВЛЕНИЕ СУММАРИ --------------------
+    function updateSummary() {
+        let total = 0, totalQty = 0, html = '';
+        for (let id in cart) {
+            const p = PRODUCTS.find(x => x.id == id);
+            if (p) {
+                const q = cart[id];
+                const sum = p.price * q;
+                total += sum;
+                totalQty += q;
+                html += <div>${p.name} — ${q} шт = ${sum.toLocaleString()} ₽</div>;
+            }
+        }
+        if (!html) html = '<div>нет товаров</div>';
+        html += <div style="margin-top:12px; font-weight:600;">💰 ${total.toLocaleString()} ₽ (${totalQty} шт)</div>;
+        document.getElementById('orderSummary').innerHTML = html;
+    }
+
+    // -------------------- ОТПРАВКА В TELEGRAM --------------------
+    async function sendToTelegram(orderData) {
+        let itemsStr = '';
+        for (let id in orderData.items) {
+            itemsStr += ${orderData.items[id].name} — ${orderData.items[id].qty} шт = ${orderData.items[id].sum} ₽\n;
+        }
+        const msg = 🛍️ НОВЫЙ ЗАКАЗ (Челябинск)
+📦 Товары:\n${itemsStr}
+💰 Итого: ${orderData.total} ₽ (${orderData.totalQty} шт)
+👤 ${orderData.phone} | ${orderData.social}
+📍 ${orderData.address} | ⏰ ${orderData.time}
+🧾 Чек: ${orderData.hasPhoto ? "есть фото" : "нет фото"};
+        try {
+            if (orderData.photoFile) {
+                const fd = new FormData();
+                fd.append('chat_id', CHAT_ID);
+                fd.append('caption', msg);
+                fd.append('photo', orderData.photoFile, 'receipt.jpg');
+                const resp = await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto, { method: 'POST', body: fd });
+                return resp.ok;
+            } else {
+                const resp = await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+                });
+                return resp.ok;
+            }
+        } catch(e) { return false; }
+    }
+
+    // -------------------- ПОКАЗАТЬ УСПЕХ --------------------
+    function showSuccess() {
+        const container = document.getElementById('successContent');
+        container.innerHTML = 
+            <div class="humans">
+                <div class="human">🧑‍🎨</div>
+                <div class="human">🤖</div>
+                <div class="human">🕺</div>
+            </div>
+            <div class="success-box">
+                <span style="font-size: 2rem;">🎉</span><br/>
+                <strong>ЗАКАЗ ОТПРАВЛЕН!</strong><br/>
+                Менеджер свяжется с вами в ближайшее время.<br/>
+                <span style="font-size: 0.9rem;">Спасибо за покупку! ❤️</span>
+[04.06.2026 8:18] САНЕК Sunshine: <button id="newOrderBtn" class="btn-primary" style="margin-top: 24px;">🌹 Новый заказ</button>
+            </div>
+        ;
+        document.getElementById('newOrderBtn')?.addEventListener('click', () => location.reload());
+        
+        // анимация человечков
+        const humans = document.querySelectorAll('.human');
+        if (humans.length) {
+            setInterval(() => {
+                humans.forEach(h => h.classList.add('happy'));
+                setTimeout(() => humans.forEach(h => h.classList.remove('happy')), 400);
+            }, 2200);
+        }
+    }
+
+    // -------------------- ОФОРМЛЕНИЕ ЗАКАЗА --------------------
+    async function submitOrder() {
+        const phone = document.getElementById('phone').value.trim();
+        const social = document.getElementById('social').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const timeSlot = document.getElementById('timeSelect').value;
+        
+        if (!phone || !social || !address) {
+            alert("Заполните телефон, соцсеть и адрес");
+            return;
+        }
+        if (Object.keys(cart).length === 0) {
+            alert("Корзина пуста");
+            return;
+        }
+        
+        // формируем данные для отправки
+        let items = {};
+        let total = 0, totalQty = 0;
+        for (let id in cart) {
+            const p = PRODUCTS.find(x => x.id == id);
+            if (p) {
+                const q = cart[id];
+                const sum = p.price * q;
+                total += sum;
+                totalQty += q;
+                items[id] = { name: p.name, qty: q, sum: sum };
+            }
+        }
+        
+        const orderData = {
+            items: items,
+            total: total,
+            totalQty: totalQty,
+            phone: phone,
+            social: social,
+            address: address,
+            time: timeSlot,
+            hasPhoto: !!receiptFile,
+            photoFile: receiptFile
+        };
+        
+        // блокируем кнопку
+        const btn = document.getElementById('submitOrderBtn');
+        btn.disabled = true;
+        btn.textContent = "⏳ Отправляем...";
+        
+        const sent = await sendToTelegram(orderData);
+        
+        if (sent) {
+            playHurray();
+            document.getElementById('orderScreen').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+            showSuccess();
+        } else {
+            alert("❌ Ошибка отправки. Убедитесь, что бот активирован: напишите /start боту @My_daaate_bot");
+            btn.disabled = false;
+            btn.textContent = "✅ Оформить заказ";
+        }
+    }
+
+    // -------------------- ЧЕЛОВЕЧКИ В ОФОРМЛЕНИИ --------------------
+    function renderHumans() {
+        const container = document.getElementById('orderHumans');
+        if (!container) return;
+        container.innerHTML = <div class="human">🧑‍🎨</div><div class="human">🤖</div><div class="human">🕺</div>`;
+        const humans = document.querySelectorAll('.human');
+        const inputs = ['#phone', '#social', '#address'];
+        inputs.forEach(sel => {
+            const inp = document.querySelector(sel);
+            if (inp) {
+                inp.addEventListener('input', () => {
+                    humans.forEach(h => { h.classList.add('happy'); setTimeout(() => h.classList.remove('happy'), 300); });
+                    if (inp.value.length > 2) {
+                        humans.forEach(h => { h.classList.add('celebrate'); setTimeout(() => h.classList.remove('celebrate'), 500); });
+                    }
+                });
+            }
+        });
+        setInterval(() => {
+            humans.forEach(h => { if (Math.random() > 0.7) h.classList.add('happy'); setTimeout(() => h.classList.remove('happy'), 400); });
+        }, 2400);
+    }
+[04.06.2026 8:18] САНЕК Sunshine: // -------------------- ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ --------------------
+    function goToOrder() {
+        if (Object.keys(cart).length === 0) {
+            alert("Выберите товары");
+            return;
+        }
+        updateSummary();
+        document.getElementById('shopScreen').classList.add('hidden');
+        document.getElementById('orderScreen').classList.remove('hidden');
+        document.getElementById('successScreen').classList.add('hidden');
+        renderHumans();
+    }
+    
+    function backToShop() {
+        document.getElementById('shopScreen').classList.remove('hidden');
+        document.getElementById('orderScreen').classList.add('hidden');
+        document.getElementById('successScreen').classList.add('hidden');
+    }
+
+    // -------------------- ФОТО --------------------
+    const fileInput = document.getElementById('receiptFile');
+    const fileLabel = document.getElementById('fileLabel');
+    const fileNameSpan = document.getElementById('fileNameSpan');
+    
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            receiptFile = e.target.files[0];
+            fileNameSpan.innerText = 📸 ${receiptFile.name};
+        } else {
+            receiptFile = null;
+            fileNameSpan.innerText = '';
+        }
+    });
+    fileLabel.addEventListener('click', () => fileInput.click());
 
     // -------------------- ТЕМА --------------------
     function initTheme() {
         const isDark = localStorage.getItem('theme') === 'dark';
         if (isDark) document.body.classList.add('dark');
-        const btn = document.getElementById('themeSwitcher');
+        const btn = document.getElementById('themeToggle');
         btn.innerText = isDark ? '☀️ Светлая тема' : '🌙 Тёмная тема';
         btn.onclick = () => {
             document.body.classList.toggle('dark');
@@ -375,186 +599,13 @@
         };
     }
 
-    // -------------------- ЧЕЛОВЕЧКИ С АНИМАЦИЕЙ --------------------
-    function renderHumans(containerId) {
-        const container = document.getElementById(containerId);
-        if(!container) return;
-        container.innerHTML = `<div class="human">🧑‍🎨</div><div class="human">🤖</div><div class="human">🕺</div>`;
-        const humans = document.querySelectorAll('.human');
-        const inputs = ['#phone', '#social', '#address'];
-        inputs.forEach(sel => {
-            const inp = document.querySelector(sel);
-            if(inp) {
-                inp.addEventListener('input', () => {
-                    humans.forEach(h => { h.classList.add('happy'); setTimeout(()=>h.classList.remove('happy'),300); });
-                    if(inp.value.length > 2) humans.forEach(h => { h.classList.add('celebrate'); setTimeout(()=>h.classList.remove('celebrate'),500); });
-                });
-            }
-        });
-        setInterval(() => {
-            humans.forEach(h => { if(Math.random()>0.7) h.classList.add('happy'); setTimeout(()=>h.classList.remove('happy'),400); });
-        }, 2200);
-    }
-
-    // отрисовка товаров
-    function renderProducts() {
-        const container = document.getElementById('productsList');
-        container.innerHTML = '';
-        PRODUCTS.forEach(p => {
-            const qty = cart[p.id] || 0;
-            const card = document.createElement('div');
-            card.className = `product-card ${qty>0 ? 'selected' : ''}`;
-            card.innerHTML = `
-                <div class="product-emoji">${p.emoji}</div>
-                <div class="product-info"><div class="product-name">${p.name}</div>
-                <div class="product-price">${p.price.toLocaleString()} ₽ ${p.oldPrice ? `<span class="old-price">${p.oldPrice} ₽</span>` : ''}</div></div>
-                <div class="quantity-control"><button class="quantity-btn" data-id="${p.id}" data-delta="-1">−</button><span class="quantity-num">${qty}</span><button class="quantity-btn" data-id="${p.id}" data-delta="1">+</button></div>
-            `;
-            container.appendChild(card);
-        });
-        document.querySelectorAll('.quantity-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const id = parseInt(btn.dataset.id);
-                let newQty = (cart[id]||0) + parseInt(btn.dataset.delta);
-                if(newQty<=0) delete cart[id];
-                else cart[id] = newQty;
-                renderProducts();
-            });
-        });
-    }
-
-    function updateOrderSummary() {
-        let total=0, qty=0, html='';
-        for(let id in cart){
-            const p = PRODUCTS.find(pr=>pr.id==id);
-            if(p){
-                let cnt = cart[id];
-                let sum = p.price*cnt;
-                total+=sum; qty+=cnt;
-                html+=`<div>${p.name} — ${cnt} шт = ${sum} ₽</div>`;
-            }
-        }
-        if(!html) html='<div>нет товаров</div>';
-        html+=`<div style="margin-top:10px; font-weight:600;">💰 ${total.toLocaleString()} ₽ (${qty} шт)</div>`;
-        document.getElementById('orderSummary').innerHTML = html;
-    }
-
-    // телеграм отправка
-    async function sendToTelegram(orderData, finalAnswer) {
-        let msg = `🛍️ НОВЫЙ ЗАКАЗ (Челябинск)\n📦 Товары:\n${orderData.items}\n💰 Итого: ${orderData.total} ₽ (${orderData.qty} шт)\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.timeSlot}\n🧾 Чек: ${orderData.hasPhoto ? "есть фото" : "нет фото"}\n💝 ${finalAnswer === 'yes' ? "➕ согласие на доп.условие" : "➖ без доп.условия"}`;
-        try {
-            if(orderData.photoFile) {
-                let fd = new FormData();
-                fd.append('chat_id', TELEGRAM_CHAT_ID);
-                fd.append('caption', msg);
-                fd.append('photo', orderData.photoFile, 'check.jpg');
-                let r = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd});
-                return r.ok;
-            } else {
-                let r = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TELEGRAM_CHAT_ID,text:msg})});
-                return r.ok;
-            }
-        } catch(e) { return false; }
-    }
-
-    // финальный опрос с человечками
-    function renderFinalScreen(orderData) {
-        const finalDiv = document.getElementById('finalContent');
-        const humansHtml = `<div class="humanoid-area"><div class="human">💃</div><div class="human">🕺</div><div class="human">🧑‍🚀</div></div>`;
-        if(finalStep === "main") {
-            finalDiv.innerHTML = `${humansHtml}<div class="final-question">🤔 А минетик будет? 🤔</div><div class="final-buttons"><button id="fYes" class="btn-primary" style="width:auto; padding:12px 28px;">💖 ДА</button><button id="fNo" class="btn-outline" style="width:auto;">😢 НЕТ</button></div>`;
-            document.getElementById('fYes')?.onclick = () => handleFinalAnswer('yes', orderData);
-            document.getElementById('fNo')?.onclick = () => handleFinalAnswer('no', orderData);
-        } else if(finalStep === "confirm1") {
-            finalDiv.innerHTML = `${humansHtml}<div class="final-question">😳 Уверенна?</div><div class="final-buttons"><button id="cYes" class="btn-primary" style="width:auto;">ДА, УВЕРЕНА</button><button id="cNo" class="btn-outline" style="width:auto;">НЕТ, ПЕРЕДУМАЛА</button></div>`;
-            document.getElementById('cYes')?.onclick = () => handleFinalAnswer('confirm_yes', orderData);
-            document.getElementById('cNo')?.onclick = () => handleFinalAnswer('confirm_no', orderData);
-        } else if(finalStep === "confirm2") {
-            finalDiv.innerHTML = `${humansHtml}<div class="final-question">⚠️ Это совсем не первое свидание...</div><div class="final-buttons"><button id="acceptBtn" class="btn-primary" style="width:auto;">😊 ЛАДНО, СОГЛАШАЮСЬ</button><button id="rejectBtn" class="btn-outline" style="width:auto;">😔 ОТКАЗАТЬСЯ</button></div>`;
-            document.getElementById('acceptBtn')?.onclick = () => handleFinalAnswer('accept', orderData);
-            document.getElementById('rejectBtn')?.onclick = () => handleFinalAnswer('reject', orderData);
-        } else if(finalStep === "rejected") {
-            finalDiv.innerHTML = `${humansHtml}<div class="final-question" style="opacity:0.7;">❌ Отказ оформлен</div><div class="success-box">Свидания не будет 💔<br><button id="restartBtn" class="btn-primary" style="margin-top:20px;">Начать заново</button></div>`;
-            document.getElementById('restartBtn')?.onclick = () => location.reload();
-        } else if(finalStep === "done") {
-            finalDiv.innerHTML = `${humansHtml}<div class="success-box"><span style="font-size:2rem;">🎉✨</span><br/><strong>ВСЁ ОТПРАВЛЕНО!</strong><br/>Жди меня, я уже спешу 💕<br/><button id="restartBtn2" class="btn-primary" style="margin-top:24px;">🌹 Новый заказ</button></div>`;
-            document.getElementById('restartBtn2')?.onclick = () => location.reload();
-        }
-        // анимируем человечков
-        const humans = document.querySelectorAll('.human');
-        if(humans.length) setInterval(() => { humans.forEach(h=> h.classList.add('happy')); setTimeout(()=> humans.forEach(h=> h.classList.remove('happy')),400); }, 2500);
-    }
-
-    async function handleFinalAnswer(ans, orderData) {
-        if(ans === 'yes' || ans === 'confirm_yes' || ans === 'accept') {
-            playHurraySound(); // 🔊 УРА!
-            await sendToTelegram(orderData, 'yes');
-            finalStep = "done";
-            renderFinalScreen(orderData);
-        } 
-        else if(ans === 'no') { finalStep = "confirm1"; renderFinalScreen(orderData); }
-        else if(ans === 'confirm_no') { finalStep = "confirm2"; renderFinalScreen(orderData); }
-        else if(ans === 'reject') { finalStep = "rejected"; renderFinalScreen(orderData); }
-    }
-
-    async function onSubmitOrder() {
-        let phone = document.getElementById('phone').value.trim();
-        let social = document.getElementById('social').value.trim();
-        let address = document.getElementById('address').value.trim();
-        let timeSlot = document.getElementById('timeOption').value;
-        if(!phone || !social || !address) { alert("Заполните телефон, соцсеть и адрес"); return; }
-        if(Object.keys(cart).length===0) { alert("Корзина пуста"); return; }
-        let itemsStr = "", total=0, totalQty=0;
-        for(let id in cart){
-            let p = PRODUCTS.find(pr=>pr.id==id);
-            if(p){
-                let cnt = cart[id];
-                total += p.price * cnt;
-                totalQty += cnt;
-                itemsStr += `${p.name} — ${cnt}шт = ${p.price*cnt}₽\n`;
-            }
-        }
-        currentOrderData = {
-            items: itemsStr, total: total, qty: totalQty,
-            phone, social, address, timeSlot,
-            hasPhoto: !!receiptFile, photoFile: receiptFile
-        };
-        finalStep = "main";
-        document.getElementById('shopScreen').classList.add('hidden');
-        document.getElementById('orderScreen').classList.add('hidden');
-        document.getElementById('finalScreen').classList.remove('hidden');
-        renderFinalScreen(currentOrderData);
-    }
-
-    // переключение экранов
-    document.getElementById('toOrderBtn').onclick = () => {
-        if(Object.keys(cart).length===0) { alert("Выберите товары"); return; }
-        updateOrderSummary();
-        document.getElementById('shopScreen').classList.add('hidden');
-        document.getElementById('orderScreen').classList.remove('hidden');
-        document.getElementById('finalScreen').classList.add('hidden');
-        renderHumans('humanContainer');
-    };
-    document.getElementById('backToShopBtn').onclick = () => {
-        document.getElementById('shopScreen').classList.remove('hidden');
-        document.getElementById('orderScreen').classList.add('hidden');
-        document.getElementById('finalScreen').classList.add('hidden');
-    };
-    document.getElementById('sendOrderBtn').onclick = onSubmitOrder;
-
-    // загрузка фото
-    const fileInput = document.getElementById('receiptPhoto');
-    const fileLabelDiv = document.getElementById('fileLabel');
-    const fileNameSpan = document.getElementById('fileName');
-    fileInput.addEventListener('change', (e) => {
-        if(e.target.files.length) { receiptFile = e.target.files[0]; fileNameSpan.innerText = `📸 ${receiptFile.name}`; }
-        else { receiptFile = null; fileNameSpan.innerText = ''; }
-    });
-    fileLabelDiv.addEventListener('click', () => fileInput.click());
-
-    // старт
-    initTheme();
+    // -------------------- ЗАПУСК --------------------
+    document.getElementById('goToOrderBtn').addEventListener('click', goToOrder);
+    document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
+    document.getElementById('backToShopBtn').addEventListener('click', backToShop);
+    
     renderProducts();
+    initTheme();
 </script>
 </body>
 </html>
