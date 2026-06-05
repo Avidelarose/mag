@@ -31,7 +31,6 @@
             min-height: 100vh;
         }
 
-        /* ЛЕВАЯ ПАНЕЛЬ */
         .sidebar {
             width: 260px;
             background: var(--sidebar-bg);
@@ -80,7 +79,6 @@
             color: #ff6b8a;
         }
 
-        /* ОСНОВНОЙ КОНТЕНТ */
         .main-content {
             flex: 1;
             margin-left: 260px;
@@ -104,7 +102,6 @@
             color: #ffb3c6;
         }
 
-        /* ТОВАРЫ */
         .product {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 28px;
@@ -184,7 +181,6 @@
             cursor: pointer;
         }
 
-        /* ГИФКА В КОРЗИНЕ */
         .cart-gif {
             text-align: center;
             margin: 20px 0;
@@ -194,11 +190,10 @@
         }
 
         .cart-gif img {
-            max-width: 180px;
+            max-width: 200px;
             border-radius: 20px;
         }
 
-        /* ЧЕЛОВЕЧКИ СПРАВА */
         .humans-sidebar {
             position: fixed;
             right: 20px;
@@ -430,11 +425,11 @@
     const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
     const CHAT_ID = "5233384978";
 
-    // НАСТРОЙКИ ГИФКИ
-    const SHOW_CART_GIF = true;
-    const CART_GIF_URL = "https://media1.tenor.com/m/-_sUqOlcUokAAAAC/cat-basket.gif";
+    // ========== НАСТРОЙКИ ГИФКИ ==========
+    const SHOW_CART_GIF = true;           // true — показывать гифку, false — убрать
+    const CART_GIF_URL = "cat-dancing.gif";   // ТВОЯ ГИФКА (лежит в той же папке)
+    // ====================================
 
-    // ТОВАРЫ (12 штук, РАБОТАЮТ)
     const PRODUCTS = [
         { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" },
         { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
@@ -503,9 +498,10 @@
             }
         }
         
+        // ГИФКА ПОЯВЛЯЕТСЯ ТОЛЬКО ЕСЛИ КОРЗИНА ПУСТА
         if (gifContainer) {
             if (SHOW_CART_GIF && !hasItems) {
-                gifContainer.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" alt="гифка"><p>😸 Корзина пуста, но котик ждёт!</p></div>`;
+                gifContainer.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" alt="Танцующий кот" style="max-width:200px; border-radius:20px;"><p style="margin-top:10px;">😸 Корзина пуста, но котик ждёт твоих покупок!</p></div>`;
             } else {
                 gifContainer.innerHTML = '';
             }
