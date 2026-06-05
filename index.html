@@ -65,14 +65,14 @@
             top: 20px;
         }
 
-        .main-content {
-            flex: 1;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
+       .main-content {
+    flex: 1;
+    max-width: 1200px;        /* было 900px — увеличил */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
         /* ========================================== */
         /* БЛОК 3: VPN ПРЕДУПРЕЖДЕНИЕ (КРАСНЫЙ БЛОК) */
         /* ========================================== */
@@ -107,17 +107,16 @@
         /* ========================================== */
         /* БЛОК 4: КАРТОЧКА ТОВАРОВ И ПРОКРУТКА */
         /* ========================================== */
-        .products-card {
-            backdrop-filter: blur(8px);
-            border-radius: 44px;
-            padding: 28px;
-            border: 0.5px solid;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            max-height: 55vh;
-            overflow-y: auto;
-        }
-
+  .products-card {
+    backdrop-filter: blur(8px);
+    border-radius: 44px;
+    padding: 28px;
+    border: 0.5px solid;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    max-height: 60vh;         /* можно увеличить если нужно */
+    overflow-y: auto;
+}
         /* ========================================== */
         /* БЛОК 5: НИЖНЯЯ ПАНЕЛЬ (ИНСТРУКЦИЯ ПО ОПЛАТЕ) */
         /* ========================================== */
