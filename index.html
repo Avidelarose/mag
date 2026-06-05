@@ -33,7 +33,6 @@
             z-index: 0;
         }
 
-        /* ГЛАВНЫЙ КОНТЕЙНЕР — ЦЕНТРИРОВАННЫЙ */
         .app-layout {
             position: relative;
             z-index: 2;
@@ -47,7 +46,6 @@
             min-height: 100vh;
         }
 
-        /* ЛЕВАЯ ПАНЕЛЬ — ПО ЦЕНТРУ */
         .sidebar {
             width: 240px;
             background: rgba(0, 0, 0, 0.7);
@@ -61,7 +59,6 @@
             top: 20px;
         }
 
-        /* ПРАВЫЙ БЛОК (КОНТЕНТ) — ПО ЦЕНТРУ */
         .main-content {
             flex: 1;
             max-width: 900px;
@@ -70,7 +67,6 @@
             gap: 24px;
         }
 
-        /* VPN ПРЕДУПРЕЖДЕНИЕ */
         .vpn-warning {
             background: linear-gradient(135deg, #d90429, #8b0000);
             border-radius: 60px;
@@ -99,7 +95,6 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); transform: scale(1); }
         }
 
-        /* КАРТОЧКА ТОВАРОВ */
         .products-card {
             backdrop-filter: blur(8px);
             border-radius: 44px;
@@ -111,7 +106,6 @@
             overflow-y: auto;
         }
 
-        /* НИЖНЯЯ ПАНЕЛЬ — ЗАКРЕПЛЕНА СНИЗУ (КАК БАЗОВЫЙ ЭЛЕМЕНТ) */
         .bottom-instruction {
             backdrop-filter: blur(8px);
             border-radius: 44px;
@@ -123,23 +117,13 @@
             margin-top: auto;
         }
 
-        .products-card::-webkit-scrollbar, .bottom-instruction::-webkit-scrollbar {
-            width: 6px;
-        }
-        .products-card::-webkit-scrollbar-track, .bottom-instruction::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-        .products-card::-webkit-scrollbar-thumb, .bottom-instruction::-webkit-scrollbar-thumb {
-            background: rgba(217,4,41,0.6);
-            border-radius: 10px;
-        }
-
-        /* ФИОЛЕТОВЫЙ ТЕКСТ */
-        .section-title, .product-name, .cart-item, .total-row, .review-name, .review-text, .review-date, .form-group label, .checkbox-group label, .premium-tag, .nav-link, .logo-premium {
+        /* ФИОЛЕТОВЫЙ ТЕКСТ ДЛЯ ВСЕГО */
+        .section-title, .product-name, .cart-item, .total-row, .review-name, .review-text, .review-date, 
+        .form-group label, .checkbox-group label, .premium-tag, .nav-link, .logo-premium,
+        .bottom-instruction div, .bottom-instruction p, .bottom-instruction .payment-number {
             color: #b026ff !important;
         }
-        .product-price, .review-stars, .payment-number {
+        .product-price, .review-stars {
             color: #9b1df0 !important;
         }
         .vpn-warning p, .vpn-warning small, .delivery-warning, .btn-primary, .btn-outline {
@@ -147,6 +131,11 @@
         }
         .btn-outline {
             border-color: #9b1df0;
+        }
+        /* Ссылка менеджера тоже фиолетовая */
+        .bottom-instruction a {
+            background: linear-gradient(135deg, #d90429, #9b1df0);
+            color: white !important;
         }
 
         .products-grid {
@@ -193,7 +182,6 @@
             color: white;
         }
 
-        /* ОТЗЫВЫ */
         .reviews-card {
             backdrop-filter: blur(8px);
             border-radius: 44px;
@@ -356,12 +344,14 @@
                 <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
                 <div id="productsContainer" class="products-grid"></div>
             </div>
+            
+            <!-- ИНСТРУКЦИЯ - ВЕСЬ ТЕКСТ ФИОЛЕТОВЫЙ -->
             <div class="bottom-instruction">
                 <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 12px;">💳 Как сделать заказ</div>
                 <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 090 58 96</span><br>(Т‑Банк, Александр)</p>
                 <p>2️⃣ Скриншот чека → оформите заказ</p>
                 <p>3️⃣ Менеджер свяжется с вами</p>
-                <a href="https://t.me/Tolpaplay" target="_blank" style="display:inline-block; margin-top:12px; padding:8px 24px; background:linear-gradient(135deg, #d90429, #9b1df0); border-radius:40px; text-decoration:none; color:white;">👨‍💼 Написать менеджеру</a>
+                <a href="https://t.me/Tolpaplay" target="_blank" style="display:inline-block; margin-top:12px; padding:8px 24px; background:linear-gradient(135deg, #d90429, #9b1df0); border-radius:40px; text-decoration:none;">👨‍💼 Написать менеджеру</a>
             </div>
         </div>
 
