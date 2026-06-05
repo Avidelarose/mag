@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NŌVA Premium — премиальный магазин</title>
+    <title>NŌVA Premium — магазин</title>
     <style>
         * {
             margin: 0;
@@ -12,34 +12,91 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* БАЗОВЫЙ СТИЛЬ (тема по умолчанию — тёмная премиум) */
         body {
             background: linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%);
             background-attachment: fixed;
-            font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', system-ui, Helvetica, sans-serif;
+            font-family: -apple-system, 'SF Pro Display', system-ui, Helvetica, sans-serif;
             color: #ffffff;
+            transition: background 0.3s, color 0.2s;
         }
 
-        :root {
-            --card: rgba(25, 12, 30, 0.9);
-            --border: rgba(217, 4, 41, 0.4);
-            --accent: #d90429;
-            --sidebar-bg: rgba(15, 6, 20, 0.92);
+        /* ТЕМА 1: ПИКМИ (розовая, цветочки) */
+        body.theme-pikmi {
+            background: linear-gradient(135deg, #ffc0cb 0%, #ff99aa 50%, #ffb6c1 100%);
+            color: #4a0025;
         }
+        body.theme-pikmi .card { background: rgba(255, 230, 240, 0.9); color: #4a0025; border-color: #ff99aa; }
+        body.theme-pikmi .product { background: rgba(255, 240, 245, 0.8); border-color: #ff99aa; }
+        body.theme-pikmi .product-emoji { background: linear-gradient(135deg, #ff69b4, #ff1493); }
+        body.theme-pikmi .btn-primary { background: linear-gradient(135deg, #ff69b4, #ff1493); }
+        body.theme-pikmi .payment-number { background: #ffc0cbcc; color: #4a0025; }
+        body.theme-pikmi .section-title { color: #b0005e; }
+
+        /* Цветочки для пикми */
+        body.theme-pikmi .flower {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatFlower 8s linear infinite;
+        }
+        @keyframes floatFlower {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ТЕМА 2: ШИКАРНАЯ (золото, красный) */
+        body.theme-luxury {
+            background: linear-gradient(135deg, #8B0000 0%, #DAA520 50%, #B22222 100%);
+            color: #FFD700;
+        }
+        body.theme-luxury .card { background: rgba(0, 0, 0, 0.7); border-color: #DAA520; color: #FFD700; }
+        body.theme-luxury .product { background: rgba(0, 0, 0, 0.6); border-color: #DAA520; }
+        body.theme-luxury .product-emoji { background: linear-gradient(135deg, #DAA520, #FFD700); }
+        body.theme-luxury .btn-primary { background: linear-gradient(135deg, #DAA520, #FFD700); color: #8B0000; }
+        body.theme-luxury .section-title { color: #FFD700; }
+
+        /* ТЕМА 3: ПРИЯТНАЯ (голубоватая) */
+        body.theme-calm {
+            background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 50%, #ADD8E6 100%);
+            color: #2c3e50;
+        }
+        body.theme-calm .card { background: rgba(255, 255, 255, 0.85); border-color: #87CEEB; color: #2c3e50; }
+        body.theme-calm .product { background: rgba(255, 255, 255, 0.7); border-color: #87CEEB; }
+        body.theme-calm .product-emoji { background: linear-gradient(135deg, #4682B4, #5F9EA0); }
+        body.theme-calm .btn-primary { background: linear-gradient(135deg, #4682B4, #5F9EA0); }
+        body.theme-calm .section-title { color: #1E90FF; }
+
+        /* ТЕМА 4: ПОЛЕЗНАЯ ДЛЯ ЗРЕНИЯ (чёткий шрифт, приглушённые тона) */
+        body.theme-vision {
+            background: #1a1a1a;
+            color: #e6c384;
+        }
+        body.theme-vision .card { background: #2a2a2a; border-color: #e6c384; color: #e6c384; }
+        body.theme-vision .product { background: #2a2a2a; border-color: #e6c384; }
+        body.theme-vision .product-emoji { background: #3a3a3a; border: 1px solid #e6c384; }
+        body.theme-vision .btn-primary { background: #e6c384; color: #1a1a1a; font-weight: 700; }
+        body.theme-vision .section-title { color: #e6c384; }
+        body.theme-vision .product-name, body.theme-vision .product-price, body.theme-vision .nav-link {
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        body.theme-vision .payment-number { background: #3a3a3a; color: #e6c384; border: 1px solid #e6c384; }
 
         .app-layout {
             display: flex;
             min-height: 100vh;
         }
 
-        /* ЛЕВАЯ ПАНЕЛЬ — УЖЕ И БЛИЖЕ К ЦЕНТРУ */
+        /* ЛЕВАЯ ПАНЕЛЬ — КАК ВК, ВСЁ ПО ЦЕНТРУ */
         .sidebar {
-            width: 200px;           /* было 260px — сделали УЖЕ */
-            margin-left: 40px;      /* сдвинули ближе к центру */
-            background: var(--sidebar-bg);
+            width: 220px;
+            margin-left: 30px;
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(12px);
-            border-right: 1px solid var(--border);
-            border-radius: 32px;    /* скруглили края */
-            padding: 32px 16px;
+            border-radius: 32px;
+            padding: 28px 16px;
             position: fixed;
             left: 0;
             top: 20px;
@@ -49,78 +106,95 @@
             overflow-y: auto;
         }
 
+        body.theme-pikmi .sidebar { background: rgba(255, 200, 210, 0.8); }
+        body.theme-luxury .sidebar { background: rgba(0, 0, 0, 0.8); border: 1px solid #DAA520; }
+        body.theme-calm .sidebar { background: rgba(200, 220, 240, 0.8); }
+        body.theme-vision .sidebar { background: #2a2a2a; border: 1px solid #e6c384; }
+
         .logo-premium {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 620;
-            background: linear-gradient(135deg, #d90429 0%, #b026ff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
             text-align: center;
+            margin-bottom: 20px;
         }
+        body.theme-pikmi .logo-premium { background: linear-gradient(135deg, #ff1493, #ff69b4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.theme-luxury .logo-premium { background: linear-gradient(135deg, #DAA520, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.theme-calm .logo-premium { background: linear-gradient(135deg, #1E90FF, #4682B4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.theme-vision .logo-premium { color: #e6c384; }
 
         .premium-tag {
-            font-size: 0.6rem;
-            color: #b026ff;
-            letter-spacing: 1px;
+            font-size: 0.55rem;
             text-align: center;
             display: block;
-            margin-top: 4px;
+            margin-top: -10px;
+            margin-bottom: 20px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
+            gap: 10px;
+            padding: 10px 12px;
             border-radius: 28px;
             text-decoration: none;
-            color: white;
             font-weight: 500;
             transition: 0.2s;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
+        body.theme-pikmi .nav-link { color: #4a0025; }
+        body.theme-luxury .nav-link { color: #FFD700; }
+        body.theme-calm .nav-link { color: #2c3e50; }
+        body.theme-vision .nav-link { color: #e6c384; }
 
         .nav-link:hover {
             background: rgba(217, 4, 41, 0.2);
-            color: #ff6b8a;
         }
 
-        /* ОСНОВНОЙ КОНТЕНТ — РАСТЯНУЛСЯ */
+        /* ОСНОВНОЙ КОНТЕНТ — ЦЕНТРИРОВАННЫЙ */
         .main-content {
             flex: 1;
-            margin-left: 280px;      /* подстраиваем под новую ширину панели */
+            margin-left: 280px;
             padding: 24px 32px;
             max-width: calc(100% - 280px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card {
-            background: var(--card);
+            background: rgba(25, 12, 30, 0.9);
             backdrop-filter: blur(8px);
             border-radius: 44px;
-            padding: 28px 28px;
+            padding: 28px;
             margin-bottom: 24px;
-            border: 0.5px solid var(--border);
+            border: 0.5px solid rgba(217, 4, 41, 0.4);
+            width: 100%;
+            max-width: 900px;
         }
 
         .section-title {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 20px;
-            color: #ffb3c6;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
 
         .product {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 28px;
             padding: 16px;
-            margin-bottom: 14px;
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
             align-items: center;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(217, 4, 41, 0.4);
         }
 
         .product-emoji {
@@ -144,10 +218,13 @@
         }
 
         .product-price {
-            color: #ff6b8a;
             font-weight: 700;
             margin-top: 6px;
         }
+        body.theme-pikmi .product-price { color: #d90429; }
+        body.theme-luxury .product-price { color: #FFD700; }
+        body.theme-calm .product-price { color: #1E90FF; }
+        body.theme-vision .product-price { color: #e6c384; }
 
         .qty-control {
             display: flex;
@@ -161,34 +238,37 @@
         .qty-btn {
             background: transparent;
             border: none;
-            color: white;
             font-size: 1.2rem;
             cursor: pointer;
+            color: inherit;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #d90429, #9b1df0);
-            color: white;
             border: none;
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             font-size: 1rem;
             font-weight: 600;
             border-radius: 44px;
             cursor: pointer;
             margin-top: 16px;
+            color: white;
         }
 
         .btn-outline {
             background: transparent;
-            border: 1.5px solid #d90429;
-            color: #ffb3c6;
+            border: 1.5px solid;
             padding: 14px;
             border-radius: 44px;
             width: 100%;
             margin-top: 12px;
             cursor: pointer;
         }
+        body.theme-pikmi .btn-outline { border-color: #ff1493; color: #ff1493; }
+        body.theme-luxury .btn-outline { border-color: #DAA520; color: #DAA520; }
+        body.theme-calm .btn-outline { border-color: #1E90FF; color: #1E90FF; }
+        body.theme-vision .btn-outline { border-color: #e6c384; color: #e6c384; }
 
         .cart-gif {
             text-align: center;
@@ -199,7 +279,7 @@
         }
 
         .cart-gif img {
-            max-width: 200px;
+            max-width: 180px;
             border-radius: 20px;
         }
 
@@ -211,11 +291,15 @@
             width: 100%;
             padding: 14px 16px;
             border-radius: 34px;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(217, 4, 41, 0.4);
             background: rgba(0, 0, 0, 0.5);
             color: white;
             font-size: 1rem;
         }
+        body.theme-pikmi input, body.theme-pikmi select { background: rgba(255, 200, 210, 0.8); color: #4a0025; }
+        body.theme-calm input, body.theme-calm select { background: rgba(200, 220, 240, 0.8); color: #2c3e50; }
+        body.theme-luxury input, body.theme-luxury select { background: rgba(0, 0, 0, 0.6); color: #FFD700; }
+        body.theme-vision input, body.theme-vision select { background: #3a3a3a; color: #e6c384; border-color: #e6c384; }
 
         .file-label {
             background: rgba(0, 0, 0, 0.5);
@@ -223,7 +307,7 @@
             border-radius: 34px;
             text-align: center;
             cursor: pointer;
-            border: 1px dashed var(--border);
+            border: 1px dashed rgba(217, 4, 41, 0.4);
         }
 
         .cart-item {
@@ -241,32 +325,36 @@
         }
 
         .payment-number {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             background: #00000055;
             display: inline-block;
-            padding: 8px 18px;
+            padding: 6px 16px;
             border-radius: 50px;
-            margin: 10px 0;
-            color: #ffb3c6;
+            margin: 8px 0;
         }
 
-        .manager-link {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 40px;
-            text-decoration: none;
-            color: white;
+        .theme-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
-
-        .payment-info {
-            background: rgba(0,0,0,0.4);
-            border-radius: 32px;
-            padding: 24px;
-            text-align: center;
-            margin-top: 24px;
+        .theme-btn-small {
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
         }
+        .theme-pikmi-btn { background: #ff69b4; color: white; }
+        .theme-luxury-btn { background: #DAA520; color: #8B0000; }
+        .theme-calm-btn { background: #87CEEB; color: #2c3e50; }
+        .theme-vision-btn { background: #e6c384; color: #1a1a1a; }
 
         @media (max-width: 700px) {
             .sidebar {
@@ -276,284 +364,141 @@
                 bottom: 0;
                 border-radius: 0;
             }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-                max-width: 100%;
-                padding: 16px;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; max-width: 100%; padding: 16px; }
             .menu-toggle {
                 display: block;
                 position: fixed;
                 top: 16px;
                 left: 16px;
                 z-index: 200;
-                background: var(--card);
-                border: 1px solid var(--border);
+                background: rgba(0,0,0,0.7);
                 border-radius: 30px;
                 padding: 8px 14px;
                 cursor: pointer;
                 color: white;
             }
-            .cart-gif img {
-                max-width: 120px;
-            }
         }
-
-        .menu-toggle {
-            display: none;
-        }
+        .menu-toggle { display: none; }
     </style>
 </head>
 <body>
 <div class="app-layout">
     <div class="sidebar" id="sidebar">
-        <div class="logo-area">
-            <div class="logo-premium">NŌVA</div>
-            <span class="premium-tag">PREMIUM</span>
-        </div>
+        <div class="logo-premium">NŌVA</div>
+        <div class="premium-tag">PREMIUM</div>
         <ul class="nav-menu">
             <li class="nav-item"><a class="nav-link" data-page="main">🏠 Главная</a></li>
             <li class="nav-item"><a class="nav-link" data-page="reviews">⭐ Отзывы</a></li>
-            <li class="nav-item"><a class="nav-link" data-page="cart">🛒 Корзина <span id="cartCountBadge" style="background:var(--accent); color:white; padding:0 8px; border-radius:20px; margin-left:6px;">0</span></a></li>
+            <li class="nav-item"><a class="nav-link" data-page="cart">🛒 Корзина <span id="cartCountBadge" style="background:#d90429; padding:0 8px; border-radius:20px; margin-left:6px;">0</span></a></li>
             <li class="nav-item"><a class="nav-link" data-page="about">📖 О нас</a></li>
-            <li class="theme-nav-btn"><a class="nav-link" id="themeNavBtn">🌙 Сменить тему</a></li>
         </ul>
+        <div class="theme-selector">
+            <button class="theme-btn-small theme-pikmi-btn" data-theme="pikmi">🌸 Пикми</button>
+            <button class="theme-btn-small theme-luxury-btn" data-theme="luxury">👑 Шикарная</button>
+            <button class="theme-btn-small theme-calm-btn" data-theme="calm">🌊 Приятная</button>
+            <button class="theme-btn-small theme-vision-btn" data-theme="vision">👓 Для зрения</button>
+        </div>
     </div>
-
     <div class="menu-toggle" id="menuToggle">☰ Меню</div>
-
     <div class="main-content">
         <div id="mainPage" class="content-screen active">
             <div class="card">
                 <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
-                <div id="productsContainer"></div>
-                <div class="payment-info">
-                    <div style="font-size:1.2rem; font-weight:600;">💳 Как сделать заказ</div>
+                <div id="productsContainer" class="products-grid"></div>
+                <div class="payment-info" style="text-align:center; margin-top:24px;">
+                    <div style="font-weight:600;">💳 Как сделать заказ</div>
                     <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 089 05 896</span><br>(Т‑Банк, Александр)</p>
                     <p>2️⃣ Скриншот чека → оформите заказ</p>
-                    <p>3️⃣ Менеджер свяжется с вами в течение часа</p>
-                    <a href="https://t.me/Tolpaplay" target="_blank" class="manager-link">👨‍💼 Написать менеджеру @Tolpaplay</a>
+                    <p>3️⃣ Менеджер свяжется с вами</p>
+                    <a href="https://t.me/Tolpaplay" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 18px; background:linear-gradient(135deg, #d90429, #9b1df0); border-radius:40px; text-decoration:none; color:white;">👨‍💼 Написать менеджеру</a>
                 </div>
             </div>
         </div>
-
-        <div id="reviewsPage" class="content-screen" style="display:none;">
-            <div class="card">
-                <div class="section-title">⭐ Отзывы</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Анна</div>🔥 Товар пришёл быстро, качество отличное!</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично!</div>
-            </div>
-        </div>
-
-        <div id="cartPage" class="content-screen" style="display:none;">
-            <div class="card">
-                <div class="section-title">🛒 Корзина</div>
-                <div id="cartGifContainer"></div>
-                <div id="cartItemsList"></div>
-                <div id="cartTotal" class="total-row">💰 Итого: 0 ₽</div>
-                <button id="checkoutBtn" class="btn-primary">📦 Оформить заказ</button>
-            </div>
-        </div>
-
-        <div id="aboutPage" class="content-screen" style="display:none;">
-            <div class="card">
-                <div class="section-title">📖 О нас</div>
-                <p>Премиальный магазин из Челябинска. Доставка от 1 дня.</p>
-                <p>NŌVA — стиль, качество, забота о каждом клиенте.</p>
-            </div>
-        </div>
-
-        <div id="orderScreen" style="display:none;" class="card">
-            <div class="section-title">✦ Оформление</div>
-            <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div>
-            <div class="form-group"><input type="tel" id="phone" placeholder="📞 Телефон"></div>
-            <div class="form-group"><input type="text" id="social" placeholder="📱 Telegram / VK"></div>
-            <div class="form-group"><input type="text" id="address" placeholder="📍 Адрес"></div>
-            <div class="form-group"><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
-            <div class="form-group"><div class="file-label" id="fileLabel">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px;"></div></div>
-            <button id="submitOrderBtn" class="btn-primary">✅ Отправить</button>
-            <button id="closeOrderBtn" class="btn-outline">← Назад</button>
-        </div>
-
-        <div id="successScreen" style="display:none;" class="card">
-            <div id="successContent"></div>
-        </div>
+        <div id="reviewsPage" class="content-screen" style="display:none;"><div class="card"><div class="section-title">⭐ Отзывы</div><div style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Анна</div>🔥 Товар пришёл быстро!</div><div style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично!</div></div></div>
+        <div id="cartPage" class="content-screen" style="display:none;"><div class="card"><div class="section-title">🛒 Корзина</div><div id="cartGifContainer"></div><div id="cartItemsList"></div><div id="cartTotal" class="total-row">💰 Итого: 0 ₽</div><button id="checkoutBtn" class="btn-primary">📦 Оформить заказ</button></div></div>
+        <div id="aboutPage" class="content-screen" style="display:none;"><div class="card"><div class="section-title">📖 О нас</div><p>Премиальный магазин из Челябинска. Доставка от 1 дня. NŌVA — стиль, качество, забота о каждом клиенте.</p></div></div>
+        <div id="orderScreen" style="display:none;" class="card"><div class="section-title">✦ Оформление</div><div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div><div class="form-group"><input type="tel" id="phone" placeholder="📞 Телефон"></div><div class="form-group"><input type="text" id="social" placeholder="📱 Telegram / VK"></div><div class="form-group"><input type="text" id="address" placeholder="📍 Адрес"></div><div class="form-group"><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div><div class="form-group"><div class="file-label" id="fileLabel">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px;"></div></div><button id="submitOrderBtn" class="btn-primary">✅ Отправить</button><button id="closeOrderBtn" class="btn-outline">← Назад</button></div>
+        <div id="successScreen" style="display:none;" class="card"><div id="successContent"></div></div>
     </div>
 </div>
-
 <script>
     const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
     const CHAT_ID = "5233384978";
-
     const SHOW_CART_GIF = true;
     const CART_GIF_URL = "cat-dancing.gif";
-
     const PRODUCTS = [
-        { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" },
-        { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
-        { id: 3, name: "🔌 Зарядка в авто с вольтметром", price: 800, emoji: "🔌" },
-        { id: 4, name: "🃏 Мини колода карт", price: 700, emoji: "🃏" },
-        { id: 5, name: "🌸 Жилетка женская цветы", price: 2145, emoji: "🌸" },
-        { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, emoji: "🔑" },
-        { id: 7, name: "💨 Игрушечные сигареты", price: 1500, emoji: "💨" },
-        { id: 8, name: "🔬 Цифровой микроскоп", price: 4945, emoji: "🔬" },
-        { id: 9, name: "💺 Игровое кресло", price: 9700, emoji: "💺" },
-        { id: 10, name: "👜 Сумка кожаная", price: 2375, emoji: "👜" },
-        { id: 11, name: "🔫 Пистолет с пульками", price: 1450, emoji: "🔫" },
-        { id: 12, name: "🧢 Кепка с листьями", price: 1350, emoji: "🧢" }
+        { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" }, { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
+        { id: 3, name: "🔌 Зарядка в авто с вольтметром", price: 800, emoji: "🔌" }, { id: 4, name: "🃏 Мини колода карт", price: 700, emoji: "🃏" },
+        { id: 5, name: "🌸 Жилетка женская цветы", price: 2145, emoji: "🌸" }, { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, emoji: "🔑" },
+        { id: 7, name: "💨 Игрушечные сигареты", price: 1500, emoji: "💨" }, { id: 8, name: "🔬 Цифровой микроскоп", price: 4945, emoji: "🔬" },
+        { id: 9, name: "💺 Игровое кресло", price: 9700, emoji: "💺" }, { id: 10, name: "👜 Сумка кожаная", price: 2375, emoji: "👜" },
+        { id: 11, name: "🔫 Пистолет с пульками", price: 1450, emoji: "🔫" }, { id: 12, name: "🧢 Кепка с листьями", price: 1350, emoji: "🧢" }
     ];
-
-    let cart = {};
-    let receiptFile = null;
-    let currentOrderItems = null;
-
-    function updateCartUI() {
-        let total = 0;
-        for (let id in cart) total += cart[id];
-        document.getElementById('cartCountBadge').innerText = total;
-        renderCartList();
-    }
-
+    let cart = {}, receiptFile = null, currentOrderItems = null;
+    function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
     function renderProducts() {
-        const container = document.getElementById('productsContainer');
-        container.innerHTML = '';
-        for (let p of PRODUCTS) {
-            const qty = cart[p.id] || 0;
-            const div = document.createElement('div');
-            div.className = 'product';
-            div.innerHTML = `
-                <div class="product-emoji">${p.emoji}</div>
-                <div class="product-info">
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-price">${p.price.toLocaleString()} ₽</div>
-                </div>
-                <div class="qty-control">
-                    <button class="qty-minus" data-id="${p.id}">−</button>
-                    <span>${qty}</span>
-                    <button class="qty-plus" data-id="${p.id}">+</button>
-                </div>
-            `;
-            container.appendChild(div);
+        const c = document.getElementById('productsContainer'); c.innerHTML = '';
+        for(let p of PRODUCTS) {
+            let q = cart[p.id]||0;
+            let d = document.createElement('div'); d.className = 'product';
+            d.innerHTML = `<div class="product-emoji">${p.emoji}</div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">${p.price.toLocaleString()} ₽</div></div><div class="qty-control"><button class="qty-minus" data-id="${p.id}">−</button><span>${q}</span><button class="qty-plus" data-id="${p.id}">+</button></div>`;
+            c.appendChild(d);
         }
-        document.querySelectorAll('.qty-plus').forEach(btn => btn.onclick = () => { cart[btn.dataset.id] = (cart[btn.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
-        document.querySelectorAll('.qty-minus').forEach(btn => btn.onclick = () => { let id=btn.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
+        document.querySelectorAll('.qty-plus').forEach(b=>b.onclick=()=>{ cart[b.dataset.id]=(cart[b.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
+        document.querySelectorAll('.qty-minus').forEach(b=>b.onclick=()=>{ let id=b.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
     }
-
     function renderCartList() {
-        const container = document.getElementById('cartItemsList');
-        const gifContainer = document.getElementById('cartGifContainer');
-        let total = 0, html = '';
-        let hasItems = false;
-        
-        for (let id in cart) {
-            const p = PRODUCTS.find(x => x.id == id);
-            if (p && cart[id] > 0) {
-                hasItems = true;
-                const q = cart[id];
-                const sum = p.price * q;
-                total += sum;
-                html += `<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>`;
-            }
-        }
-        
-        if (gifContainer) {
-            if (SHOW_CART_GIF && !hasItems) {
-                gifContainer.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" alt="Танцующий кот" style="max-width:200px; border-radius:20px;"><p style="margin-top:10px;">😸 Корзина пуста, но котик ждёт твоих покупок!</p></div>`;
-            } else {
-                gifContainer.innerHTML = '';
-            }
-        }
-        
-        if (!html) html = '<div style="text-align:center; padding:20px;">Корзина пуста</div>';
-        container.innerHTML = html;
-        document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
+        let container = document.getElementById('cartItemsList'), gifC = document.getElementById('cartGifContainer'), total=0, html='', has=false;
+        for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p&&cart[id]>0){ has=true; let q=cart[id], s=p.price*q; total+=s; html+=`<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${s.toLocaleString()} ₽</div></div>`; } }
+        if(gifC){ if(SHOW_CART_GIF && !has) gifC.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" style="max-width:180px"><p>😸 Корзина пуста, но котик ждёт!</p></div>`; else gifC.innerHTML = ''; }
+        if(!html) html='<div style="text-align:center; padding:20px;">Корзина пуста</div>';
+        container.innerHTML = html; document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
     }
-
-    function showOrderScreen() {
-        if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-        let total=0,totalQty=0,html='';
-        for(let id in cart){
-            const p=PRODUCTS.find(x=>x.id==id);
-            if(p){
-                const q=cart[id];
-                const sum=p.price*q;
-                total+=sum; totalQty+=q;
-                html+=`<div>${p.name} — ${q} шт = ${sum.toLocaleString()} ₽</div>`;
-            }
-        }
-        html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)</div>`;
-        document.getElementById('orderSummary').innerHTML = html;
-        currentOrderItems = {...cart};
-        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
-        document.getElementById('orderScreen').style.display = 'block';
-    }
-
-    function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.frequency.value=880; gain.gain.value=0.12; osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1046.5; gain2.gain.value=0.1; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
-
-    async function sendToTelegram(orderData){
-        let itemsText=''; let total=0,totalQty=0;
-        for(let id in orderData.items){
-            const p=PRODUCTS.find(x=>x.id==id);
-            if(p){ const q=orderData.items[id]; const sum=p.price*q; total+=sum; totalQty+=q; itemsText+=`${p.name} — ${q} шт = ${sum} ₽\n`; }
-        }
-        const msg=`🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${itemsText}\n💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
-        try{
-            if(orderData.photoFile){
-                const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile);
-                const resp=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd});
-                return resp.ok;
-            } else {
-                const resp=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})});
-                return resp.ok;
-            }
-        }catch(e){ return false; }
-    }
-
-    async function submitOrder(){
-        const phone=document.getElementById('phone').value.trim();
-        const social=document.getElementById('social').value.trim();
-        const address=document.getElementById('address').value.trim();
-        const timeSlot=document.getElementById('timeSelect').value;
-        if(!phone||!social||!address){ alert("Заполните все поля"); return; }
-        if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
-        const btn=document.getElementById('submitOrderBtn');
-        btn.disabled=true; btn.innerText="⏳ Отправка...";
-        const sent=await sendToTelegram({items:currentOrderItems,phone,social,address,time:timeSlot,hasPhoto:!!receiptFile,photoFile:receiptFile});
-        if(sent){
-            playHurray();
-            document.getElementById('orderScreen').style.display='none';
-            document.getElementById('successScreen').style.display='block';
-            document.getElementById('successContent').innerHTML=`<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>`;
-            document.getElementById('newOrderBtn')?.addEventListener('click',()=>location.reload());
-        } else { alert("Ошибка. Проверьте бота @My_daaate_bot (/start)"); btn.disabled=false; btn.innerText="✅ Отправить"; }
-    }
-
-    function showPage(pageId){
-        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
-        document.getElementById(pageId).style.display = 'block';
-        document.getElementById('orderScreen').style.display='none';
-        document.getElementById('successScreen').style.display='none';
-        if(pageId==='cartPage') renderCartList();
-        if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open');
-    }
-
-    document.querySelectorAll('.nav-link[data-page]').forEach(link=>{
-        link.addEventListener('click',(e)=>{ e.preventDefault(); showPage(link.dataset.page+'Page'); });
-    });
+    function showOrderScreen() { if(Object.keys(cart).length===0){ alert("Корзина пуста"); return; } let total=0,tq=0,html=''; for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=cart[id], s=p.price*q; total+=s; tq+=q; html+=`<div>${p.name} — ${q} шт = ${s.toLocaleString()} ₽</div>`; } } html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)</div>`; document.getElementById('orderSummary').innerHTML = html; currentOrderItems = {...cart}; document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none'); document.getElementById('orderScreen').style.display = 'block'; }
+    function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const g=ctx.createGain(); osc.connect(g); g.connect(ctx.destination); osc.frequency.value=880; g.gain.value=0.12; osc.start(); g.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const g2=ctx.createGain(); osc2.connect(g2); g2.connect(ctx.destination); osc2.frequency.value=1046.5; g2.gain.value=0.1; osc2.start(); g2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
+    async function sendToTelegram(orderData){ let items='', total=0, tq=0; for(let id in orderData.items){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=orderData.items[id], s=p.price*q; total+=s; tq+=q; items+=`${p.name} — ${q} шт = ${s} ₽\n`; } } const msg=`🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`; try{ if(orderData.photoFile){ const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile); const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd}); return r.ok; } else { const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})}); return r.ok; } }catch(e){ return false; } }
+    async function submitOrder(){ const phone=document.getElementById('phone').value.trim(), social=document.getElementById('social').value.trim(), address=document.getElementById('address').value.trim(), timeSlot=document.getElementById('timeSelect').value; if(!phone||!social||!address){ alert("Заполните все поля"); return; } if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; } const btn=document.getElementById('submitOrderBtn'); btn.disabled=true; btn.innerText="⏳ Отправка..."; const sent=await sendToTelegram({items:currentOrderItems,phone,social,address,time:timeSlot,hasPhoto:!!receiptFile,photoFile:receiptFile}); if(sent){ playHurray(); document.getElementById('orderScreen').style.display='none'; document.getElementById('successScreen').style.display='block'; document.getElementById('successContent').innerHTML=`<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>`; document.getElementById('newOrderBtn')?.addEventListener('click',()=>location.reload()); } else { alert("Ошибка. Проверьте бота @My_daaate_bot (/start)"); btn.disabled=false; btn.innerText="✅ Отправить"; } }
+    function showPage(pageId){ document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none'); document.getElementById(pageId).style.display = 'block'; document.getElementById('orderScreen').style.display='none'; document.getElementById('successScreen').style.display='none'; if(pageId==='cartPage') renderCartList(); if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open'); }
+    document.querySelectorAll('.nav-link[data-page]').forEach(link=>{ link.addEventListener('click',(e)=>{ e.preventDefault(); showPage(link.dataset.page+'Page'); }); });
     document.getElementById('checkoutBtn')?.addEventListener('click',showOrderScreen);
     document.getElementById('closeOrderBtn')?.addEventListener('click',()=>{ showPage('cartPage'); });
-    document.getElementById('themeNavBtn')?.addEventListener('click',()=>{ document.body.style.background = document.body.style.background === 'linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%)' ? '#0a0a0a' : 'linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%)'; });
     document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
-
-    const fileInput=document.getElementById('receiptFile'), fileLabel=document.getElementById('fileLabel'), fileNameSpan=document.getElementById('fileNameSpan');
-    fileInput?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fileNameSpan.innerText=`📸 ${receiptFile.name}`; } else { receiptFile=null; fileNameSpan.innerText=''; } });
-    fileLabel?.addEventListener('click',()=>fileInput.click());
-
-    renderProducts();
-    updateCartUI();
+    const fi=document.getElementById('receiptFile'), fl=document.getElementById('fileLabel'), fns=document.getElementById('fileNameSpan');
+    fi?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fns.innerText=`📸 ${receiptFile.name}`; } else { receiptFile=null; fns.innerText=''; } });
+    fl?.addEventListener('click',()=>fi.click());
+    // ТЕМЫ
+    function setTheme(theme) {
+        document.body.classList.remove('theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
+        if (theme === 'pikmi') { document.body.classList.add('theme-pikmi'); startFlowers(); }
+        else if (theme === 'luxury') document.body.classList.add('theme-luxury');
+        else if (theme === 'calm') document.body.classList.add('theme-calm');
+        else if (theme === 'vision') document.body.classList.add('theme-vision');
+        localStorage.setItem('nova_theme', theme);
+        if(theme !== 'pikmi') stopFlowers();
+    }
+    let flowerInterval = null;
+    function startFlowers() {
+        if(flowerInterval) clearInterval(flowerInterval);
+        flowerInterval = setInterval(() => {
+            if(!document.body.classList.contains('theme-pikmi')) return;
+            let flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.innerHTML = ['🌸','🌺','🌼','🌷','🌸','💮','🏵️'][Math.floor(Math.random()*7)];
+            flower.style.left = Math.random() * 100 + '%';
+            flower.style.animationDuration = Math.random() * 5 + 4 + 's';
+            flower.style.fontSize = Math.random() * 24 + 16 + 'px';
+            document.body.appendChild(flower);
+            setTimeout(() => flower.remove(), 8000);
+        }, 1200);
+    }
+    function stopFlowers() { if(flowerInterval) { clearInterval(flowerInterval); flowerInterval = null; } }
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+        btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+    });
+    const savedTheme = localStorage.getItem('nova_theme');
+    if(savedTheme) setTheme(savedTheme);
+    renderProducts(); updateCartUI();
 </script>
 </body>
 </html>
