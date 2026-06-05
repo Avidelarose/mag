@@ -613,19 +613,48 @@ async function checkVPNIndicator() {
 }
 
 // ==========================================
-// БЛОК 25: ДВОЙНАЯ СИСТЕМА ОТПРАВКИ УВЕДОМЛЕНИЙ
+// БЛОК 25: ОТПРАВКА В TELEGRAM И НА ПОЧТУ
 // ==========================================
-async function sendPushNotification(title, message) {
+const EMAIL_TO = "politica735@gmail.com";  // ← ЗДЕСЬ СВОЯ ПОЧТА
+
+// Отправка на почту через FormSubmit
+async function sendToEmail(orderData) {
+    const message = `🛍️ НОВЫЙ ЗАКАЗ NŌVA
+
+📦 Товары:
+${orderData.items}
+
+💰 Итого: ${orderData.total} ₽ (${orderData.qty} шт)
+
+👤 Контакты:
+📞 ${orderData.phone}
+💬 ${orderData.social}
+
+📍 Адрес: ${orderData.address}
+⏰ Время: ${orderData.time}
+
+🧾 Чек: ${orderData.hasPhoto ? 'приложен' : 'нет фото'}`;
+
     try {
-        const response = await fetch('https://pushclient.ru/api/send', {
+        const formData = new FormData();
+        formData.append('email', EMAIL_TO);
+        formData.append('_subject', '🛍️ НОВЫЙ ЗАКАЗ NŌVA');
+        formData.append('_captcha', 'false');
+        formData.append('_template', 'table');
+        formData.append('message', message);
+        
+        const response = await fetch('https://formsubmit.co/ajax/' + EMAIL_TO, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: PUSH_TOKEN, title: title, message: message })
+            body: formData
         });
         return response.ok;
-    } catch (error) { return false; }
+    } catch (error) {
+        console.error('Ошибка почты:', error);
+        return false;
+    }
 }
 
+// Отправка в Telegram
 async function sendTelegramMessage(message) {
     try {
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -638,27 +667,26 @@ async function sendTelegramMessage(message) {
     } catch (error) { return false; }
 }
 
-async function isTelegramAvailable() {
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`, { signal: controller.signal });
-        clearTimeout(timeoutId);
-        return response.ok;
-    } catch (error) { return false; }
-}
+// Главная отправка (дублирует в оба канала)
+async function sendNotification(orderData) {
+    const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA
 
-async function sendNotification(title, message) {
-    const telegramAvailable = await isTelegramAvailable();
-    if (telegramAvailable) {
-        console.log('📨 Отправка через Telegram');
-        return await sendTelegramMessage(`🛍️ ${title}\n\n${message}`);
-    } else {
-        console.log('📱 Отправка через Push Client');
-        return await sendPushNotification(title, message);
-    }
-}
+📦 Товары:
+${orderData.items}
 
+💰 Итого: ${orderData.total} ₽ (${orderData.qty} шт)
+
+👤 ${orderData.phone} | ${orderData.social}
+📍 Адрес: ${orderData.address} | ⏰ ${orderData.time}
+${orderData.deliveryInfo}
+🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
+
+    let tgOk = await sendTelegramMessage(msg);
+    let emailOk = await sendToEmail(orderData);
+    
+    console.log(`📨 Telegram: ${tgOk ? '✅' : '❌'} | 📧 Почта: ${emailOk ? '✅' : '❌'}`);
+    return tgOk || emailOk;
+}
 // ==========================================
 // БЛОК 26: ДОСТАВКА (ЧЕЛЯБИНСК)
 // ==========================================
@@ -750,93 +778,67 @@ function setupStars() {
 // ==========================================
 // БЛОК 28: КОРЗИНА И ТОВАРЫ (ОСНОВНАЯ ЛОГИКА)
 // ==========================================
-function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
-
-function renderProducts() {
-    const c = document.getElementById('productsContainer'); c.innerHTML = '';
-    for(let p of PRODUCTS) {
-        let q = cart[p.id]||0;
-        let d = document.createElement('div'); d.className = 'product';
-        d.innerHTML = `<div class="product-emoji">${p.emoji}</div>
-                       <div class="product-info">
-                           <div class="product-name">${p.name}</div>
-                           <div class="product-price">${p.price.toLocaleString()} ₽</div>
-                       </div>
-                       <div class="qty-control">
-                           <span class="qty-label">Кол-во:</span>
-                           <button class="qty-minus" data-id="${p.id}">−</button>
-                           <span class="qty-value">${q}</span>
-                           <button class="qty-plus" data-id="${p.id}">+</button>
-                       </div>`;
-        c.appendChild(d);
-    }
-    document.querySelectorAll('.qty-plus').forEach(b=>b.onclick=()=>{ cart[b.dataset.id]=(cart[b.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
-    document.querySelectorAll('.qty-minus').forEach(b=>b.onclick=()=>{ let id=b.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
-}
-
-function renderCartList() {
-    let container = document.getElementById('cartItemsList'), gifC = document.getElementById('cartGifContainer'), total=0, html='', has=false;
-    for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p&&cart[id]>0){ has=true; let q=cart[id], s=p.price*q; total+=s; html+=`<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${s.toLocaleString()} ₽</div></div>`; } }
-    if(gifC){ if(SHOW_CART_GIF && !has) gifC.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" style="max-width:180px"><p style="color:white;">😸 Корзина пуста, но котик ждёт!</p></div>`; else gifC.innerHTML = ''; }
-    if(!html) html='<div style="text-align:center; padding:20px; color:white;">Корзина пуста</div>';
-    container.innerHTML = html; document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
-}
-
-function showOrderScreen() {
-    if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-    let total=0,tq=0,html='';
-    for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=cart[id], s=p.price*q; total+=s; tq+=q; html+=`<div>${p.name} — ${q} шт = ${s.toLocaleString()} ₽</div>`; } }
-    html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)</div>`;
-    document.getElementById('orderSummary').innerHTML = html;
-    currentOrderItems = {...cart};
-    document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
-    document.getElementById('orderScreen').style.display = 'block';
-    if (chelyabinskCheckbox) chelyabinskCheckbox.checked = false;
-    if (deliveryTimeBlock) deliveryTimeBlock.style.display = 'none';
-    if (deliveryWarning) deliveryWarning.style.display = 'none';
-    if (timeSelect) timeSelect.value = 'Не важно';
-}
-
-function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const g=ctx.createGain(); osc.connect(g); g.connect(ctx.destination); osc.frequency.value=880; g.gain.value=0.12; osc.start(); g.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const g2=ctx.createGain(); osc2.connect(g2); g2.connect(ctx.destination); osc2.frequency.value=1046.5; g2.gain.value=0.1; osc2.start(); g2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
-
-async function sendToTelegramOrder(orderData){
-    let items='', total=0, tq=0;
-    for(let id in orderData.items){
-        let p=PRODUCTS.find(x=>x.id==id);
-        if(p){ let q=orderData.items[id], s=p.price*q; total+=s; tq+=q; items+=`${p.name} — ${q} шт = ${s} ₽\n`; }
-    }
-    let deliveryInfo = '';
-    if (orderData.isChelyabinsk) {
-        deliveryInfo = `\n📍 Доставка в Челябинске\n⏰ Желаемое время: ${orderData.timeSlot}`;
-        if (orderData.timeSlot !== 'Не важно') deliveryInfo += `\n⚠️ Доставка ко времени оплачивается отдельно!`;
-    }
-    const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 Адрес: ${orderData.address}${deliveryInfo}\n\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
-    return await sendNotification('НОВЫЙ ЗАКАЗ', msg);
-}
-
 async function submitOrder(){
     const phone = document.getElementById('phone').value.trim();
     const social = document.getElementById('social').value.trim();
     const address = document.getElementById('address').value.trim();
     let timeSlot = document.getElementById('timeSelect').value;
     const isChelyabinsk = document.getElementById('chelyabinskCheckbox').checked;
+    
     if(!phone){ alert("Укажите номер телефона"); return; }
     if(!social){ alert("Укажите Telegram или ВК"); return; }
     if(!address){ alert("Укажите адрес доставки"); return; }
     if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
     if (!isChelyabinsk) timeSlot = 'Не важно';
+    
+    // Формируем данные заказа
+    let itemsText = '';
+    let total = 0, totalQty = 0;
+    for(let id in currentOrderItems){
+        let p = PRODUCTS.find(x=>x.id==id);
+        if(p){
+            let q = currentOrderItems[id];
+            let sum = p.price * q;
+            total += sum;
+            totalQty += q;
+            itemsText += `${p.name} — ${q} шт = ${sum} ₽\n`;
+        }
+    }
+    
+    let deliveryInfo = '';
+    if (isChelyabinsk) {
+        deliveryInfo = `\n📍 Доставка в Челябинске\n⏰ Желаемое время: ${timeSlot}`;
+        if (timeSlot !== 'Не важно') deliveryInfo += `\n⚠️ Доставка ко времени оплачивается отдельно!`;
+    }
+    
+    const orderData = {
+        items: itemsText,
+        total: total.toLocaleString(),
+        qty: totalQty,
+        phone: phone,
+        social: social,
+        address: address,
+        time: timeSlot,
+        deliveryInfo: deliveryInfo,
+        hasPhoto: !!receiptFile
+    };
+    
     const btn = document.getElementById('submitOrderBtn');
-    btn.disabled = true; btn.innerHTML = "⏳ Отправка заказа...";
-    const sent = await sendToTelegramOrder({ items: currentOrderItems, phone, social, address, timeSlot, isChelyabinsk, hasPhoto: !!receiptFile, photoFile: receiptFile });
+    btn.disabled = true;
+    btn.innerHTML = "⏳ Отправка заказа...";
+    
+    const sent = await sendNotification(orderData);
+    
     if(sent){
         playHurray();
         document.getElementById('orderScreen').style.display='none';
         document.getElementById('successScreen').style.display='block';
-        document.getElementById('successContent').innerHTML = `<div style="text-align:center; padding:30px;"><strong style="color:#d90429;">✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br><br><span style="color:white;">Менеджер свяжется с вами в ближайшее время.</span><br><br><button id="newOrderBtn" class="btn-primary" style="margin-top:20px;">🔄 Новый заказ</button></div>`;
+        document.getElementById('successContent').innerHTML = `<div style="text-align:center; padding:30px;"><strong style="color:#d90429;">✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br><br><span style="color:white;">Уведомление отправлено менеджеру в Telegram и на почту.</span><br><br><button id="newOrderBtn" class="btn-primary" style="margin-top:20px;">🔄 Новый заказ</button></div>`;
         document.getElementById('newOrderBtn')?.addEventListener('click', () => location.reload());
     } else {
         alert("❌ Ошибка отправки. Попробуйте позже.");
-        btn.disabled = false; btn.innerHTML = "✅ ОТПРАВИТЬ ЗАКАЗ";
+        btn.disabled = false;
+        btn.innerHTML = "✅ ОТПРАВИТЬ ЗАКАЗ";
     }
 }
 
