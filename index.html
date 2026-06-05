@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NŌVA Premium — магазин</title>
     <style>
+        /* ========================================== */
+        /* БЛОК 1: ГЛОБАЛЬНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ */
+        /* ========================================== */
         * {
             margin: 0;
             padding: 0;
@@ -33,6 +36,9 @@
             z-index: 0;
         }
 
+        /* ========================================== */
+        /* БЛОК 2: ОСНОВНАЯ СЕТКА (APP-LAYOUT + SIDEBAR + MAIN) */
+        /* ========================================== */
         .app-layout {
             position: relative;
             z-index: 2;
@@ -67,6 +73,9 @@
             gap: 24px;
         }
 
+        /* ========================================== */
+        /* БЛОК 3: VPN ПРЕДУПРЕЖДЕНИЕ (КРАСНЫЙ БЛОК) */
+        /* ========================================== */
         .vpn-warning {
             background: linear-gradient(135deg, #d90429, #8b0000);
             border-radius: 60px;
@@ -95,6 +104,9 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); transform: scale(1); }
         }
 
+        /* ========================================== */
+        /* БЛОК 4: КАРТОЧКА ТОВАРОВ И ПРОКРУТКА */
+        /* ========================================== */
         .products-card {
             backdrop-filter: blur(8px);
             border-radius: 44px;
@@ -106,7 +118,9 @@
             overflow-y: auto;
         }
 
-        /* НИЖНЯЯ ПАНЕЛЬ — ВЕСЬ ТЕКСТ БЕЛЫЙ */
+        /* ========================================== */
+        /* БЛОК 5: НИЖНЯЯ ПАНЕЛЬ (ИНСТРУКЦИЯ ПО ОПЛАТЕ) */
+        /* ========================================== */
         .bottom-instruction {
             backdrop-filter: blur(8px);
             border-radius: 44px;
@@ -140,7 +154,9 @@
             text-decoration: none;
         }
 
-        /* ПАНЕЛЬ ОФОРМЛЕНИЯ ЗАКАЗА — ВЕСЬ ТЕКСТ БЕЛЫЙ */
+        /* ========================================== */
+        /* БЛОК 6: УНИВЕРСАЛЬНАЯ КАРТОЧКА (ДЛЯ ОТЗЫВОВ, КОРЗИНЫ, ОФОРМЛЕНИЯ) */
+        /* ========================================== */
         .reviews-card {
             backdrop-filter: blur(8px);
             border-radius: 44px;
@@ -151,25 +167,10 @@
             max-height: 70vh;
             overflow-y: auto;
         }
-        #orderScreen .section-title,
-        #orderScreen .form-group label,
-        #orderScreen .checkbox-group label,
-        #orderScreen #orderSummary,
-        #orderScreen .delivery-warning {
-            color: white !important;
-        }
-        #orderScreen input, 
-        #orderScreen select {
-            color: white;
-        }
-        #orderScreen input::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-        #orderScreen .file-label {
-            color: white;
-        }
 
-        /* ФИОЛЕТОВЫЙ ТЕКСТ ДЛЯ ОСТАЛЬНЫХ ЭЛЕМЕНТОВ */
+        /* ========================================== */
+        /* БЛОК 7: ЦВЕТА ТЕКСТА (ФИОЛЕТОВЫЙ ДЛЯ БОЛЬШИНСТВА) */
+        /* ========================================== */
         .section-title, .product-name, .cart-item, .total-row, .review-name, .review-text, .review-date, 
         .form-group label, .checkbox-group label, .premium-tag, .nav-link, .logo-premium {
             color: #b026ff !important;
@@ -178,6 +179,9 @@
             color: #9b1df0 !important;
         }
 
+        /* ========================================== */
+        /* БЛОК 8: СТИЛИ КАРТОЧКИ ТОВАРА */
+        /* ========================================== */
         .products-grid {
             display: flex;
             flex-direction: column;
@@ -207,6 +211,9 @@
         .product-name { font-weight: 600; font-size: 1rem; }
         .product-price { font-weight: 700; margin-top: 6px; }
         
+        /* ========================================== */
+        /* БЛОК 9: ВЫБОР КОЛИЧЕСТВА ТОВАРА */
+        /* ========================================== */
         .qty-control {
             display: flex;
             align-items: center;
@@ -235,6 +242,9 @@
             text-align: center;
         }
 
+        /* ========================================== */
+        /* БЛОК 10: ОТЗЫВЫ И ФОРМА ОТПРАВКИ */
+        /* ========================================== */
         .reviews-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
         .review-item {
             background: rgba(0, 0, 0, 0.65);
@@ -257,6 +267,9 @@
         .star { font-size: 28px; color: #888; transition: 0.1s; text-shadow: 0 0 2px rgba(0,0,0,0.3); }
         .star.selected { color: #FFD700; text-shadow: 0 0 4px #FFD700; }
 
+        /* ========================================== */
+        /* БЛОК 11: КНОПКИ */
+        /* ========================================== */
         .btn-primary {
             border: none;
             width: 100%;
@@ -280,23 +293,35 @@
             color: #9b1df0;
         }
 
+        /* ========================================== */
+        /* БЛОК 12: КОРЗИНА И ТОВАРЫ В НЕЙ */
+        /* ========================================== */
         .cart-gif { text-align: center; margin: 20px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 30px; }
         .cart-gif img { max-width: 180px; border-radius: 20px; }
         .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .total-row { font-size: 1.2rem; font-weight: 700; text-align: right; margin-top: 16px; }
 
+        /* ========================================== */
+        /* БЛОК 13: ФОРМЫ (ПОЛЯ ВВОДА) */
+        /* ========================================== */
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
-        input, select { width: 100%; padding: 14px 16px; border-radius: 34px; border: 1px solid rgba(255,255,255,0.3); font-size: 1rem; background: rgba(0, 0, 0, 0.5); }
+        input, select { width: 100%; padding: 14px 16px; border-radius: 34px; border: 1px solid rgba(255,255,255,0.3); font-size: 1rem; background: rgba(0, 0, 0, 0.5); color: white; }
         input::placeholder { color: rgba(255,255,255,0.6); }
-        .file-label { background: rgba(0, 0, 0, 0.5); padding: 14px; border-radius: 34px; text-align: center; cursor: pointer; border: 1px dashed rgba(255,255,255,0.3); }
+        .file-label { background: rgba(0, 0, 0, 0.5); padding: 14px; border-radius: 34px; text-align: center; cursor: pointer; border: 1px dashed rgba(255,255,255,0.3); color: white; }
         
+        /* ========================================== */
+        /* БЛОК 14: ДОСТАВКА (ЧЕЛЯБИНСК) */
+        /* ========================================== */
         .delivery-warning { background: rgba(217, 4, 41, 0.9); color: white; padding: 12px; border-radius: 28px; text-align: center; margin: 15px 0; font-weight: bold; font-size: 0.9rem; }
         .checkbox-group { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
         .checkbox-group input { width: 20px; height: 20px; cursor: pointer; }
         .checkbox-group label { margin: 0; cursor: pointer; }
         .time-select-group { margin-top: 15px; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #9b1df0; }
 
+        /* ========================================== */
+        /* БЛОК 15: ШАПКА И ЛЕВОЕ МЕНЮ */
+        /* ========================================== */
         .logo-premium { font-size: 1.6rem; font-weight: 620; text-align: center; margin-bottom: 20px; }
         .premium-tag { font-size: 0.55rem; text-align: center; display: block; margin-top: -10px; margin-bottom: 20px; }
         .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 28px; text-decoration: none; font-weight: 500; transition: 0.2s; cursor: pointer; font-size: 0.85rem; }
@@ -308,9 +333,79 @@
         .theme-calm-btn { background: #87CEEB; color: #2c3e50; }
         .theme-vision-btn { background: #e6c384; color: #1a1a1a; }
 
+        /* ========================================== */
+        /* БЛОК 16: ТЕМЫ (Pikmi, Luxury, Calm, Vision) */
+        /* ========================================== */
+        body.theme-pikmi .review-item { background: rgba(80, 0, 50, 0.75); border-left-color: #ff69b4; }
+        body.theme-pikmi .review-name { color: #ffb3c6; }
+        body.theme-pikmi .review-text { color: white; }
+        body.theme-pikmi .review-date { color: #ffccdd; }
+        body.theme-pikmi .vpn-warning { background: linear-gradient(135deg, #ff69b4, #ff1493); }
+
+        body.theme-luxury .review-item { background: rgba(0, 0, 0, 0.8); border-left-color: #DAA520; }
+        body.theme-luxury .review-name { color: #FFD700; }
+        body.theme-luxury .review-text { color: #FFF8DC; }
+        body.theme-luxury .vpn-warning { background: linear-gradient(135deg, #DAA520, #B8860B); }
+        
+        body.theme-calm .review-item { background: rgba(0, 50, 80, 0.75); border-left-color: #1E90FF; }
+        body.theme-calm .review-name { color: #E0F0FF; }
+        body.theme-calm .review-text { color: white; }
+        
+        body.theme-vision .review-item { background: #1a1a1a; border-left-color: #e6c384; }
+        body.theme-vision .review-name { color: #e6c384; }
+        body.theme-vision .review-text { color: #f0f0f0; }
+        body.theme-vision .review-text, body.theme-vision .review-name { font-weight: 700; letter-spacing: 0.3px; }
+
+        body.theme-pikmi .fixed-instruction, body.theme-pikmi .products-card, body.theme-pikmi .reviews-card { background: rgba(255, 230, 240, 0.9); }
+        body.theme-pikmi .section-title { color: #4a0025; }
+        body.theme-pikmi .logo-premium { background: linear-gradient(135deg, #ff1493, #ff69b4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.theme-pikmi .sidebar { background: rgba(255, 200, 210, 0.85); border-color: #ff99aa; }
+
+        body.theme-luxury .fixed-instruction, body.theme-luxury .products-card, body.theme-luxury .reviews-card { background: rgba(0, 0, 0, 0.75); border-color: #DAA520; }
+        body.theme-luxury .logo-premium { background: linear-gradient(135deg, #DAA520, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.theme-luxury .sidebar { background: rgba(0, 0, 0, 0.85); border: 1px solid #DAA520; }
+
+        body.theme-calm .fixed-instruction, body.theme-calm .products-card, body.theme-calm .reviews-card { background: rgba(255, 255, 255, 0.85); border-color: #87CEEB; }
+        body.theme-calm .section-title { color: #1E90FF; }
+        body.theme-calm .logo-premium { background: linear-gradient(135deg, #1E90FF, #4682B4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        body.theme-calm .sidebar { background: rgba(200, 220, 240, 0.85); }
+
+        body.theme-vision .fixed-instruction, body.theme-vision .products-card, body.theme-vision .reviews-card { background: #2a2a2a; border-color: #e6c384; }
+        body.theme-vision .section-title { color: #e6c384; }
+        body.theme-vision .logo-premium { color: #e6c384; }
+        body.theme-vision .sidebar { background: #2a2a2a; border: 1px solid #e6c384; }
+        body.theme-vision .nav-link { color: #e6c384; }
+        body.theme-vision .product-name, body.theme-vision .product-price { font-weight: 700; letter-spacing: 0.3px; }
+
+        /* ========================================== */
+        /* БЛОК 17: ЦВЕТОЧКИ ДЛЯ ТЕМЫ ПИКМИ */
+        /* ========================================== */
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 999; animation: floatFlower 8s linear infinite; }
         @keyframes floatFlower { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; } }
 
+        /* ========================================== */
+        /* БЛОК 18: ИНДИКАТОР VPN (В ПРАВОМ ВЕРХНЕМ УГЛУ) */
+        /* ========================================== */
+        .vpn-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            backdrop-filter: blur(12px);
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            font-family: -apple-system, system-ui, sans-serif;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        /* ========================================== */
+        /* БЛОК 19: АДАПТИВ (ДЛЯ ТЕЛЕФОНОВ) */
+        /* ========================================== */
         @media (max-width: 1000px) {
             .app-layout { flex-direction: column; align-items: center; gap: 20px; }
             .sidebar { position: relative; top: 0; width: 100%; max-width: 400px; }
@@ -342,13 +437,23 @@
                 border-radius: 0;
             }
             .sidebar.open { transform: translateX(0); }
-            .vpn-warning p { font-size: 0.9rem; }
+            .vpn-indicator { top: 70px; right: 10px; font-size: 10px; padding: 6px 12px; }
         }
         .menu-toggle { display: none; }
     </style>
 </head>
 <body>
+
+<!-- ========================================== -->
+<!-- БЛОК 20: ИНДИКАТОР VPN (HTML) -->
+<!-- ========================================== -->
+<div id="vpnIndicator" class="vpn-indicator">🔄 Проверка...</div>
+
+<!-- ========================================== -->
+<!-- БЛОК 21: ОСНОВНАЯ СТРУКТУРА САЙТА (HTML) -->
+<!-- ========================================== -->
 <div class="app-layout">
+    <!-- ЛЕВАЯ ПАНЕЛЬ -->
     <div class="sidebar" id="sidebar">
         <div class="logo-premium">NŌVA</div>
         <div class="premium-tag">PREMIUM</div>
@@ -365,9 +470,11 @@
             <button class="theme-btn-small theme-vision-btn" data-theme="vision">👓 Для зрения</button>
         </div>
     </div>
+    
     <div class="menu-toggle" id="menuToggle">☰ Меню</div>
+    
     <div class="main-content">
-        <!-- ГЛАВНАЯ -->
+        <!-- ГЛАВНАЯ СТРАНИЦА -->
         <div id="mainPage" class="content-screen active" style="display: flex; flex-direction: column; gap: 24px; height: 100%;">
             <div class="vpn-warning">
                 <p>⚠️ ВНИМАНИЕ! ⚠️</p>
@@ -379,8 +486,6 @@
                 <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
                 <div id="productsContainer" class="products-grid"></div>
             </div>
-            
-            <!-- НИЖНЯЯ ПАНЕЛЬ — ВЕСЬ ТЕКСТ БЕЛЫЙ -->
             <div class="bottom-instruction">
                 <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 12px;">💳 Как сделать заказ</div>
                 <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 090 58 96</span><br>(Т‑Банк, Александр)</p>
@@ -430,7 +535,7 @@
             </div>
         </div>
 
-        <!-- ОФОРМЛЕНИЕ ЗАКАЗА — ВЕСЬ ТЕКСТ БЕЛЫЙ -->
+        <!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
         <div id="orderScreen" style="display:none;" class="reviews-card">
             <div class="section-title">✦ ОФОРМЛЕНИЕ ЗАКАЗА</div>
             <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px; color:white;"></div>
@@ -445,6 +550,7 @@
             <button id="closeOrderBtn" class="btn-outline">← Вернуться в корзину</button>
         </div>
 
+        <!-- УСПЕХ -->
         <div id="successScreen" style="display:none;" class="reviews-card">
             <div id="successContent"></div>
         </div>
@@ -452,264 +558,363 @@
 </div>
 
 <script>
-    const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
-    const CHAT_ID = "5233384978";
-    const SHOW_CART_GIF = true;
-    const CART_GIF_URL = "cat-dancing.gif";
+// ==========================================
+// БЛОК 22: НАСТРОЙКИ (ТОКЕНЫ И КОНСТАНТЫ)
+// ==========================================
+const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
+const CHAT_ID = "5233384978";
+const PUSH_TOKEN = "push_a7f6227fd546405b8aa71300294d7402";
+const SHOW_CART_GIF = true;
+const CART_GIF_URL = "cat-dancing.gif";
 
-    const PRODUCTS = [
-        { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" }, { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
-        { id: 3, name: "🔌 Зарядка в авто с вольтметром", price: 800, emoji: "🔌" }, { id: 4, name: "🃏 Мини колода карт", price: 700, emoji: "🃏" },
-        { id: 5, name: "🌸 Жилетка женская цветы", price: 2145, emoji: "🌸" }, { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, emoji: "🔑" },
-        { id: 7, name: "💨 Игрушечные сигареты", price: 1500, emoji: "💨" }, { id: 8, name: "🔬 Цифровой микроскоп", price: 4945, emoji: "🔬" },
-        { id: 9, name: "💺 Игровое кресло", price: 9700, emoji: "💺" }, { id: 10, name: "👜 Сумка кожаная", price: 2375, emoji: "👜" },
-        { id: 11, name: "🔫 Пистолет с пульками", price: 1450, emoji: "🔫" }, { id: 12, name: "🧢 Кепка с листьями", price: 1350, emoji: "🧢" }
-    ];
+// ==========================================
+// БЛОК 23: ТОВАРЫ (ДОБАВЛЯЙ/МЕНЯЙ ЗДЕСЬ)
+// ==========================================
+const PRODUCTS = [
+    { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" },
+    { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
+    { id: 3, name: "🔌 Зарядка в авто с вольтметром", price: 800, emoji: "🔌" },
+    { id: 4, name: "🃏 Мини колода карт", price: 700, emoji: "🃏" },
+    { id: 5, name: "🌸 Жилетка женская цветы", price: 2145, emoji: "🌸" },
+    { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, emoji: "🔑" },
+    { id: 7, name: "💨 Игрушечные сигареты", price: 1500, emoji: "💨" },
+    { id: 8, name: "🔬 Цифровой микроскоп", price: 4945, emoji: "🔬" },
+    { id: 9, name: "💺 Игровое кресло", price: 9700, emoji: "💺" },
+    { id: 10, name: "👜 Сумка кожаная", price: 2375, emoji: "👜" },
+    { id: 11, name: "🔫 Пистолет с пульками", price: 1450, emoji: "🔫" },
+    { id: 12, name: "🧢 Кепка с листьями", price: 1350, emoji: "🧢" }
+];
 
-    let cart = {}, receiptFile = null, currentOrderItems = null;
+let cart = {}, receiptFile = null, currentOrderItems = null;
 
-    const chelyabinskCheckbox = document.getElementById('chelyabinskCheckbox');
-    const deliveryTimeBlock = document.getElementById('deliveryTimeBlock');
-    const deliveryWarning = document.getElementById('deliveryWarning');
-    const timeSelect = document.getElementById('timeSelect');
+// ==========================================
+// БЛОК 24: ИНДИКАТОР VPN (ЛОГИКА)
+// ==========================================
+async function checkVPNIndicator() {
+    const indicator = document.getElementById('vpnIndicator');
+    if (!indicator) return;
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (response.ok) {
+            indicator.innerHTML = '🔐 VPN ВКЛЮЧЁН<br>📨 Уведомления в Telegram';
+            indicator.style.background = 'rgba(0,80,0,0.9)';
+            indicator.style.color = '#ccffcc';
+            indicator.style.border = '1px solid #00cc00';
+        } else throw new Error();
+    } catch (error) {
+        indicator.innerHTML = '⚠️ VPN ВЫКЛЮЧЕН<br>📱 Уведомления на телефон (Push)';
+        indicator.style.background = 'rgba(100,0,0,0.9)';
+        indicator.style.color = '#ffcccc';
+        indicator.style.border = '1px solid #ff4444';
+    }
+}
 
-    if (chelyabinskCheckbox) {
-        chelyabinskCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                deliveryTimeBlock.style.display = 'block';
-                if (timeSelect && timeSelect.value !== 'Не важно') deliveryWarning.style.display = 'block';
-                else deliveryWarning.style.display = 'none';
-            } else {
-                deliveryTimeBlock.style.display = 'none';
-                deliveryWarning.style.display = 'none';
-                if (timeSelect) timeSelect.value = 'Не важно';
-            }
+// ==========================================
+// БЛОК 25: ДВОЙНАЯ СИСТЕМА ОТПРАВКИ УВЕДОМЛЕНИЙ
+// ==========================================
+async function sendPushNotification(title, message) {
+    try {
+        const response = await fetch('https://pushclient.ru/api/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: PUSH_TOKEN, title: title, message: message })
         });
-    }
-    if (timeSelect) {
-        timeSelect.addEventListener('change', function() {
-            if (chelyabinskCheckbox && chelyabinskCheckbox.checked) {
-                if (this.value !== 'Не важно') deliveryWarning.style.display = 'block';
-                else deliveryWarning.style.display = 'none';
-            }
+        return response.ok;
+    } catch (error) { return false; }
+}
+
+async function sendTelegramMessage(message) {
+    try {
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CHAT_ID, text: message })
         });
-    }
+        const result = await response.json();
+        return result.ok === true;
+    } catch (error) { return false; }
+}
 
-    let reviews = [
-        { name: "Анна С.", rating: 5, text: "🔥 Товар пришёл очень быстро, качество отличное! Спасибо NŌVA!", date: "15.05.2025" },
-        { name: "Максим К.", rating: 5, text: "💯 SSD работает отлично, скорость супер. Рекомендую!", date: "12.05.2025" },
-        { name: "Екатерина В.", rating: 5, text: "🌸 Чебурашка просто лапочка! Дочка в восторге!", date: "10.05.2025" },
-        { name: "Дмитрий П.", rating: 4, text: "🎧 Игровое кресло очень удобное. В остальном отлично!", date: "08.05.2025" },
-        { name: "Ольга М.", rating: 5, text: "💖 Сумка из натуральной кожи — мечта!", date: "05.05.2025" },
-        { name: "Игорь С.", rating: 5, text: "🔫 Пистолет с пульками сыну очень понравился!", date: "01.05.2025" },
-        { name: "Наталья Р.", rating: 5, text: "🧢 Кепка с листьями очень стильная!", date: "28.04.2025" },
-        { name: "Алексей Т.", rating: 5, text: "🔬 Микроскоп — отличная вещь для ребёнка!", date: "25.04.2025" }
-    ];
+async function isTelegramAvailable() {
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        return response.ok;
+    } catch (error) { return false; }
+}
 
-    function loadReviews() {
-        const saved = localStorage.getItem('nova_reviews');
-        if (saved) { try { reviews = JSON.parse(saved); } catch(e) {} }
-        renderReviews();
+async function sendNotification(title, message) {
+    const telegramAvailable = await isTelegramAvailable();
+    if (telegramAvailable) {
+        console.log('📨 Отправка через Telegram');
+        return await sendTelegramMessage(`🛍️ ${title}\n\n${message}`);
+    } else {
+        console.log('📱 Отправка через Push Client');
+        return await sendPushNotification(title, message);
     }
-    function saveReviews() { localStorage.setItem('nova_reviews', JSON.stringify(reviews)); }
-    function renderReviews() {
-        const container = document.getElementById('reviewsList');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let r of reviews) {
-            const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-            const div = document.createElement('div');
-            div.className = 'review-item';
-            div.innerHTML = `<div class="review-header"><span class="review-name">${escapeHtml(r.name)}</span><span class="review-stars">${stars}</span></div><div class="review-text">${escapeHtml(r.text)}</div><div class="review-date">📅 ${r.date}</div>`;
-            container.appendChild(div);
-        }
-    }
-    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
-    function addReview(name, rating, text) {
-        if (!name.trim()) { alert("Введите имя"); return false; }
-        if (!text.trim()) { alert("Напишите отзыв"); return false; }
-        const now = new Date();
-        const dateStr = `${now.getDate().toString().padStart(2,'0')}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getFullYear()}`;
-        reviews.unshift({ name: name.trim(), rating: rating, text: text.trim(), date: dateStr });
-        saveReviews(); renderReviews();
-        return true;
-    }
+}
 
-    let currentRating = 5;
-    function setupStars() {
-        const stars = document.querySelectorAll('#starRating .star');
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                currentRating = parseInt(star.dataset.value);
-                stars.forEach(s => {
-                    if (parseInt(s.dataset.value) <= currentRating) { s.textContent = '★'; s.classList.add('selected'); }
-                    else { s.textContent = '☆'; s.classList.remove('selected'); }
-                });
-            });
-        });
-        stars.forEach(s => { if (parseInt(s.dataset.value) <= 5) { s.textContent = '★'; s.classList.add('selected'); } });
-    }
+// ==========================================
+// БЛОК 26: ДОСТАВКА (ЧЕЛЯБИНСК)
+// ==========================================
+const chelyabinskCheckbox = document.getElementById('chelyabinskCheckbox');
+const deliveryTimeBlock = document.getElementById('deliveryTimeBlock');
+const deliveryWarning = document.getElementById('deliveryWarning');
+const timeSelect = document.getElementById('timeSelect');
 
-    function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
-    
-    function renderProducts() {
-        const c = document.getElementById('productsContainer'); c.innerHTML = '';
-        for(let p of PRODUCTS) {
-            let q = cart[p.id]||0;
-            let d = document.createElement('div'); d.className = 'product';
-            d.innerHTML = `<div class="product-emoji">${p.emoji}</div>
-                           <div class="product-info">
-                               <div class="product-name">${p.name}</div>
-                               <div class="product-price">${p.price.toLocaleString()} ₽</div>
-                           </div>
-                           <div class="qty-control">
-                               <span class="qty-label">Кол-во:</span>
-                               <button class="qty-minus" data-id="${p.id}">−</button>
-                               <span class="qty-value">${q}</span>
-                               <button class="qty-plus" data-id="${p.id}">+</button>
-                           </div>`;
-            c.appendChild(d);
-        }
-        document.querySelectorAll('.qty-plus').forEach(b=>b.onclick=()=>{ cart[b.dataset.id]=(cart[b.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
-        document.querySelectorAll('.qty-minus').forEach(b=>b.onclick=()=>{ let id=b.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
-    }
-    
-    function renderCartList() {
-        let container = document.getElementById('cartItemsList'), gifC = document.getElementById('cartGifContainer'), total=0, html='', has=false;
-        for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p&&cart[id]>0){ has=true; let q=cart[id], s=p.price*q; total+=s; html+=`<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${s.toLocaleString()} ₽</div></div>`; } }
-        if(gifC){ if(SHOW_CART_GIF && !has) gifC.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" style="max-width:180px"><p style="color:white;">😸 Корзина пуста, но котик ждёт!</p></div>`; else gifC.innerHTML = ''; }
-        if(!html) html='<div style="text-align:center; padding:20px; color:white;">Корзина пуста</div>';
-        container.innerHTML = html; document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
-    }
-    
-    function showOrderScreen() {
-        if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-        let total=0,tq=0,html='';
-        for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=cart[id], s=p.price*q; total+=s; tq+=q; html+=`<div>${p.name} — ${q} шт = ${s.toLocaleString()} ₽</div>`; } }
-        html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)</div>`;
-        document.getElementById('orderSummary').innerHTML = html;
-        currentOrderItems = {...cart};
-        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
-        document.getElementById('orderScreen').style.display = 'block';
-        if (chelyabinskCheckbox) chelyabinskCheckbox.checked = false;
-        if (deliveryTimeBlock) deliveryTimeBlock.style.display = 'none';
-        if (deliveryWarning) deliveryWarning.style.display = 'none';
-        if (timeSelect) timeSelect.value = 'Не важно';
-    }
-    
-    function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const g=ctx.createGain(); osc.connect(g); g.connect(ctx.destination); osc.frequency.value=880; g.gain.value=0.12; osc.start(); g.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const g2=ctx.createGain(); osc2.connect(g2); g2.connect(ctx.destination); osc2.frequency.value=1046.5; g2.gain.value=0.1; osc2.start(); g2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
-    
-    async function sendToTelegram(orderData){
-        let items='', total=0, tq=0;
-        for(let id in orderData.items){
-            let p=PRODUCTS.find(x=>x.id==id);
-            if(p){ let q=orderData.items[id], s=p.price*q; total+=s; tq+=q; items+=`${p.name} — ${q} шт = ${s} ₽\n`; }
-        }
-        let deliveryInfo = '';
-        if (orderData.isChelyabinsk) {
-            deliveryInfo = `\n📍 Доставка в Челябинске\n⏰ Желаемое время: ${orderData.timeSlot}`;
-            if (orderData.timeSlot !== 'Не важно') deliveryInfo += `\n⚠️ Доставка ко времени оплачивается отдельно! Менеджер свяжется для уточнения стоимости.`;
-        }
-        const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 Адрес: ${orderData.address}${deliveryInfo}\n\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
-        try{
-            if(orderData.photoFile){
-                const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile);
-                const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd});
-                return r.ok;
-            } else {
-                const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})});
-                return r.ok;
-            }
-        }catch(e){ return false; }
-    }
-    
-    async function submitOrder(){
-        const phone = document.getElementById('phone').value.trim();
-        const social = document.getElementById('social').value.trim();
-        const address = document.getElementById('address').value.trim();
-        let timeSlot = document.getElementById('timeSelect').value;
-        const isChelyabinsk = document.getElementById('chelyabinskCheckbox').checked;
-        if(!phone){ alert("Укажите номер телефона"); return; }
-        if(!social){ alert("Укажите Telegram или ВК"); return; }
-        if(!address){ alert("Укажите адрес доставки"); return; }
-        if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
-        if (!isChelyabinsk) timeSlot = 'Не важно';
-        const btn = document.getElementById('submitOrderBtn');
-        btn.disabled = true; btn.innerHTML = "⏳ Отправка заказа...";
-        const sent = await sendToTelegram({ items: currentOrderItems, phone, social, address, timeSlot, isChelyabinsk, hasPhoto: !!receiptFile, photoFile: receiptFile });
-        if(sent){
-            playHurray();
-            document.getElementById('orderScreen').style.display='none';
-            document.getElementById('successScreen').style.display='block';
-            document.getElementById('successContent').innerHTML = `<div style="text-align:center; padding:30px;"><strong style="color:#d90429;">✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br><br><span style="color:white;">Менеджер свяжется с вами в ближайшее время.</span><br><br><button id="newOrderBtn" class="btn-primary" style="margin-top:20px;">🔄 Новый заказ</button></div>`;
-            document.getElementById('newOrderBtn')?.addEventListener('click', () => location.reload());
+if (chelyabinskCheckbox) {
+    chelyabinskCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            deliveryTimeBlock.style.display = 'block';
+            if (timeSelect && timeSelect.value !== 'Не важно') deliveryWarning.style.display = 'block';
+            else deliveryWarning.style.display = 'none';
         } else {
-            alert("❌ Ошибка отправки. Убедитесь, что бот @My_daaate_bot активирован (напишите ему /start)");
-            btn.disabled = false; btn.innerHTML = "✅ ОТПРАВИТЬ ЗАКАЗ";
-        }
-    }
-    
-    function showPage(pageId){
-        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
-        document.getElementById(pageId).style.display = 'block';
-        document.getElementById('orderScreen').style.display='none';
-        document.getElementById('successScreen').style.display='none';
-        if(pageId==='cartPage') renderCartList();
-        if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open');
-    }
-    
-    document.querySelectorAll('.nav-link[data-page]').forEach(link=>{ link.addEventListener('click',(e)=>{ e.preventDefault(); showPage(link.dataset.page+'Page'); }); });
-    document.getElementById('checkoutBtn')?.addEventListener('click', showOrderScreen);
-    document.getElementById('closeOrderBtn')?.addEventListener('click', () => { showPage('cartPage'); });
-    document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
-    document.getElementById('menuToggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
-    
-    const fi = document.getElementById('receiptFile'), fl = document.getElementById('fileLabel'), fns = document.getElementById('fileNameSpan');
-    fi?.addEventListener('change', (e) => { if(e.target.files.length){ receiptFile = e.target.files[0]; fns.innerText = `📸 ${receiptFile.name}`; } else { receiptFile = null; fns.innerText = ''; } });
-    fl?.addEventListener('click', () => fi.click());
-    document.getElementById('submitReviewBtn')?.addEventListener('click', () => {
-        const name = document.getElementById('reviewName').value;
-        const text = document.getElementById('reviewText').value;
-        if (addReview(name, currentRating, text)) {
-            document.getElementById('reviewName').value = '';
-            document.getElementById('reviewText').value = '';
-            alert('Спасибо за ваш отзыв! ❤️');
+            deliveryTimeBlock.style.display = 'none';
+            deliveryWarning.style.display = 'none';
+            if (timeSelect) timeSelect.value = 'Не важно';
         }
     });
+}
+if (timeSelect) {
+    timeSelect.addEventListener('change', function() {
+        if (chelyabinskCheckbox && chelyabinskCheckbox.checked) {
+            if (this.value !== 'Не важно') deliveryWarning.style.display = 'block';
+            else deliveryWarning.style.display = 'none';
+        }
+    });
+}
 
-    let flowerInterval = null;
-    function startFlowers() {
-        if(flowerInterval) clearInterval(flowerInterval);
-        flowerInterval = setInterval(() => {
-            if(!document.body.classList.contains('theme-pikmi')) return;
-            let flower = document.createElement('div');
-            flower.className = 'flower';
-            flower.innerHTML = ['🌸','🌺','🌼','🌷','🌸','💮','🏵️'][Math.floor(Math.random()*7)];
-            flower.style.left = Math.random() * 100 + '%';
-            flower.style.animationDuration = Math.random() * 5 + 4 + 's';
-            flower.style.fontSize = Math.random() * 24 + 16 + 'px';
-            document.body.appendChild(flower);
-            setTimeout(() => flower.remove(), 8000);
-        }, 1200);
+// ==========================================
+// БЛОК 27: ОТЗЫВЫ (ДОБАВЛЯЙ НОВЫЕ ОТЗЫВЫ СЮДА)
+// ==========================================
+let reviews = [
+    { name: "Анна С.", rating: 5, text: "🔥 Товар пришёл очень быстро, качество отличное! Спасибо NŌVA!", date: "15.05.2025" },
+    { name: "Максим К.", rating: 5, text: "💯 SSD работает отлично, скорость супер. Рекомендую!", date: "12.05.2025" },
+    { name: "Екатерина В.", rating: 5, text: "🌸 Чебурашка просто лапочка! Дочка в восторге!", date: "10.05.2025" },
+    { name: "Дмитрий П.", rating: 4, text: "🎧 Игровое кресло очень удобное. В остальном отлично!", date: "08.05.2025" },
+    { name: "Ольга М.", rating: 5, text: "💖 Сумка из натуральной кожи — мечта!", date: "05.05.2025" },
+    { name: "Игорь С.", rating: 5, text: "🔫 Пистолет с пульками сыну очень понравился!", date: "01.05.2025" },
+    { name: "Наталья Р.", rating: 5, text: "🧢 Кепка с листьями очень стильная!", date: "28.04.2025" },
+    { name: "Алексей Т.", rating: 5, text: "🔬 Микроскоп — отличная вещь для ребёнка!", date: "25.04.2025" }
+];
+
+function loadReviews() {
+    const saved = localStorage.getItem('nova_reviews');
+    if (saved) { try { reviews = JSON.parse(saved); } catch(e) {} }
+    renderReviews();
+}
+function saveReviews() { localStorage.setItem('nova_reviews', JSON.stringify(reviews)); }
+function renderReviews() {
+    const container = document.getElementById('reviewsList');
+    if (!container) return;
+    container.innerHTML = '';
+    for (let r of reviews) {
+        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const div = document.createElement('div');
+        div.className = 'review-item';
+        div.innerHTML = `<div class="review-header"><span class="review-name">${escapeHtml(r.name)}</span><span class="review-stars">${stars}</span></div><div class="review-text">${escapeHtml(r.text)}</div><div class="review-date">📅 ${r.date}</div>`;
+        container.appendChild(div);
     }
-    function stopFlowers() { if(flowerInterval) { clearInterval(flowerInterval); flowerInterval = null; } }
-    function setTheme(theme) {
-        document.body.classList.remove('theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
-        if (theme === 'pikmi') { document.body.classList.add('theme-pikmi'); startFlowers(); }
-        else if (theme === 'luxury') document.body.classList.add('theme-luxury');
-        else if (theme === 'calm') document.body.classList.add('theme-calm');
-        else if (theme === 'vision') document.body.classList.add('theme-vision');
-        localStorage.setItem('nova_theme', theme);
-        if(theme !== 'pikmi') stopFlowers();
+}
+function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+function addReview(name, rating, text) {
+    if (!name.trim()) { alert("Введите имя"); return false; }
+    if (!text.trim()) { alert("Напишите отзыв"); return false; }
+    const now = new Date();
+    const dateStr = `${now.getDate().toString().padStart(2,'0')}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getFullYear()}`;
+    reviews.unshift({ name: name.trim(), rating: rating, text: text.trim(), date: dateStr });
+    saveReviews(); renderReviews();
+    return true;
+}
+
+let currentRating = 5;
+function setupStars() {
+    const stars = document.querySelectorAll('#starRating .star');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            currentRating = parseInt(star.dataset.value);
+            stars.forEach(s => {
+                if (parseInt(s.dataset.value) <= currentRating) { s.textContent = '★'; s.classList.add('selected'); }
+                else { s.textContent = '☆'; s.classList.remove('selected'); }
+            });
+        });
+    });
+    stars.forEach(s => { if (parseInt(s.dataset.value) <= 5) { s.textContent = '★'; s.classList.add('selected'); } });
+}
+
+// ==========================================
+// БЛОК 28: КОРЗИНА И ТОВАРЫ (ОСНОВНАЯ ЛОГИКА)
+// ==========================================
+function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
+
+function renderProducts() {
+    const c = document.getElementById('productsContainer'); c.innerHTML = '';
+    for(let p of PRODUCTS) {
+        let q = cart[p.id]||0;
+        let d = document.createElement('div'); d.className = 'product';
+        d.innerHTML = `<div class="product-emoji">${p.emoji}</div>
+                       <div class="product-info">
+                           <div class="product-name">${p.name}</div>
+                           <div class="product-price">${p.price.toLocaleString()} ₽</div>
+                       </div>
+                       <div class="qty-control">
+                           <span class="qty-label">Кол-во:</span>
+                           <button class="qty-minus" data-id="${p.id}">−</button>
+                           <span class="qty-value">${q}</span>
+                           <button class="qty-plus" data-id="${p.id}">+</button>
+                       </div>`;
+        c.appendChild(d);
     }
-    document.querySelectorAll('[data-theme]').forEach(btn => { btn.addEventListener('click', () => setTheme(btn.dataset.theme)); });
-    const savedTheme = localStorage.getItem('nova_theme');
-    if(savedTheme) setTheme(savedTheme);
-    
-    loadReviews();
-    setupStars();
-    renderProducts();
-    updateCartUI();
+    document.querySelectorAll('.qty-plus').forEach(b=>b.onclick=()=>{ cart[b.dataset.id]=(cart[b.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
+    document.querySelectorAll('.qty-minus').forEach(b=>b.onclick=()=>{ let id=b.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
+}
+
+function renderCartList() {
+    let container = document.getElementById('cartItemsList'), gifC = document.getElementById('cartGifContainer'), total=0, html='', has=false;
+    for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p&&cart[id]>0){ has=true; let q=cart[id], s=p.price*q; total+=s; html+=`<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${s.toLocaleString()} ₽</div></div>`; } }
+    if(gifC){ if(SHOW_CART_GIF && !has) gifC.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" style="max-width:180px"><p style="color:white;">😸 Корзина пуста, но котик ждёт!</p></div>`; else gifC.innerHTML = ''; }
+    if(!html) html='<div style="text-align:center; padding:20px; color:white;">Корзина пуста</div>';
+    container.innerHTML = html; document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
+}
+
+function showOrderScreen() {
+    if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
+    let total=0,tq=0,html='';
+    for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=cart[id], s=p.price*q; total+=s; tq+=q; html+=`<div>${p.name} — ${q} шт = ${s.toLocaleString()} ₽</div>`; } }
+    html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)</div>`;
+    document.getElementById('orderSummary').innerHTML = html;
+    currentOrderItems = {...cart};
+    document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
+    document.getElementById('orderScreen').style.display = 'block';
+    if (chelyabinskCheckbox) chelyabinskCheckbox.checked = false;
+    if (deliveryTimeBlock) deliveryTimeBlock.style.display = 'none';
+    if (deliveryWarning) deliveryWarning.style.display = 'none';
+    if (timeSelect) timeSelect.value = 'Не важно';
+}
+
+function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const g=ctx.createGain(); osc.connect(g); g.connect(ctx.destination); osc.frequency.value=880; g.gain.value=0.12; osc.start(); g.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const g2=ctx.createGain(); osc2.connect(g2); g2.connect(ctx.destination); osc2.frequency.value=1046.5; g2.gain.value=0.1; osc2.start(); g2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
+
+async function sendToTelegramOrder(orderData){
+    let items='', total=0, tq=0;
+    for(let id in orderData.items){
+        let p=PRODUCTS.find(x=>x.id==id);
+        if(p){ let q=orderData.items[id], s=p.price*q; total+=s; tq+=q; items+=`${p.name} — ${q} шт = ${s} ₽\n`; }
+    }
+    let deliveryInfo = '';
+    if (orderData.isChelyabinsk) {
+        deliveryInfo = `\n📍 Доставка в Челябинске\n⏰ Желаемое время: ${orderData.timeSlot}`;
+        if (orderData.timeSlot !== 'Не важно') deliveryInfo += `\n⚠️ Доставка ко времени оплачивается отдельно!`;
+    }
+    const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 Адрес: ${orderData.address}${deliveryInfo}\n\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
+    return await sendNotification('НОВЫЙ ЗАКАЗ', msg);
+}
+
+async function submitOrder(){
+    const phone = document.getElementById('phone').value.trim();
+    const social = document.getElementById('social').value.trim();
+    const address = document.getElementById('address').value.trim();
+    let timeSlot = document.getElementById('timeSelect').value;
+    const isChelyabinsk = document.getElementById('chelyabinskCheckbox').checked;
+    if(!phone){ alert("Укажите номер телефона"); return; }
+    if(!social){ alert("Укажите Telegram или ВК"); return; }
+    if(!address){ alert("Укажите адрес доставки"); return; }
+    if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
+    if (!isChelyabinsk) timeSlot = 'Не важно';
+    const btn = document.getElementById('submitOrderBtn');
+    btn.disabled = true; btn.innerHTML = "⏳ Отправка заказа...";
+    const sent = await sendToTelegramOrder({ items: currentOrderItems, phone, social, address, timeSlot, isChelyabinsk, hasPhoto: !!receiptFile, photoFile: receiptFile });
+    if(sent){
+        playHurray();
+        document.getElementById('orderScreen').style.display='none';
+        document.getElementById('successScreen').style.display='block';
+        document.getElementById('successContent').innerHTML = `<div style="text-align:center; padding:30px;"><strong style="color:#d90429;">✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br><br><span style="color:white;">Менеджер свяжется с вами в ближайшее время.</span><br><br><button id="newOrderBtn" class="btn-primary" style="margin-top:20px;">🔄 Новый заказ</button></div>`;
+        document.getElementById('newOrderBtn')?.addEventListener('click', () => location.reload());
+    } else {
+        alert("❌ Ошибка отправки. Попробуйте позже.");
+        btn.disabled = false; btn.innerHTML = "✅ ОТПРАВИТЬ ЗАКАЗ";
+    }
+}
+
+// ==========================================
+// БЛОК 29: НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ
+// ==========================================
+function showPage(pageId){
+    document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
+    document.getElementById(pageId).style.display = 'block';
+    document.getElementById('orderScreen').style.display='none';
+    document.getElementById('successScreen').style.display='none';
+    if(pageId==='cartPage') renderCartList();
+    if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open');
+}
+
+document.querySelectorAll('.nav-link[data-page]').forEach(link=>{ link.addEventListener('click',(e)=>{ e.preventDefault(); showPage(link.dataset.page+'Page'); }); });
+document.getElementById('checkoutBtn')?.addEventListener('click', showOrderScreen);
+document.getElementById('closeOrderBtn')?.addEventListener('click', () => { showPage('cartPage'); });
+document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
+document.getElementById('menuToggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+
+// ==========================================
+// БЛОК 30: ЗАГРУЗКА ФОТО ЧЕКА
+// ==========================================
+const fi = document.getElementById('receiptFile'), fl = document.getElementById('fileLabel'), fns = document.getElementById('fileNameSpan');
+fi?.addEventListener('change', (e) => { if(e.target.files.length){ receiptFile = e.target.files[0]; fns.innerText = `📸 ${receiptFile.name}`; } else { receiptFile = null; fns.innerText = ''; } });
+fl?.addEventListener('click', () => fi.click());
+document.getElementById('submitReviewBtn')?.addEventListener('click', () => {
+    const name = document.getElementById('reviewName').value;
+    const text = document.getElementById('reviewText').value;
+    if (addReview(name, currentRating, text)) {
+        document.getElementById('reviewName').value = '';
+        document.getElementById('reviewText').value = '';
+        alert('Спасибо за ваш отзыв! ❤️');
+    }
+});
+
+// ==========================================
+// БЛОК 31: ТЕМЫ (СМЕНА ЦВЕТОВОЙ СХЕМЫ)
+// ==========================================
+let flowerInterval = null;
+function startFlowers() {
+    if(flowerInterval) clearInterval(flowerInterval);
+    flowerInterval = setInterval(() => {
+        if(!document.body.classList.contains('theme-pikmi')) return;
+        let flower = document.createElement('div');
+        flower.className = 'flower';
+        flower.innerHTML = ['🌸','🌺','🌼','🌷','🌸','💮','🏵️'][Math.floor(Math.random()*7)];
+        flower.style.left = Math.random() * 100 + '%';
+        flower.style.animationDuration = Math.random() * 5 + 4 + 's';
+        flower.style.fontSize = Math.random() * 24 + 16 + 'px';
+        document.body.appendChild(flower);
+        setTimeout(() => flower.remove(), 8000);
+    }, 1200);
+}
+function stopFlowers() { if(flowerInterval) { clearInterval(flowerInterval); flowerInterval = null; } }
+function setTheme(theme) {
+    document.body.classList.remove('theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
+    if (theme === 'pikmi') { document.body.classList.add('theme-pikmi'); startFlowers(); }
+    else if (theme === 'luxury') document.body.classList.add('theme-luxury');
+    else if (theme === 'calm') document.body.classList.add('theme-calm');
+    else if (theme === 'vision') document.body.classList.add('theme-vision');
+    localStorage.setItem('nova_theme', theme);
+    if(theme !== 'pikmi') stopFlowers();
+}
+document.querySelectorAll('[data-theme]').forEach(btn => { btn.addEventListener('click', () => setTheme(btn.dataset.theme)); });
+const savedTheme = localStorage.getItem('nova_theme');
+if(savedTheme) setTheme(savedTheme);
+
+// ==========================================
+// БЛОК 32: ЗАПУСК ВСЕХ СИСТЕМ
+// ==========================================
+checkVPNIndicator();
+setInterval(checkVPNIndicator, 15000);
+loadReviews();
+setupStars();
+renderProducts();
+updateCartUI();
 </script>
 </body>
 </html>
