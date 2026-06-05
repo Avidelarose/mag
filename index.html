@@ -16,6 +16,10 @@
             background: url('background-image.png') center/cover fixed;
             font-family: -apple-system, 'SF Pro Display', system-ui, Helvetica, sans-serif;
             position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         body::before {
@@ -29,93 +33,120 @@
             z-index: 0;
         }
 
+        /* ГЛАВНЫЙ КОНТЕЙНЕР — ЦЕНТРИРОВАННЫЙ */
         .app-layout {
             position: relative;
             z-index: 2;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
             min-height: 100vh;
         }
 
+        /* ЛЕВАЯ ПАНЕЛЬ — ПО ЦЕНТРУ */
         .sidebar {
-            width: 220px;
-            margin-left: 150px;
+            width: 240px;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(12px);
             border-radius: 32px;
             padding: 28px 16px;
-            position: fixed;
-            left: 0;
-            top: 20px;
-            bottom: 20px;
             z-index: 100;
-            transition: transform 0.3s ease;
-            overflow-y: auto;
             border: 1px solid rgba(255,255,255,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
         }
 
+        /* ПРАВЫЙ БЛОК (КОНТЕНТ) — ПО ЦЕНТРУ */
         .main-content {
             flex: 1;
-            margin-left: 400px;
-            margin-right: auto;
-            padding: 24px 32px;
-            max-width: calc(100% - 400px);
+            max-width: 900px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            gap: 24px;
         }
 
+        /* VPN ПРЕДУПРЕЖДЕНИЕ */
+        .vpn-warning {
+            background: linear-gradient(135deg, #d90429, #8b0000);
+            border-radius: 60px;
+            padding: 18px 24px;
+            text-align: center;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            animation: pulseWarning 1.5s infinite;
+        }
+        .vpn-warning p {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .vpn-warning small {
+            color: #ffdd99;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 6px;
+        }
+        @keyframes pulseWarning {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); transform: scale(1.01); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); transform: scale(1); }
+        }
+
+        /* КАРТОЧКА ТОВАРОВ */
         .products-card {
             backdrop-filter: blur(8px);
             border-radius: 44px;
             padding: 28px;
             border: 0.5px solid;
             width: 100%;
-            max-width: 900px;
             background: rgba(0, 0, 0, 0.5);
-            margin-bottom: 24px;
             max-height: 55vh;
             overflow-y: auto;
         }
 
-        .fixed-instruction {
+        /* НИЖНЯЯ ПАНЕЛЬ — ЗАКРЕПЛЕНА СНИЗУ (КАК БАЗОВЫЙ ЭЛЕМЕНТ) */
+        .bottom-instruction {
             backdrop-filter: blur(8px);
             border-radius: 44px;
             padding: 24px;
             border: 0.5px solid;
             width: 100%;
-            max-width: 900px;
             background: rgba(0, 0, 0, 0.7);
             text-align: center;
-            position: sticky;
-            bottom: 20px;
             margin-top: auto;
         }
 
-        .products-card::-webkit-scrollbar, .fixed-instruction::-webkit-scrollbar {
+        .products-card::-webkit-scrollbar, .bottom-instruction::-webkit-scrollbar {
             width: 6px;
         }
-        .products-card::-webkit-scrollbar-track, .fixed-instruction::-webkit-scrollbar-track {
+        .products-card::-webkit-scrollbar-track, .bottom-instruction::-webkit-scrollbar-track {
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
         }
-        .products-card::-webkit-scrollbar-thumb, .fixed-instruction::-webkit-scrollbar-thumb {
+        .products-card::-webkit-scrollbar-thumb, .bottom-instruction::-webkit-scrollbar-thumb {
             background: rgba(217,4,41,0.6);
             border-radius: 10px;
         }
 
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            background: inherit;
-            backdrop-filter: blur(8px);
-            padding: 10px 0;
-            z-index: 5;
-            color: white;
+        /* ФИОЛЕТОВЫЙ ТЕКСТ */
+        .section-title, .product-name, .cart-item, .total-row, .review-name, .review-text, .review-date, .form-group label, .checkbox-group label, .premium-tag, .nav-link, .logo-premium {
+            color: #b026ff !important;
+        }
+        .product-price, .review-stars, .payment-number {
+            color: #9b1df0 !important;
+        }
+        .vpn-warning p, .vpn-warning small, .delivery-warning, .btn-primary, .btn-outline {
+            color: white !important;
+        }
+        .btn-outline {
+            border-color: #9b1df0;
         }
 
         .products-grid {
@@ -144,8 +175,8 @@
             background: linear-gradient(135deg, #d90429, #9b1df0);
         }
         .product-info { flex: 1; }
-        .product-name { font-weight: 600; font-size: 1rem; color: white; }
-        .product-price { font-weight: 700; margin-top: 6px; color: #ff6b8a; }
+        .product-name { font-weight: 600; font-size: 1rem; }
+        .product-price { font-weight: 700; margin-top: 6px; }
         .qty-control {
             display: flex;
             align-items: center;
@@ -162,16 +193,14 @@
             color: white;
         }
 
-        /* ОТЗЫВЫ — РАЗБОРЧИВО НА ЛЮБОМ ФОНЕ */
+        /* ОТЗЫВЫ */
         .reviews-card {
             backdrop-filter: blur(8px);
             border-radius: 44px;
             padding: 28px;
             border: 0.5px solid;
             width: 100%;
-            max-width: 900px;
             background: rgba(0, 0, 0, 0.5);
-            margin-bottom: 24px;
             max-height: 70vh;
             overflow-y: auto;
         }
@@ -180,13 +209,13 @@
             background: rgba(0, 0, 0, 0.65);
             border-radius: 28px;
             padding: 18px;
-            border-left: 4px solid #d90429;
+            border-left: 4px solid #9b1df0;
         }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
-        .review-name { font-weight: 700; font-size: 1rem; color: #ffb3c6; }
-        .review-stars { color: #FFD700; letter-spacing: 2px; text-shadow: 0 0 2px rgba(0,0,0,0.5); }
-        .review-text { font-size: 0.95rem; line-height: 1.4; color: white; font-weight: 500; text-shadow: 0 0 1px rgba(0,0,0,0.3); }
-        .review-date { font-size: 0.7rem; opacity: 0.8; margin-top: 8px; color: #cccccc; }
+        .review-name { font-weight: 700; font-size: 1rem; }
+        .review-stars { letter-spacing: 2px; text-shadow: 0 0 2px rgba(0,0,0,0.5); }
+        .review-text { font-size: 0.95rem; line-height: 1.4; font-weight: 500; text-shadow: 0 0 1px rgba(0,0,0,0.3); }
+        .review-date { font-size: 0.7rem; opacity: 0.8; margin-top: 8px; }
         
         .review-form { background: rgba(0, 0, 0, 0.5); border-radius: 32px; padding: 20px; margin-top: 20px; }
         .review-form h4 { margin-bottom: 15px; font-size: 1rem; color: white; }
@@ -207,7 +236,6 @@
             cursor: pointer;
             margin-top: 16px;
             background: linear-gradient(135deg, #d90429, #9b1df0);
-            color: white;
         }
         .btn-outline {
             background: transparent;
@@ -221,11 +249,11 @@
 
         .cart-gif { text-align: center; margin: 20px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 30px; }
         .cart-gif img { max-width: 180px; border-radius: 20px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: white; }
-        .total-row { font-size: 1.2rem; font-weight: 700; text-align: right; margin-top: 16px; color: white; }
+        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .total-row { font-size: 1.2rem; font-weight: 700; text-align: right; margin-top: 16px; }
 
         .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: white; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
         input, select { width: 100%; padding: 14px 16px; border-radius: 34px; border: 1px solid rgba(255,255,255,0.3); font-size: 1rem; background: rgba(0, 0, 0, 0.5); color: white; }
         input::placeholder { color: rgba(255,255,255,0.6); }
         .file-label { background: rgba(0, 0, 0, 0.5); padding: 14px; border-radius: 34px; text-align: center; cursor: pointer; border: 1px dashed rgba(255,255,255,0.3); color: white; }
@@ -233,8 +261,8 @@
         .delivery-warning { background: rgba(217, 4, 41, 0.9); color: white; padding: 12px; border-radius: 28px; text-align: center; margin: 15px 0; font-weight: bold; font-size: 0.9rem; }
         .checkbox-group { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
         .checkbox-group input { width: 20px; height: 20px; cursor: pointer; }
-        .checkbox-group label { margin: 0; cursor: pointer; color: white; }
-        .time-select-group { margin-top: 15px; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #d90429; }
+        .checkbox-group label { margin: 0; cursor: pointer; }
+        .time-select-group { margin-top: 15px; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #9b1df0; }
 
         .payment-number {
             font-size: 1.3rem;
@@ -244,12 +272,11 @@
             border-radius: 50px;
             margin: 10px 0;
             background: rgba(0,0,0,0.5);
-            color: #ffb3c6;
             letter-spacing: 1px;
         }
-        .logo-premium { font-size: 1.6rem; font-weight: 620; text-align: center; margin-bottom: 20px; color: white; }
-        .premium-tag { font-size: 0.55rem; text-align: center; display: block; margin-top: -10px; margin-bottom: 20px; color: #ffb3c6; }
-        .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 28px; text-decoration: none; font-weight: 500; transition: 0.2s; cursor: pointer; font-size: 0.85rem; color: white; }
+        .logo-premium { font-size: 1.6rem; font-weight: 620; text-align: center; margin-bottom: 20px; }
+        .premium-tag { font-size: 0.55rem; text-align: center; display: block; margin-top: -10px; margin-bottom: 20px; }
+        .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 28px; text-decoration: none; font-weight: 500; transition: 0.2s; cursor: pointer; font-size: 0.85rem; }
         .nav-link:hover { background: rgba(217, 4, 41, 0.2); }
         .theme-selector { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); }
         .theme-btn-small { padding: 6px 12px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; border: none; font-weight: 500; }
@@ -258,55 +285,41 @@
         .theme-calm-btn { background: #87CEEB; color: #2c3e50; }
         .theme-vision-btn { background: #e6c384; color: #1a1a1a; }
 
-        /* ТЕМЫ ДЛЯ ОТЗЫВОВ (сохраняем контрастность) */
-        body.theme-pikmi .review-item { background: rgba(80, 0, 50, 0.75); border-left-color: #ff69b4; }
-        body.theme-pikmi .review-name { color: #ffb3c6; }
-        body.theme-pikmi .review-text { color: white; }
-        body.theme-pikmi .review-date { color: #ffccdd; }
-
-        body.theme-luxury .review-item { background: rgba(0, 0, 0, 0.8); border-left-color: #DAA520; }
-        body.theme-luxury .review-name { color: #FFD700; }
-        body.theme-luxury .review-text { color: #FFF8DC; }
-        
-        body.theme-calm .review-item { background: rgba(0, 50, 80, 0.75); border-left-color: #1E90FF; }
-        body.theme-calm .review-name { color: #E0F0FF; }
-        body.theme-calm .review-text { color: white; }
-        
-        body.theme-vision .review-item { background: #1a1a1a; border-left-color: #e6c384; }
-        body.theme-vision .review-name { color: #e6c384; }
-        body.theme-vision .review-text { color: #f0f0f0; }
-        body.theme-vision .review-text, body.theme-vision .review-name { font-weight: 700; letter-spacing: 0.3px; }
-
-        body.theme-pikmi .fixed-instruction, body.theme-pikmi .products-card, body.theme-pikmi .reviews-card { background: rgba(255, 230, 240, 0.9); }
-        body.theme-pikmi .section-title { color: #4a0025; }
-        body.theme-pikmi .logo-premium { background: linear-gradient(135deg, #ff1493, #ff69b4); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        body.theme-pikmi .sidebar { background: rgba(255, 200, 210, 0.85); border-color: #ff99aa; }
-
-        body.theme-luxury .fixed-instruction, body.theme-luxury .products-card, body.theme-luxury .reviews-card { background: rgba(0, 0, 0, 0.75); border-color: #DAA520; }
-        body.theme-luxury .logo-premium { background: linear-gradient(135deg, #DAA520, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        body.theme-luxury .sidebar { background: rgba(0, 0, 0, 0.85); border: 1px solid #DAA520; }
-
-        body.theme-calm .fixed-instruction, body.theme-calm .products-card, body.theme-calm .reviews-card { background: rgba(255, 255, 255, 0.85); border-color: #87CEEB; }
-        body.theme-calm .section-title { color: #1E90FF; }
-        body.theme-calm .logo-premium { background: linear-gradient(135deg, #1E90FF, #4682B4); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        body.theme-calm .sidebar { background: rgba(200, 220, 240, 0.85); }
-
-        body.theme-vision .fixed-instruction, body.theme-vision .products-card, body.theme-vision .reviews-card { background: #2a2a2a; border-color: #e6c384; }
-        body.theme-vision .section-title { color: #e6c384; }
-        body.theme-vision .logo-premium { color: #e6c384; }
-        body.theme-vision .sidebar { background: #2a2a2a; border: 1px solid #e6c384; }
-        body.theme-vision .nav-link { color: #e6c384; }
-        body.theme-vision .product-name, body.theme-vision .product-price { font-weight: 700; letter-spacing: 0.3px; }
-
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 999; animation: floatFlower 8s linear infinite; }
         @keyframes floatFlower { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; } }
 
+        @media (max-width: 1000px) {
+            .app-layout { flex-direction: column; align-items: center; gap: 20px; }
+            .sidebar { position: relative; top: 0; width: 100%; max-width: 400px; }
+            .main-content { width: 100%; }
+        }
+
         @media (max-width: 700px) {
-            .sidebar { transform: translateX(-100%); margin-left: 0; top: 0; bottom: 0; border-radius: 0; }
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 16px;
+                left: 16px;
+                z-index: 200;
+                background: rgba(0,0,0,0.7);
+                border-radius: 30px;
+                padding: 8px 14px;
+                cursor: pointer;
+                color: white;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 260px;
+                z-index: 150;
+                margin: 0;
+                border-radius: 0;
+            }
             .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; max-width: 100%; padding: 16px; }
-            .menu-toggle { display: block; position: fixed; top: 16px; left: 16px; z-index: 200; background: rgba(0,0,0,0.7); border-radius: 30px; padding: 8px 14px; cursor: pointer; color: white; }
-            .fixed-instruction { position: relative; bottom: 0; margin-top: 16px; }
+            .vpn-warning p { font-size: 0.9rem; }
         }
         .menu-toggle { display: none; }
     </style>
@@ -319,7 +332,7 @@
         <ul class="nav-menu">
             <li class="nav-item"><a class="nav-link" data-page="main">🏠 Главная</a></li>
             <li class="nav-item"><a class="nav-link" data-page="reviews">⭐ Отзывы</a></li>
-            <li class="nav-item"><a class="nav-link" data-page="cart">🛒 Корзина <span id="cartCountBadge" style="background:#d90429; padding:0 8px; border-radius:20px; margin-left:6px;">0</span></a></li>
+            <li class="nav-item"><a class="nav-link" data-page="cart">🛒 Корзина <span id="cartCountBadge" style="background:#d90429; padding:0 8px; border-radius:20px; margin-left:6px; color:white;">0</span></a></li>
             <li class="nav-item"><a class="nav-link" data-page="about">📖 О нас</a></li>
         </ul>
         <div class="theme-selector">
@@ -332,12 +345,18 @@
     <div class="menu-toggle" id="menuToggle">☰ Меню</div>
     <div class="main-content">
         <!-- ГЛАВНАЯ -->
-        <div id="mainPage" class="content-screen active" style="display: flex; flex-direction: column; height: 100%; width: 100%;">
+        <div id="mainPage" class="content-screen active" style="display: flex; flex-direction: column; gap: 24px; height: 100%;">
+            <div class="vpn-warning">
+                <p>⚠️ ВНИМАНИЕ! ⚠️</p>
+                <p>ДЛЯ КОРРЕКТНОЙ РАБОТЫ САЙТА</p>
+                <p>УБЕДИТЕСЬ, ЧТО ПОДКЛЮЧЕНЫ К VPN</p>
+                <small>Без VPN некоторые функции могут работать некорректно</small>
+            </div>
             <div class="products-card">
                 <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
                 <div id="productsContainer" class="products-grid"></div>
             </div>
-            <div class="fixed-instruction">
+            <div class="bottom-instruction">
                 <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 12px;">💳 Как сделать заказ</div>
                 <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 090 58 96</span><br>(Т‑Банк, Александр)</p>
                 <p>2️⃣ Скриншот чека → оформите заказ</p>
@@ -346,7 +365,7 @@
             </div>
         </div>
 
-        <!-- ОТЗЫВЫ (РАЗБОРЧИВО) -->
+        <!-- ОТЗЫВЫ -->
         <div id="reviewsPage" class="content-screen" style="display:none;">
             <div class="reviews-card">
                 <div class="section-title">⭐ ОТЗЫВЫ ПОКУПАТЕЛЕЙ</div>
@@ -382,14 +401,14 @@
         <div id="aboutPage" class="content-screen" style="display:none;">
             <div class="reviews-card">
                 <div class="section-title">📖 О нас</div>
-                <p style="color:white;">Премиальный магазин из Челябинска. Доставка от 1 дня. NŌVA — стиль, качество, забота о каждом клиенте.</p>
+                <p>Премиальный магазин из Челябинска. Доставка от 1 дня. NŌVA — стиль, качество, забота о каждом клиенте.</p>
             </div>
         </div>
 
         <!-- ОФОРМЛЕНИЕ -->
         <div id="orderScreen" style="display:none;" class="reviews-card">
             <div class="section-title">✦ ОФОРМЛЕНИЕ ЗАКАЗА</div>
-            <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px; color:white;"></div>
+            <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div>
             <div class="form-group"><label>📞 Телефон для связи *</label><input type="tel" id="phone" placeholder="+7 900 000 00 00"></div>
             <div class="form-group"><label>📱 Telegram / ВК *</label><input type="text" id="social" placeholder="@nickname или vk.com/..."></div>
             <div class="form-group"><label>📍 Адрес доставки *</label><input type="text" id="address" placeholder="Челябинск, улица, дом, квартира"></div>
@@ -398,7 +417,7 @@
             <div id="deliveryWarning" class="delivery-warning" style="display: none;">⚠️ Менеджер свяжется с вами и расскажет, сколько будет стоить доставка ко времени. Оплачивается отдельно!</div>
             <div class="form-group"><label>🧾 Фото чека (СБП 89630905896 Т-Банк) *</label><div class="file-label" id="fileLabel">📎 Загрузить фото чека<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px; color:#aaa;"></div></div>
             <button id="submitOrderBtn" class="btn-primary">✅ ОТПРАВИТЬ ЗАКАЗ</button>
-            <button id="closeOrderBtn" class="btn-outline" style="border-color:#d90429; color:#d90429;">← Вернуться в корзину</button>
+            <button id="closeOrderBtn" class="btn-outline">← Вернуться в корзину</button>
         </div>
 
         <div id="successScreen" style="display:none;" class="reviews-card">
@@ -424,7 +443,6 @@
 
     let cart = {}, receiptFile = null, currentOrderItems = null;
 
-    // ДОСТАВКА
     const chelyabinskCheckbox = document.getElementById('chelyabinskCheckbox');
     const deliveryTimeBlock = document.getElementById('deliveryTimeBlock');
     const deliveryWarning = document.getElementById('deliveryWarning');
@@ -452,16 +470,15 @@
         });
     }
 
-    // ОТЗЫВЫ
     let reviews = [
-        { name: "Анна С.", rating: 5, text: "🔥 Товар пришёл очень быстро, качество отличное! Заказывала жилетку и сумку — вещи шикарные! Спасибо NŌVA!", date: "15.05.2025" },
-        { name: "Максим К.", rating: 5, text: "💯 SSD работает отлично, скорость супер. Рекомендую магазин!", date: "12.05.2025" },
-        { name: "Екатерина В.", rating: 5, text: "🌸 Чебурашка просто лапочка! Дочка в восторге. Доставили быстро!", date: "10.05.2025" },
+        { name: "Анна С.", rating: 5, text: "🔥 Товар пришёл очень быстро, качество отличное! Спасибо NŌVA!", date: "15.05.2025" },
+        { name: "Максим К.", rating: 5, text: "💯 SSD работает отлично, скорость супер. Рекомендую!", date: "12.05.2025" },
+        { name: "Екатерина В.", rating: 5, text: "🌸 Чебурашка просто лапочка! Дочка в восторге!", date: "10.05.2025" },
         { name: "Дмитрий П.", rating: 4, text: "🎧 Игровое кресло очень удобное. В остальном отлично!", date: "08.05.2025" },
-        { name: "Ольга М.", rating: 5, text: "💖 Сумка из натуральной кожи — мечта! Очень качественная!", date: "05.05.2025" },
-        { name: "Игорь С.", rating: 5, text: "🔫 Пистолет с пульками сыну очень понравился. Работает чётко!", date: "01.05.2025" },
-        { name: "Наталья Р.", rating: 5, text: "🧢 Кепка с листьями очень стильная! Качество отличное!", date: "28.04.2025" },
-        { name: "Алексей Т.", rating: 5, text: "🔬 Микроскоп — отличная вещь для ребёнка! Рекомендую!", date: "25.04.2025" }
+        { name: "Ольга М.", rating: 5, text: "💖 Сумка из натуральной кожи — мечта!", date: "05.05.2025" },
+        { name: "Игорь С.", rating: 5, text: "🔫 Пистолет с пульками сыну очень понравился!", date: "01.05.2025" },
+        { name: "Наталья Р.", rating: 5, text: "🧢 Кепка с листьями очень стильная!", date: "28.04.2025" },
+        { name: "Алексей Т.", rating: 5, text: "🔬 Микроскоп — отличная вещь для ребёнка!", date: "25.04.2025" }
     ];
 
     function loadReviews() {
