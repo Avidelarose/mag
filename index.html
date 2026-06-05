@@ -12,14 +12,12 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ========== ФОН — ТВОЯ КАРТИНКА ========== */
         body {
             background: url('background-image.png') center/cover fixed;
             font-family: -apple-system, 'SF Pro Display', system-ui, Helvetica, sans-serif;
             position: relative;
         }
 
-        /* Затемнение для читаемости */
         body::before {
             content: "";
             position: fixed;
@@ -38,7 +36,6 @@
             min-height: 100vh;
         }
 
-        /* ЛЕВАЯ ПАНЕЛЬ */
         .sidebar {
             width: 220px;
             margin-left: 150px;
@@ -56,7 +53,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* ОСНОВНОЙ КОНТЕНТ */
         .main-content {
             flex: 1;
             margin-left: 400px;
@@ -104,89 +100,9 @@
             backdrop-filter: blur(8px);
             padding: 10px 0;
             z-index: 5;
+            color: white;
         }
 
-        /* ОТЗЫВЫ */
-        .reviews-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-        .review-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 28px;
-            padding: 18px;
-            transition: 0.2s;
-        }
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .review-name {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        .review-stars {
-            color: #FFD700;
-            letter-spacing: 2px;
-        }
-        .review-text {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            opacity: 0.9;
-        }
-        .review-date {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            margin-top: 8px;
-        }
-
-        /* ФОРМА ОТЗЫВА */
-        .review-form {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 32px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .review-form h4 {
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-        .review-form input, .review-form textarea {
-            width: 100%;
-            margin-bottom: 12px;
-            background: rgba(255,255,255,0.9);
-            border: none;
-            border-radius: 30px;
-            padding: 12px 16px;
-            font-size: 0.9rem;
-        }
-        .review-form textarea {
-            border-radius: 20px;
-            resize: vertical;
-            min-height: 80px;
-        }
-        .star-rating {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-        .star {
-            font-size: 28px;
-            color: #555;
-            transition: 0.1s;
-        }
-        .star.selected {
-            color: #FFD700;
-        }
-
-        /* ТОВАРЫ */
         .products-grid {
             display: flex;
             flex-direction: column;
@@ -200,6 +116,7 @@
             flex-wrap: wrap;
             align-items: center;
             border: 1px solid;
+            background: rgba(0, 0, 0, 0.4);
         }
         .product-emoji {
             font-size: 2rem;
@@ -211,18 +128,9 @@
             justify-content: center;
             background: linear-gradient(135deg, #d90429, #9b1df0);
         }
-        .product-info {
-            flex: 1;
-        }
-        .product-name {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        .product-price {
-            font-weight: 700;
-            margin-top: 6px;
-            color: #ff6b8a;
-        }
+        .product-info { flex: 1; }
+        .product-name { font-weight: 600; font-size: 1rem; color: white; }
+        .product-price { font-weight: 700; margin-top: 6px; color: #ff6b8a; }
         .qty-control {
             display: flex;
             align-items: center;
@@ -236,8 +144,25 @@
             border: none;
             font-size: 1.2rem;
             cursor: pointer;
-            color: inherit;
+            color: white;
         }
+
+        /* ОТЗЫВЫ */
+        .reviews-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
+        .review-item { background: rgba(0, 0, 0, 0.3); border-radius: 28px; padding: 18px; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .review-name { font-weight: 700; font-size: 1rem; color: #ff6b8a; }
+        .review-stars { color: #FFD700; letter-spacing: 2px; }
+        .review-text { font-size: 0.9rem; line-height: 1.4; opacity: 0.9; color: white; }
+        .review-date { font-size: 0.7rem; opacity: 0.6; margin-top: 8px; color: white; }
+        .review-form { background: rgba(0, 0, 0, 0.4); border-radius: 32px; padding: 20px; margin-top: 20px; }
+        .review-form h4 { margin-bottom: 15px; font-size: 1rem; color: white; }
+        .review-form input, .review-form textarea { width: 100%; margin-bottom: 12px; background: rgba(255,255,255,0.9); border: none; border-radius: 30px; padding: 12px 16px; font-size: 0.9rem; }
+        .review-form textarea { border-radius: 20px; resize: vertical; min-height: 80px; }
+        .star-rating { display: flex; gap: 8px; margin-bottom: 15px; cursor: pointer; }
+        .star { font-size: 28px; color: #555; transition: 0.1s; }
+        .star.selected { color: #FFD700; }
+
         .btn-primary {
             border: none;
             width: 100%;
@@ -259,49 +184,25 @@
             margin-top: 12px;
             cursor: pointer;
         }
-        .cart-gif {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 30px;
-        }
-        .cart-gif img {
-            max-width: 180px;
-            border-radius: 20px;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 34px;
-            border: 1px solid;
-            font-size: 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-        }
-        .file-label {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 14px;
-            border-radius: 34px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px dashed;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .total-row {
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-align: right;
-            margin-top: 16px;
-        }
+
+        .cart-gif { text-align: center; margin: 20px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 30px; }
+        .cart-gif img { max-width: 180px; border-radius: 20px; }
+        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: white; }
+        .total-row { font-size: 1.2rem; font-weight: 700; text-align: right; margin-top: 16px; color: white; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: white; }
+        input, select { width: 100%; padding: 14px 16px; border-radius: 34px; border: 1px solid rgba(255,255,255,0.3); font-size: 1rem; background: rgba(0, 0, 0, 0.5); color: white; }
+        input::placeholder { color: rgba(255,255,255,0.6); }
+        .file-label { background: rgba(0, 0, 0, 0.5); padding: 14px; border-radius: 34px; text-align: center; cursor: pointer; border: 1px dashed rgba(255,255,255,0.3); color: white; }
+        
+        /* ДОСТАВКА */
+        .delivery-warning { background: rgba(217, 4, 41, 0.8); color: white; padding: 12px; border-radius: 28px; text-align: center; margin: 15px 0; font-weight: bold; font-size: 0.9rem; }
+        .checkbox-group { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .checkbox-group input { width: 20px; height: 20px; cursor: pointer; }
+        .checkbox-group label { margin: 0; cursor: pointer; }
+        .time-select-group { margin-top: 15px; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #d90429; }
+
         .payment-number {
             font-size: 1.2rem;
             font-weight: 700;
@@ -310,129 +211,50 @@
             border-radius: 50px;
             margin: 8px 0;
             background: rgba(0,0,0,0.5);
+            color: #ffb3c6;
         }
-        .logo-premium {
-            font-size: 1.6rem;
-            font-weight: 620;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .premium-tag {
-            font-size: 0.55rem;
-            text-align: center;
-            display: block;
-            margin-top: -10px;
-            margin-bottom: 20px;
-        }
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 28px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.2s;
-            cursor: pointer;
-            font-size: 0.85rem;
-            color: white;
-        }
-        .nav-link:hover {
-            background: rgba(217, 4, 41, 0.2);
-        }
-        .theme-selector {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        .theme-btn-small {
-            padding: 6px 12px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            border: none;
-            font-weight: 500;
-        }
+        .logo-premium { font-size: 1.6rem; font-weight: 620; text-align: center; margin-bottom: 20px; color: white; }
+        .premium-tag { font-size: 0.55rem; text-align: center; display: block; margin-top: -10px; margin-bottom: 20px; color: #ffb3c6; }
+        .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 28px; text-decoration: none; font-weight: 500; transition: 0.2s; cursor: pointer; font-size: 0.85rem; color: white; }
+        .nav-link:hover { background: rgba(217, 4, 41, 0.2); }
+        .theme-selector { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); }
+        .theme-btn-small { padding: 6px 12px; border-radius: 30px; font-size: 0.7rem; cursor: pointer; border: none; font-weight: 500; }
         .theme-pikmi-btn { background: #ff69b4; color: white; }
         .theme-luxury-btn { background: #DAA520; color: #8B0000; }
         .theme-calm-btn { background: #87CEEB; color: #2c3e50; }
         .theme-vision-btn { background: #e6c384; color: #1a1a1a; }
 
-        /* Цветочки для пикми */
-        body.theme-pikmi .flower {
-            position: fixed;
-            font-size: 24px;
-            pointer-events: none;
-            z-index: 999;
-            animation: floatFlower 8s linear infinite;
-        }
-        @keyframes floatFlower {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-        }
-
         /* ТЕМЫ */
         body.theme-pikmi::before { background: rgba(255, 200, 210, 0.4); }
         body.theme-pikmi .sidebar { background: rgba(255, 200, 210, 0.85); border-color: #ff99aa; }
-        body.theme-pikmi .card { background: rgba(255, 230, 240, 0.9); color: #4a0025; border-color: #ff99aa; }
-        body.theme-pikmi .product { background: rgba(255, 240, 245, 0.8); border-color: #ff99aa; }
-        body.theme-pikmi .review-item { background: rgba(255, 220, 230, 0.8); color: #4a0025; }
-        body.theme-pikmi .review-form { background: rgba(255, 220, 230, 0.8); }
+        body.theme-pikmi .card { background: rgba(255, 230, 240, 0.9); }
+        body.theme-pikmi .product-name, body.theme-pikmi .cart-item, body.theme-pikmi .total-row, body.theme-pikmi .section-title { color: #4a0025; }
         body.theme-pikmi .logo-premium { background: linear-gradient(135deg, #ff1493, #ff69b4); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        body.theme-pikmi .nav-link { color: #4a0025; }
 
         body.theme-luxury::before { background: rgba(0, 0, 0, 0.5); }
         body.theme-luxury .sidebar { background: rgba(0, 0, 0, 0.85); border: 1px solid #DAA520; }
-        body.theme-luxury .card { background: rgba(0, 0, 0, 0.75); border-color: #DAA520; color: #FFD700; }
-        body.theme-luxury .review-item { background: rgba(0, 0, 0, 0.6); }
-        body.theme-luxury .review-form { background: rgba(0, 0, 0, 0.6); }
+        body.theme-luxury .card { background: rgba(0, 0, 0, 0.75); border-color: #DAA520; }
         body.theme-luxury .logo-premium { background: linear-gradient(135deg, #DAA520, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        body.theme-luxury .nav-link { color: #FFD700; }
 
         body.theme-calm::before { background: rgba(135, 206, 235, 0.3); }
         body.theme-calm .sidebar { background: rgba(200, 220, 240, 0.85); }
-        body.theme-calm .card { background: rgba(255, 255, 255, 0.85); border-color: #87CEEB; color: #2c3e50; }
-        body.theme-calm .review-item { background: rgba(200, 220, 240, 0.8); }
-        body.theme-calm .review-form { background: rgba(200, 220, 240, 0.8); }
+        body.theme-calm .card { background: rgba(255, 255, 255, 0.85); border-color: #87CEEB; }
         body.theme-calm .logo-premium { background: linear-gradient(135deg, #1E90FF, #4682B4); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        body.theme-calm .nav-link { color: #2c3e50; }
 
         body.theme-vision::before { background: rgba(0, 0, 0, 0.7); }
         body.theme-vision .sidebar { background: #2a2a2a; border: 1px solid #e6c384; }
-        body.theme-vision .card { background: #2a2a2a; border-color: #e6c384; color: #e6c384; }
-        body.theme-vision .review-item { background: #2a2a2a; border: 1px solid #e6c384; }
-        body.theme-vision .review-form { background: #2a2a2a; border: 1px solid #e6c384; }
-        body.theme-vision .product-name, body.theme-vision .product-price, body.theme-vision .nav-link, body.theme-vision .review-text { font-weight: 700; letter-spacing: 0.3px; }
+        body.theme-vision .card { background: #2a2a2a; border-color: #e6c384; }
+        body.theme-vision .product-name, body.theme-vision .product-price, body.theme-vision .nav-link { font-weight: 700; letter-spacing: 0.3px; }
         body.theme-vision .logo-premium { color: #e6c384; }
-        body.theme-vision .nav-link { color: #e6c384; }
+
+        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 999; animation: floatFlower 8s linear infinite; }
+        @keyframes floatFlower { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; } }
 
         @media (max-width: 700px) {
-            .sidebar {
-                transform: translateX(-100%);
-                margin-left: 0;
-                top: 0;
-                bottom: 0;
-                border-radius: 0;
-            }
+            .sidebar { transform: translateX(-100%); margin-left: 0; top: 0; bottom: 0; border-radius: 0; }
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; max-width: 100%; padding: 16px; }
-            .menu-toggle {
-                display: block;
-                position: fixed;
-                top: 16px;
-                left: 16px;
-                z-index: 200;
-                background: rgba(0,0,0,0.7);
-                border-radius: 30px;
-                padding: 8px 14px;
-                cursor: pointer;
-                color: white;
-            }
-            .card { max-height: 65vh; }
+            .menu-toggle { display: block; position: fixed; top: 16px; left: 16px; z-index: 200; background: rgba(0,0,0,0.7); border-radius: 30px; padding: 8px 14px; cursor: pointer; color: white; }
         }
         .menu-toggle { display: none; }
     </style>
@@ -457,26 +279,27 @@
     </div>
     <div class="menu-toggle" id="menuToggle">☰ Меню</div>
     <div class="main-content">
+        <!-- ГЛАВНАЯ -->
         <div id="mainPage" class="content-screen active">
             <div class="card">
                 <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
                 <div id="productsContainer" class="products-grid"></div>
                 <div class="payment-info" style="text-align:center; margin-top:24px;">
-                    <div style="font-weight:600;">💳 Как сделать заказ</div>
-                    <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 089 05 896</span><br>(Т‑Банк, Александр)</p>
-                    <p>2️⃣ Скриншот чека → оформите заказ</p>
-                    <p>3️⃣ Менеджер свяжется с вами</p>
-                    <a href="https://t.me/Tolpaplay" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 18px; background:linear-gradient(135deg, #d90429, #9b1df0); border-radius:40px; text-decoration:none; color:white;">👨‍💼 Написать менеджеру</a>
+                    <div style="font-weight:600; color:white;">💳 Как сделать заказ</div>
+                    <p style="color:white;">1️⃣ Оплатите по СБП на номер: <span class="payment-number">📱 8 963 089 05 896</span><br>(Т‑Банк, Александр)</p>
+                    <p style="color:white;">2️⃣ Сделайте скриншот чека из мобильного банка</p>
+                    <p style="color:white;">3️⃣ Заполните форму заказа и прикрепите скриншот чека</p>
+                    <p style="color:white;">4️⃣ Нажмите «ОТПРАВИТЬ ЗАКАЗ» — менеджер свяжется с вами</p>
+                    <a href="https://t.me/Tolpaplay" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 18px; background:linear-gradient(135deg, #d90429, #9b1df0); border-radius:40px; text-decoration:none; color:white;">👨‍💼 Написать менеджеру @Tolpaplay</a>
                 </div>
             </div>
         </div>
 
-        <!-- ОТЗЫВЫ С ФОРМОЙ -->
+        <!-- ОТЗЫВЫ -->
         <div id="reviewsPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">⭐ ОТЗЫВЫ ПОКУПАТЕЛЕЙ</div>
                 <div id="reviewsList" class="reviews-list"></div>
-                
                 <div class="review-form">
                     <h4>📝 Оставить свой отзыв</h4>
                     <input type="text" id="reviewName" placeholder="Ваше имя">
@@ -493,6 +316,7 @@
             </div>
         </div>
 
+        <!-- КОРЗИНА -->
         <div id="cartPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">🛒 Корзина</div>
@@ -503,25 +327,48 @@
             </div>
         </div>
 
+        <!-- О НАС -->
         <div id="aboutPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">📖 О нас</div>
-                <p>Премиальный магазин из Челябинска. Доставка от 1 дня. NŌVA — стиль, качество, забота о каждом клиенте.</p>
+                <p style="color:white;">Премиальный магазин из Челябинска. Доставка от 1 дня. NŌVA — стиль, качество, забота о каждом клиенте.</p>
             </div>
         </div>
 
+        <!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
         <div id="orderScreen" style="display:none;" class="card">
-            <div class="section-title">✦ Оформление</div>
-            <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div>
-            <div class="form-group"><input type="tel" id="phone" placeholder="📞 Телефон"></div>
-            <div class="form-group"><input type="text" id="social" placeholder="📱 Telegram / VK"></div>
-            <div class="form-group"><input type="text" id="address" placeholder="📍 Адрес"></div>
-            <div class="form-group"><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
-            <div class="form-group"><div class="file-label" id="fileLabel">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px;"></div></div>
-            <button id="submitOrderBtn" class="btn-primary">✅ Отправить</button>
-            <button id="closeOrderBtn" class="btn-outline">← Назад</button>
+            <div class="section-title">✦ ОФОРМЛЕНИЕ ЗАКАЗА</div>
+            <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px; color:white;"></div>
+            
+            <div class="form-group"><label>📞 Телефон для связи *</label><input type="tel" id="phone" placeholder="+7 900 000 00 00"></div>
+            <div class="form-group"><label>📱 Telegram / ВК *</label><input type="text" id="social" placeholder="@nickname или vk.com/..."></div>
+            <div class="form-group"><label>📍 Адрес доставки *</label><input type="text" id="address" placeholder="Челябинск, улица, дом, квартира"></div>
+            
+            <!-- ГАЛОЧКА "Я ИЗ ЧЕЛЯБИНСКА" -->
+            <div class="checkbox-group">
+                <input type="checkbox" id="chelyabinskCheckbox">
+                <label for="chelyabinskCheckbox">✅ Я из Челябинска (доставка по городу)</label>
+            </div>
+            
+            <!-- БЛОК ВЫБОРА ВРЕМЕНИ (ПОЯВЛЯЕТСЯ ПОСЛЕ ГАЛОЧКИ) -->
+            <div id="deliveryTimeBlock" style="display: none;">
+                <div class="time-select-group">
+                    <div class="form-group"><label>⏰ Выберите удобное время доставки</label><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
+                </div>
+            </div>
+            
+            <!-- КРАСНАЯ НАДПИСЬ-ПРЕДУПРЕЖДЕНИЕ -->
+            <div id="deliveryWarning" class="delivery-warning" style="display: none;">
+                ⚠️ Менеджер свяжется с вами и расскажет, сколько будет стоить доставка ко времени. Оплачивается отдельно!
+            </div>
+            
+            <div class="form-group"><label>🧾 Фото чека (СБП 89630905896 Т-Банк) *</label><div class="file-label" id="fileLabel">📎 Загрузить фото чека<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px; color:#aaa;"></div></div>
+            
+            <button id="submitOrderBtn" class="btn-primary">✅ ОТПРАВИТЬ ЗАКАЗ</button>
+            <button id="closeOrderBtn" class="btn-outline" style="border-color:#d90429; color:#d90429;">← Вернуться в корзину</button>
         </div>
 
+        <!-- УСПЕХ -->
         <div id="successScreen" style="display:none;" class="card">
             <div id="successContent"></div>
         </div>
@@ -547,32 +394,60 @@
 
     let cart = {}, receiptFile = null, currentOrderItems = null;
 
-    // ========== ОТЗЫВЫ (с сохранением) ==========
+    // ЛОГИКА ДОСТАВКИ
+    const chelyabinskCheckbox = document.getElementById('chelyabinskCheckbox');
+    const deliveryTimeBlock = document.getElementById('deliveryTimeBlock');
+    const deliveryWarning = document.getElementById('deliveryWarning');
+    const timeSelect = document.getElementById('timeSelect');
+
+    if (chelyabinskCheckbox) {
+        chelyabinskCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                deliveryTimeBlock.style.display = 'block';
+                // Если выбран конкретный интервал (не "Не важно") — показываем предупреждение
+                if (timeSelect && timeSelect.value !== 'Не важно') {
+                    deliveryWarning.style.display = 'block';
+                } else {
+                    deliveryWarning.style.display = 'none';
+                }
+            } else {
+                deliveryTimeBlock.style.display = 'none';
+                deliveryWarning.style.display = 'none';
+                if (timeSelect) timeSelect.value = 'Не важно';
+            }
+        });
+    }
+
+    if (timeSelect) {
+        timeSelect.addEventListener('change', function() {
+            if (chelyabinskCheckbox && chelyabinskCheckbox.checked) {
+                if (this.value !== 'Не важно') {
+                    deliveryWarning.style.display = 'block';
+                } else {
+                    deliveryWarning.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // ОТЗЫВЫ
     let reviews = [
-        { name: "Анна С.", rating: 5, text: "🔥 Товар пришёл очень быстро, качество отличное! Заказывала жилетку и сумку — вещи шикарные! Спасибо NŌVA!", date: "15.05.2025" },
-        { name: "Максим К.", rating: 5, text: "💯 SSD работает отлично, скорость супер. Установил без проблем. Рекомендую магазин!", date: "12.05.2025" },
-        { name: "Екатерина В.", rating: 5, text: "🌸 Чебурашка просто лапочка! Дочка в восторге. Доставили быстро, упаковали хорошо.", date: "10.05.2025" },
-        { name: "Дмитрий П.", rating: 4, text: "🎧 Игровое кресло очень удобное, собирал час. Единственное — инструкция могла бы быть подробнее. В остальном отлично!", date: "08.05.2025" },
-        { name: "Ольга М.", rating: 5, text: "💖 Сумка из натуральной кожи — мечта! Очень качественная, пахнет кожей. Спасибо продавцу!", date: "05.05.2025" },
-        { name: "Игорь С.", rating: 5, text: "🔫 Пистолет с пульками сыну очень понравился. Работает чётко, пульки не застревают. Доставка за 1 день!", date: "01.05.2025" },
-        { name: "Наталья Р.", rating: 5, text: "🧢 Кепка с листьями очень стильная! Качество отличное. Буду заказывать ещё!", date: "28.04.2025" },
-        { name: "Алексей Т.", rating: 5, text: "🔬 Микроскоп — отличная вещь для ребёнка. Рассматриваем всё подряд! Рекомендую!", date: "25.04.2025" }
+        { name: "Анна С.", rating: 5, text: "🔥 Товар пришёл очень быстро, качество отличное! Спасибо NŌVA!", date: "15.05.2025" },
+        { name: "Максим К.", rating: 5, text: "💯 SSD работает отлично, скорость супер. Рекомендую!", date: "12.05.2025" },
+        { name: "Екатерина В.", rating: 5, text: "🌸 Чебурашка просто лапочка! Дочка в восторге!", date: "10.05.2025" },
+        { name: "Дмитрий П.", rating: 4, text: "🎧 Игровое кресло очень удобное. В остальном отлично!", date: "08.05.2025" },
+        { name: "Ольга М.", rating: 5, text: "💖 Сумка из натуральной кожи — мечта!", date: "05.05.2025" },
+        { name: "Игорь С.", rating: 5, text: "🔫 Пистолет с пульками сыну очень понравился!", date: "01.05.2025" },
+        { name: "Наталья Р.", rating: 5, text: "🧢 Кепка с листьями очень стильная!", date: "28.04.2025" },
+        { name: "Алексей Т.", rating: 5, text: "🔬 Микроскоп — отличная вещь для ребёнка!", date: "25.04.2025" }
     ];
 
     function loadReviews() {
         const saved = localStorage.getItem('nova_reviews');
-        if (saved) {
-            try {
-                reviews = JSON.parse(saved);
-            } catch(e) {}
-        }
+        if (saved) { try { reviews = JSON.parse(saved); } catch(e) {} }
         renderReviews();
     }
-
-    function saveReviews() {
-        localStorage.setItem('nova_reviews', JSON.stringify(reviews));
-    }
-
+    function saveReviews() { localStorage.setItem('nova_reviews', JSON.stringify(reviews)); }
     function renderReviews() {
         const container = document.getElementById('reviewsList');
         if (!container) return;
@@ -581,41 +456,21 @@
             const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
             const div = document.createElement('div');
             div.className = 'review-item';
-            div.innerHTML = `
-                <div class="review-header">
-                    <span class="review-name">${escapeHtml(r.name)}</span>
-                    <span class="review-stars">${stars}</span>
-                </div>
-                <div class="review-text">${escapeHtml(r.text)}</div>
-                <div class="review-date">📅 ${r.date}</div>
-            `;
+            div.innerHTML = `<div class="review-header"><span class="review-name">${escapeHtml(r.name)}</span><span class="review-stars">${stars}</span></div><div class="review-text">${escapeHtml(r.text)}</div><div class="review-date">📅 ${r.date}</div>`;
             container.appendChild(div);
         }
     }
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
+    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
     function addReview(name, rating, text) {
         if (!name.trim()) { alert("Введите имя"); return false; }
         if (!text.trim()) { alert("Напишите отзыв"); return false; }
-        if (rating < 1 || rating > 5) { alert("Выберите оценку"); return false; }
         const now = new Date();
         const dateStr = `${now.getDate().toString().padStart(2,'0')}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getFullYear()}`;
         reviews.unshift({ name: name.trim(), rating: rating, text: text.trim(), date: dateStr });
-        saveReviews();
-        renderReviews();
+        saveReviews(); renderReviews();
         return true;
     }
 
-    // ЗВЁЗДЫ В ФОРМЕ
     let currentRating = 5;
     function setupStars() {
         const stars = document.querySelectorAll('#starRating .star');
@@ -624,25 +479,17 @@
                 currentRating = parseInt(star.dataset.value);
                 stars.forEach(s => {
                     if (parseInt(s.dataset.value) <= currentRating) {
-                        s.textContent = '★';
-                        s.classList.add('selected');
+                        s.textContent = '★'; s.classList.add('selected');
                     } else {
-                        s.textContent = '☆';
-                        s.classList.remove('selected');
+                        s.textContent = '☆'; s.classList.remove('selected');
                     }
                 });
             });
         });
-        // по умолчанию 5 звёзд
-        stars.forEach(s => {
-            if (parseInt(s.dataset.value) <= 5) {
-                s.textContent = '★';
-                s.classList.add('selected');
-            }
-        });
+        stars.forEach(s => { if (parseInt(s.dataset.value) <= 5) { s.textContent = '★'; s.classList.add('selected'); } });
     }
 
-    // ========== КОРЗИНА И ТОВАРЫ ==========
+    // КОРЗИНА
     function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
     function renderProducts() {
         const c = document.getElementById('productsContainer'); c.innerHTML = '';
@@ -658,22 +505,125 @@
     function renderCartList() {
         let container = document.getElementById('cartItemsList'), gifC = document.getElementById('cartGifContainer'), total=0, html='', has=false;
         for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p&&cart[id]>0){ has=true; let q=cart[id], s=p.price*q; total+=s; html+=`<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${s.toLocaleString()} ₽</div></div>`; } }
-        if(gifC){ if(SHOW_CART_GIF && !has) gifC.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" style="max-width:180px"><p>😸 Корзина пуста, но котик ждёт!</p></div>`; else gifC.innerHTML = ''; }
-        if(!html) html='<div style="text-align:center; padding:20px;">Корзина пуста</div>';
+        if(gifC){ if(SHOW_CART_GIF && !has) gifC.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" style="max-width:180px"><p style="color:white;">😸 Корзина пуста, но котик ждёт!</p></div>`; else gifC.innerHTML = ''; }
+        if(!html) html='<div style="text-align:center; padding:20px; color:white;">Корзина пуста</div>';
         container.innerHTML = html; document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
     }
-    function showOrderScreen() { if(Object.keys(cart).length===0){ alert("Корзина пуста"); return; } let total=0,tq=0,html=''; for(let id in cart){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=cart[id], s=p.price*q; total+=s; tq+=q; html+=`<div>${p.name} — ${q} шт = ${s.toLocaleString()} ₽</div>`; } } html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)</div>`; document.getElementById('orderSummary').innerHTML = html; currentOrderItems = {...cart}; document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none'); document.getElementById('orderScreen').style.display = 'block'; }
+
+    // ОФОРМЛЕНИЕ
+    function showOrderScreen() {
+        if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
+        let total=0,tq=0,html='';
+        for(let id in cart){
+            let p=PRODUCTS.find(x=>x.id==id);
+            if(p){ let q=cart[id], s=p.price*q; total+=s; tq+=q; html+=`<div>${p.name} — ${q} шт = ${s.toLocaleString()} ₽</div>`; }
+        }
+        html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)</div>`;
+        document.getElementById('orderSummary').innerHTML = html;
+        currentOrderItems = {...cart};
+        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
+        document.getElementById('orderScreen').style.display = 'block';
+        
+        // Сброс галочки доставки
+        if (chelyabinskCheckbox) chelyabinskCheckbox.checked = false;
+        if (deliveryTimeBlock) deliveryTimeBlock.style.display = 'none';
+        if (deliveryWarning) deliveryWarning.style.display = 'none';
+        if (timeSelect) timeSelect.value = 'Не важно';
+    }
+
     function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const g=ctx.createGain(); osc.connect(g); g.connect(ctx.destination); osc.frequency.value=880; g.gain.value=0.12; osc.start(); g.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const g2=ctx.createGain(); osc2.connect(g2); g2.connect(ctx.destination); osc2.frequency.value=1046.5; g2.gain.value=0.1; osc2.start(); g2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
-    async function sendToTelegram(orderData){ let items='', total=0, tq=0; for(let id in orderData.items){ let p=PRODUCTS.find(x=>x.id==id); if(p){ let q=orderData.items[id], s=p.price*q; total+=s; tq+=q; items+=`${p.name} — ${q} шт = ${s} ₽\n`; } } const msg=`🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`; try{ if(orderData.photoFile){ const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile); const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd}); return r.ok; } else { const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})}); return r.ok; } }catch(e){ return false; } }
-    async function submitOrder(){ const phone=document.getElementById('phone').value.trim(), social=document.getElementById('social').value.trim(), address=document.getElementById('address').value.trim(), timeSlot=document.getElementById('timeSelect').value; if(!phone||!social||!address){ alert("Заполните все поля"); return; } if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; } const btn=document.getElementById('submitOrderBtn'); btn.disabled=true; btn.innerText="⏳ Отправка..."; const sent=await sendToTelegram({items:currentOrderItems,phone,social,address,time:timeSlot,hasPhoto:!!receiptFile,photoFile:receiptFile}); if(sent){ playHurray(); document.getElementById('orderScreen').style.display='none'; document.getElementById('successScreen').style.display='block'; document.getElementById('successContent').innerHTML=`<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>`; document.getElementById('newOrderBtn')?.addEventListener('click',()=>location.reload()); } else { alert("Ошибка. Проверьте бота @My_daaate_bot (/start)"); btn.disabled=false; btn.innerText="✅ Отправить"; } }
-    function showPage(pageId){ document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none'); document.getElementById(pageId).style.display = 'block'; document.getElementById('orderScreen').style.display='none'; document.getElementById('successScreen').style.display='none'; if(pageId==='cartPage') renderCartList(); if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open'); }
-    document.querySelectorAll('.nav-link[data-page]').forEach(link=>{ link.addEventListener('click',(e)=>{ e.preventDefault(); showPage(link.dataset.page+'Page'); }); });
-    document.getElementById('checkoutBtn')?.addEventListener('click',showOrderScreen);
-    document.getElementById('closeOrderBtn')?.addEventListener('click',()=>{ showPage('cartPage'); });
-    document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
-    const fi=document.getElementById('receiptFile'), fl=document.getElementById('fileLabel'), fns=document.getElementById('fileNameSpan');
-    fi?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fns.innerText=`📸 ${receiptFile.name}`; } else { receiptFile=null; fns.innerText=''; } });
-    fl?.addEventListener('click',()=>fi.click());
+
+    async function sendToTelegram(orderData){
+        let items='', total=0, tq=0;
+        for(let id in orderData.items){
+            let p=PRODUCTS.find(x=>x.id==id);
+            if(p){ let q=orderData.items[id], s=p.price*q; total+=s; tq+=q; items+=`${p.name} — ${q} шт = ${s} ₽\n`; }
+        }
+        let deliveryInfo = '';
+        if (orderData.isChelyabinsk) {
+            deliveryInfo = `\n📍 Доставка в Челябинске\n⏰ Желаемое время: ${orderData.timeSlot}`;
+            if (orderData.timeSlot !== 'Не важно') {
+                deliveryInfo += `\n⚠️ Доставка ко времени оплачивается отдельно! Менеджер свяжется для уточнения стоимости.`;
+            }
+        }
+        const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${total.toLocaleString()} ₽ (${tq} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 Адрес: ${orderData.address}${deliveryInfo}\n\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
+        try{
+            if(orderData.photoFile){
+                const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile);
+                const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd});
+                return r.ok;
+            } else {
+                const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})});
+                return r.ok;
+            }
+        }catch(e){ return false; }
+    }
+
+    async function submitOrder(){
+        const phone = document.getElementById('phone').value.trim();
+        const social = document.getElementById('social').value.trim();
+        const address = document.getElementById('address').value.trim();
+        let timeSlot = document.getElementById('timeSelect').value;
+        const isChelyabinsk = document.getElementById('chelyabinskCheckbox').checked;
+        
+        if(!phone){ alert("Укажите номер телефона"); return; }
+        if(!social){ alert("Укажите Telegram или ВК"); return; }
+        if(!address){ alert("Укажите адрес доставки"); return; }
+        if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
+        
+        // Если не Челябинск — время не учитываем
+        if (!isChelyabinsk) timeSlot = 'Не важно';
+        
+        const btn = document.getElementById('submitOrderBtn');
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Отправка заказа...";
+        
+        const sent = await sendToTelegram({
+            items: currentOrderItems,
+            phone: phone,
+            social: social,
+            address: address,
+            timeSlot: timeSlot,
+            isChelyabinsk: isChelyabinsk,
+            hasPhoto: !!receiptFile,
+            photoFile: receiptFile
+        });
+        
+        if(sent){
+            playHurray();
+            document.getElementById('orderScreen').style.display='none';
+            document.getElementById('successScreen').style.display='block';
+            document.getElementById('successContent').innerHTML = `<div style="text-align:center; padding:30px;"><strong style="color:#d90429;">✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br><br><span style="color:white;">Менеджер свяжется с вами в ближайшее время.</span><br><br><button id="newOrderBtn" class="btn-primary" style="margin-top:20px;">🔄 Новый заказ</button></div>`;
+            document.getElementById('newOrderBtn')?.addEventListener('click', () => location.reload());
+        } else {
+            alert("❌ Ошибка отправки. Убедитесь, что бот @My_daaate_bot активирован (напишите ему /start)");
+            btn.disabled = false;
+            btn.innerHTML = "✅ ОТПРАВИТЬ ЗАКАЗ";
+        }
+    }
+
+    function showPage(pageId){
+        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
+        document.getElementById(pageId).style.display = 'block';
+        document.getElementById('orderScreen').style.display='none';
+        document.getElementById('successScreen').style.display='none';
+        if(pageId==='cartPage') renderCartList();
+        if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open');
+    }
+
+    // НАВИГАЦИЯ
+    document.querySelectorAll('.nav-link[data-page]').forEach(link=>{
+        link.addEventListener('click',(e)=>{ e.preventDefault(); showPage(link.dataset.page+'Page'); });
+    });
+    document.getElementById('checkoutBtn')?.addEventListener('click', showOrderScreen);
+    document.getElementById('closeOrderBtn')?.addEventListener('click', () => { showPage('cartPage'); });
+    document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
+    document.getElementById('menuToggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+    
+    // ФАЙЛ
+    const fi = document.getElementById('receiptFile'), fl = document.getElementById('fileLabel'), fns = document.getElementById('fileNameSpan');
+    fi?.addEventListener('change', (e) => { if(e.target.files.length){ receiptFile = e.target.files[0]; fns.innerText = `📸 ${receiptFile.name}`; } else { receiptFile = null; fns.innerText = ''; } });
+    fl?.addEventListener('click', () => fi.click());
 
     // ОТПРАВКА ОТЗЫВА
     document.getElementById('submitReviewBtn')?.addEventListener('click', () => {
@@ -687,15 +637,6 @@
     });
 
     // ТЕМЫ
-    function setTheme(theme) {
-        document.body.classList.remove('theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
-        if (theme === 'pikmi') { document.body.classList.add('theme-pikmi'); startFlowers(); }
-        else if (theme === 'luxury') document.body.classList.add('theme-luxury');
-        else if (theme === 'calm') document.body.classList.add('theme-calm');
-        else if (theme === 'vision') document.body.classList.add('theme-vision');
-        localStorage.setItem('nova_theme', theme);
-        if(theme !== 'pikmi') stopFlowers();
-    }
     let flowerInterval = null;
     function startFlowers() {
         if(flowerInterval) clearInterval(flowerInterval);
@@ -712,6 +653,15 @@
         }, 1200);
     }
     function stopFlowers() { if(flowerInterval) { clearInterval(flowerInterval); flowerInterval = null; } }
+    function setTheme(theme) {
+        document.body.classList.remove('theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
+        if (theme === 'pikmi') { document.body.classList.add('theme-pikmi'); startFlowers(); }
+        else if (theme === 'luxury') document.body.classList.add('theme-luxury');
+        else if (theme === 'calm') document.body.classList.add('theme-calm');
+        else if (theme === 'vision') document.body.classList.add('theme-vision');
+        localStorage.setItem('nova_theme', theme);
+        if(theme !== 'pikmi') stopFlowers();
+    }
     document.querySelectorAll('[data-theme]').forEach(btn => {
         btn.addEventListener('click', () => setTheme(btn.dataset.theme));
     });
