@@ -205,7 +205,11 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #d90429, #9b1df0);
-        }
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    object-fit: cover;
+}
         .product-info { flex: 1; }
         .product-name { font-weight: 600; font-size: 1rem; }
         .product-price { font-weight: 700; margin-top: 6px; }
@@ -568,7 +572,9 @@ const CART_GIF_URL = "cat-dancing.gif";
 
 // ==========================================
 // БЛОК 23: ТОВАРЫ (ДОБАВЛЯЙ/МЕНЯЙ ЗДЕСЬ)
-// ==========================================
+// ==========================================    Dragon_girl.jpg
+
+
 const PRODUCTS = [
     { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" },
     { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
@@ -581,7 +587,8 @@ const PRODUCTS = [
     { id: 9, name: "💺 Игровое кресло", price: 9700, emoji: "💺" },
     { id: 10, name: "👜 Сумка кожаная", price: 2375, emoji: "👜" },
     { id: 11, name: "🔫 Пистолет с пульками", price: 1450, emoji: "🔫" },
-    { id: 12, name: "🧢 Кепка с листьями", price: 1350, emoji: "🧢" }
+    { id: 12, name: "🧢 Кепка с листьями", price: 1350, emoji: "🧢" },
+    { id: 13, name: "🐉 светящийся в темноте дракончик", price: 330, emoji: "🐉", img: "Dragon_girl.jpg" }
 ];
 
 let cart = {}, receiptFile = null, currentOrderItems = null;
@@ -781,13 +788,15 @@ function setupStars() {
 function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
 
 function renderProducts() {
-    const c = document.getElementById('productsContainer'); 
-    if (!c) return;
-    c.innerHTML = '';
+    const c = document.getElementById('productsContainer'); c.innerHTML = '';
     for(let p of PRODUCTS) {
         let q = cart[p.id]||0;
         let d = document.createElement('div'); d.className = 'product';
-        d.innerHTML = `<div class="product-emoji">${p.emoji}</div>
+        
+        // Если есть фото — показываем фото, иначе эмодзи
+        const imageHtml = p.img ? `<img src="${p.img}" style="width: 56px; height: 56px; border-radius: 28px; object-fit: cover;">` : p.emoji;
+        
+        d.innerHTML = `<div class="product-emoji">${imageHtml}</div>
                        <div class="product-info">
                            <div class="product-name">${p.name}</div>
                            <div class="product-price">${p.price.toLocaleString()} ₽</div>
