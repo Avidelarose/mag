@@ -1,4 +1,4 @@
-[04.06.2026 9:31] САНЕК Sunshine: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -17,19 +17,13 @@
             background-attachment: fixed;
             font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', system-ui, Helvetica, sans-serif;
             color: #ffffff;
-            position: relative;
         }
 
         :root {
-            --bg: rgba(18, 8, 22, 0.85);
             --card: rgba(25, 12, 30, 0.9);
-            --text: #ffffff;
-            --text-light: #c9b6d4;
             --border: rgba(217, 4, 41, 0.4);
             --accent: #d90429;
-            --accent-glow: rgba(217, 4, 41, 0.2);
             --sidebar-bg: rgba(15, 6, 20, 0.92);
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
 
         .app-layout {
@@ -75,14 +69,14 @@
             padding: 14px 16px;
             border-radius: 28px;
             text-decoration: none;
-            color: var(--text);
+            color: white;
             font-weight: 500;
             transition: 0.2s;
             cursor: pointer;
         }
 
         .nav-link:hover {
-            background: var(--accent-glow);
+            background: rgba(217, 4, 41, 0.2);
             color: #ff6b8a;
         }
 
@@ -100,7 +94,6 @@
             border-radius: 44px;
             padding: 28px 24px;
             margin-bottom: 24px;
-            box-shadow: var(--shadow);
             border: 0.5px solid var(--border);
         }
 
@@ -124,28 +117,18 @@
             border: 1px solid var(--border);
         }
 
-        /* Блок для картинки/видео */
-        .product-media {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            overflow: hidden;
+        .product-emoji {
+            font-size: 2rem;
             background: linear-gradient(135deg, #d90429, #9b1df0);
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .product-media img, .product-media video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-emoji {
-            font-size: 2.2rem;
-        }
-[04.06.2026 9:31] САНЕК Sunshine: .product-info {
+        .product-info {
             flex: 1;
         }
 
@@ -158,13 +141,6 @@
             color: #ff6b8a;
             font-weight: 700;
             margin-top: 6px;
-        }
-
-        .old-price {
-            text-decoration: line-through;
-            color: var(--text-light);
-            font-size: 0.75rem;
-            margin-left: 8px;
         }
 
         .qty-control {
@@ -184,7 +160,6 @@
             cursor: pointer;
         }
 
-        /* КНОПКИ */
         .btn-primary {
             background: linear-gradient(135deg, #d90429, #9b1df0);
             color: white;
@@ -209,6 +184,20 @@
             cursor: pointer;
         }
 
+        /* ГИФКА В КОРЗИНЕ */
+        .cart-gif {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+        }
+
+        .cart-gif img {
+            max-width: 180px;
+            border-radius: 20px;
+        }
+
         /* ЧЕЛОВЕЧКИ СПРАВА */
         .humans-sidebar {
             position: fixed;
@@ -229,7 +218,6 @@
             font-size: 2rem;
             cursor: default;
             transition: 0.15s;
-            filter: drop-shadow(0 0 5px #d90429);
         }
 
         .human.happy {
@@ -246,7 +234,6 @@
             100% { transform: scale(1); }
         }
 
-        /* ФОРМЫ */
         .form-group {
             margin-bottom: 18px;
         }
@@ -303,617 +290,6 @@
             text-decoration: none;
             color: white;
         }
-[04.06.2026 9:31] САНЕК Sunshine: .payment-info {
-            background: rgba(0,0,0,0.4);
-            border-radius: 32px;
-            padding: 24px;
-            text-align: center;
-            margin-top: 24px;
-        }
-
-        /* АДАПТИВ */
-        @media (max-width: 700px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-                max-width: 100%;
-                padding: 16px;
-            }
-            .menu-toggle {
-                display: block;
-                position: fixed;
-                top: 16px;
-                left: 16px;
-                z-index: 200;
-                background: var(--card);
-                border: 1px solid var(--border);
-                border-radius: 30px;
-                padding: 8px 14px;
-                cursor: pointer;
-                color: white;
-            }
-            .humans-sidebar {
-                right: 10px;
-                bottom: 10px;
-                padding: 8px 6px;
-                gap: 8px;
-            }
-            .human {
-                font-size: 1.5rem;
-            }
-            .product-media {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        .menu-toggle {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-<div class="app-layout">
-    <!-- Левая панель -->
-    <div class="sidebar" id="sidebar">
-        <div class="logo-area">
-            <div class="logo-premium">NŌVA</div>
-            <span class="premium-tag">PREMIUM</span>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a class="nav-link" data-page="main">🏠 Главная</a></li>
-            <li class="nav-item"><a class="nav-link" data-page="reviews">⭐ Отзывы</a></li>
-            <li class="nav-item"><a class="nav-link" data-page="cart">🛒 Корзина <span id="cartCountBadge" style="background:var(--accent); color:white; padding:0 8px; border-radius:20px; margin-left:6px;">0</span></a></li>
-            <li class="nav-item"><a class="nav-link" data-page="about">📖 О нас</a></li>
-            <li class="theme-nav-btn"><a class="nav-link" id="themeNavBtn">🌙 Сменить тему</a></li>
-        </ul>
-    </div>
-
-    <div class="menu-toggle" id="menuToggle">☰ Меню</div>
-
-    <div class="main-content">
-        <div id="mainPage" class="content-screen active">
-            <div class="card">
-                <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
-                <div id="productsContainer"></div>
-                
-                <div class="payment-info">
-                    <div style="font-size:1.2rem; font-weight:600;">💳 Как сделать заказ</div>
-                    <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 089 05 896</span><br>(Т‑Банк, Александр)</p>
-                    <p>2️⃣ Скриншот чека → оформите заказ</p>
-                    <p>3️⃣ Менеджер свяжется с вами в течение часа</p>
-                    <a href="https://t.me/Tolpaplay" target="_blank" class="manager-link">👨‍💼 Написать менеджеру @Tolpaplay</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="reviewsPage" class="content-screen" style="display:none;">
-            <div class="card">
-                <div class="section-title">⭐ Отзывы</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Анна</div>🔥 Товар пришёл быстро, качество отличное!</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично!</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Екатерина</div>🌸 Жилетка шикарная!</div>
-            </div>
-        </div>
-[04.06.2026 9:31] САНЕК Sunshine: <div id="cartPage" class="content-screen" style="display:none;">
-            <div class="card">
-                <div class="section-title">🛒 Корзина</div>
-                <div id="cartItemsList"></div>
-                <div id="cartTotal" class="total-row">💰 Итого: 0 ₽</div>
-                <button id="checkoutBtn" class="btn-primary">📦 Оформить заказ</button>
-            </div>
-        </div>
-
-        <div id="aboutPage" class="content-screen" style="display:none;">
-            <div class="card">
-                <div class="section-title">📖 О нас</div>
-                <p>Премиальный магазин из Челябинска. Доставка от 1 дня.</p>
-                <p>NŌVA — стиль, качество, забота о каждом клиенте.</p>
-            </div>
-        </div>
-
-        <div id="orderScreen" style="display:none;" class="card">
-            <div class="section-title">✦ Оформление</div>
-            <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div>
-            <div class="form-group"><input type="tel" id="phone" placeholder="📞 Телефон"></div>
-            <div class="form-group"><input type="text" id="social" placeholder="📱 Telegram / VK"></div>
-            <div class="form-group"><input type="text" id="address" placeholder="📍 Адрес"></div>
-            <div class="form-group"><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
-            <div class="form-group"><div class="file-label" id="fileLabel">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px;"></div></div>
-            <button id="submitOrderBtn" class="btn-primary">✅ Отправить</button>
-            <button id="closeOrderBtn" class="btn-outline">← Назад</button>
-        </div>
-
-        <div id="successScreen" style="display:none;" class="card">
-            <div id="successContent"></div>
-        </div>
-    </div>
-</div>
-
-<!-- ЧЕЛОВЕЧКИ СПРАВА -->
-<div class="humans-sidebar" id="humansSidebar">
-    <div class="human">🧑‍🎨</div>
-    <div class="human">🤖</div>
-    <div class="human">🕺</div>
-</div>
-
-<script>
-    const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
-    const CHAT_ID = "5233384978";
-
-    // ============================================================
-    // 🔧 ТОВАРЫ — ДОБАВЛЯЙ КАРТИНКИ И ВИДЕО СЮДА
-    // ============================================================
-    // Поля:
-    //   - emoji: эмодзи (всегда есть, отображается если нет картинки)
-    //   - img: ссылка на картинку (оставь "" если нет картинки)
-    //   - video: ссылка на видео (оставь "" если нет видео)
-    //   - price: цена
-    //   - oldPrice: старая цена (опционально)
-    // ============================================================
-    const PRODUCTS = [
-        { id: 1, name: "SSD 256 SP A56", price: 3650, emoji: "💾", img: "", video: "" },
-        { id: 2, name: "Чебурашка мягкий", price: 2600, emoji: "🧸", img: "", video: "" },
-        { id: 3, name: "Зарядка в авто с вольтметром", price: 800, emoji: "🔌", img: "", video: "" },
-        { id: 4, name: "Мини колода карт", price: 700, emoji: "🃏", img: "", video: "" },
-        { id: 5, name: "Жилетка женская цветы", price: 2145, emoji: "🌸", img: "", video: "", oldPrice: 2500 },
-        { id: 6, name: "Брелок четырёхлистник", price: 300, emoji: "🔑", img: "", video: "" },
-        { id: 7, name: "Игрушечные сигареты", price: 1500, emoji: "💨", img: "", video: "" },
-        { id: 8, name: "Цифровой микроскоп", price: 4945, emoji: "🔬", img: "", video: "" },
-        { id: 9, name: "Игровое кресло", price: 9700, emoji: "💺", img: "", video: "" },
-        { id: 10, name: "Сумка кожаная", price: 2375, emoji: "👜", img: "", video: "" },
-        { id: 11, name: "Пистолет с пульками", price: 1450, emoji: "🔫", img: "", video: "" },
-        { id: 12, name: "Кепка с листьями", price: 1350, emoji: "🧢", img: "", video: "" }
-    ];
-[04.06.2026 9:31] САНЕК Sunshine: // ⬇️⬇️⬇️ ПРИМЕР ДОБАВЛЕНИЯ КАРТИНКИ И ВИДЕО (раскомментируй и замени ссылки) ⬇️⬇️⬇️
-    /*
-    { id: 8, name: "Цифровой микроскоп", price: 4945, emoji: "🔬", img: "images/microscope.jpg", video: "videos/microscope_demo.mp4" },
-    { id: 1, name: "SSD 256 SP A56", price: 3650, emoji: "💾", img: "https://example.com/ssd.jpg", video: "" },
-    */
-
-    let cart = {};
-    let receiptFile = null;
-    let currentOrderItems = null;
-
-    // Функция для отображения медиа (картинка или видео)
-    function getProductMedia(p) {
-        if (p.video && p.video !== "") {
-            return <video class="product-media-video" style="width:100%; height:100%; object-fit:cover;" controls><source src="${p.video}" type="video/mp4"></video>;
-        } else if (p.img && p.img !== "") {
-            return <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='${p.emoji}'">;
-        }
-        return <div class="product-emoji">${p.emoji}</div>;
-    }
-
-    function updateCartUI() {
-        let total = 0;
-        for (let id in cart) total += cart[id];
-        document.getElementById('cartCountBadge').innerText = total;
-        renderCartList();
-    }
-
-    function renderProducts() {
-        const container = document.getElementById('productsContainer');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let p of PRODUCTS) {
-            const qty = cart[p.id] || 0;
-            const div = document.createElement('div');
-            div.className = 'product';
-            
-            const hasMedia = (p.img && p.img !== "") || (p.video && p.video !== "");
-            const mediaHtml = hasMedia ? <div class="product-media">${getProductMedia(p)}</div> : <div class="product-emoji">${p.emoji}</div>;
-            
-            div.innerHTML = 
-                ${mediaHtml}
-                <div class="product-info">
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-price">${p.price.toLocaleString()} ₽ ${p.oldPrice ? <span class="old-price">${p.oldPrice.toLocaleString()} ₽</span> : ''}</div>
-                </div>
-                <div class="qty-control">
-                    <button class="qty-minus" data-id="${p.id}">−</button>
-                    <span>${qty}</span>
-                    <button class="qty-plus" data-id="${p.id}">+</button>
-                </div>
-            ;
-            container.appendChild(div);
-        }
-        document.querySelectorAll('.qty-plus').forEach(btn => btn.onclick = () => { cart[btn.dataset.id] = (cart[btn.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
-        document.querySelectorAll('.qty-minus').forEach(btn => btn.onclick = () => { let id=btn.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
-    }
-
-    function renderCartList() {
-        const container = document.getElementById('cartItemsList');
-        if (!container) return;
-        let total = 0, html = '';
-        for (let id in cart) {
-            const p = PRODUCTS.find(x => x.id == id);
-            if (p) {
-                const q = cart[id];
-                const sum = p.price * q;
-                total += sum;
-                html += <div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>;
-            }
-        }
-        if (!html) html = '<div style="text-align:center; padding:20px;">Корзина пуста</div>';
-        container.innerHTML = html;
-        document.getElementById('cartTotal').innerHTML = 💰 Итого: ${total.toLocaleString()} ₽;
-    }
-
-    function showOrderScreen() {
-        if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-        let total=0,totalQty=0,html='';
-        for(let id in cart){
-[04.06.2026 9:31] САНЕК Sunshine: const p=PRODUCTS.find(x=>x.id==id);
-            if(p){
-                const q=cart[id];
-                const sum=p.price*q;
-                total+=sum; totalQty+=q;
-                html+=<div>${p.name} — ${q} шт = ${sum.toLocaleString()} ₽</div>;
-            }
-        }
-        html+=<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)</div>;
-        document.getElementById('orderSummary').innerHTML = html;
-        currentOrderItems = {...cart};
-        document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
-        document.getElementById('orderScreen').style.display = 'block';
-    }
-
-    function playHurray(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.frequency.value=880; gain.gain.value=0.12; osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.7); osc.stop(ctx.currentTime+0.7); setTimeout(()=>{ const osc2=ctx.createOscillator(); const gain2=ctx.createGain(); osc2.connect(gain2); gain2.connect(ctx.destination); osc2.frequency.value=1046.5; gain2.gain.value=0.1; osc2.start(); gain2.gain.exponentialRampToValueAtTime(0.00001,ctx.currentTime+0.5); osc2.stop(ctx.currentTime+0.5); },150); }catch(e){} }
-
-    async function sendToTelegram(orderData){
-        let itemsText=''; let total=0,totalQty=0;
-        for(let id in orderData.items){
-            const p=PRODUCTS.find(x=>x.id==id);
-            if(p){ const q=orderData.items[id]; const sum=p.price*q; total+=sum; totalQty+=q; itemsText+=${p.name} — ${q} шт = ${sum} ₽\n; }
-        }
-        const msg=🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${itemsText}\n💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'};
-        try{
-            if(orderData.photoFile){
-                const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile);
-                const resp=await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto,{method:'POST',body:fd});
-                return resp.ok;
-            } else {
-                const resp=await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})});
-                return resp.ok;
-            }
-        }catch(e){ return false; }
-    }
-
-    async function submitOrder(){
-        const phone=document.getElementById('phone').value.trim();
-        const social=document.getElementById('social').value.trim();
-        const address=document.getElementById('address').value.trim();
-        const timeSlot=document.getElementById('timeSelect').value;
-        if(!phone!social!address){ alert("Заполните все поля"); return; }
-        if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
-        const btn=document.getElementById('submitOrderBtn');
-        btn.disabled=true; btn.innerText="⏳ Отправка...";
-        const sent=await sendToTelegram({items:currentOrderItems,phone,social,address,time:timeSlot,hasPhoto:!!receiptFile,photoFile:receiptFile});
-        if(sent){
-            playHurray();
-            document.getElementById('orderScreen').style.display='none';
-            document.getElementById('successScreen').style.display='block';
-            document.getElementById('successContent').innerHTML=<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>;
-[04.06.2026 9:40] САНЕК Sunshine: <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NŌVA Premium — премиальный магазин</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1a0b14 0%, #0d0210 50%, #1e0a1c 100%);
-            background-attachment: fixed;
-            font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', system-ui, Helvetica, sans-serif;
-            color: #ffffff;
-            position: relative;
-        }
-
-        :root {
-            --bg: rgba(18, 8, 22, 0.85);
-            --card: rgba(25, 12, 30, 0.9);
-            --text: #ffffff;
-            --text-light: #c9b6d4;
-            --border: rgba(217, 4, 41, 0.4);
-            --accent: #d90429;
-            --accent-glow: rgba(217, 4, 41, 0.2);
-            --sidebar-bg: rgba(15, 6, 20, 0.92);
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .app-layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* ЛЕВАЯ ПАНЕЛЬ */
-        .sidebar {
-            width: 260px;
-            background: var(--sidebar-bg);
-            backdrop-filter: blur(12px);
-            border-right: 1px solid var(--border);
-            padding: 32px 20px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 100;
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .logo-premium {
-            font-size: 2rem;
-            font-weight: 620;
-            background: linear-gradient(135deg, #d90429 0%, #b026ff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .premium-tag {
-            font-size: 0.65rem;
-            color: #b026ff;
-            letter-spacing: 1px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            border-radius: 28px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-link:hover {
-            background: var(--accent-glow);
-            color: #ff6b8a;
-        }
-
-        /* ОСНОВНОЙ КОНТЕНТ */
-        .main-content {
-            flex: 1;
-            margin-left: 260px;
-            padding: 24px 28px;
-            max-width: calc(100% - 260px);
-        }
-
-        .card {
-            background: var(--card);
-            backdrop-filter: blur(8px);
-            border-radius: 44px;
-            padding: 28px 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            border: 0.5px solid var(--border);
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #ffb3c6;
-        }
-
-        /* ТОВАРЫ (РАБОЧАЯ ВЕРСИЯ) */
-        .product {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 28px;
-            padding: 16px;
-            margin-bottom: 14px;
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-            align-items: center;
-            border: 1px solid var(--border);
-        }
-
-        .product-emoji {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            width: 56px;
-            height: 56px;
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-info {
-            flex: 1;
-        }
-
-        .product-name {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .product-price {
-            color: #ff6b8a;
-            font-weight: 700;
-            margin-top: 6px;
-        }
-[04.06.2026 9:40] САНЕК Sunshine: .old-price {
-            text-decoration: line-through;
-            color: var(--text-light);
-            font-size: 0.75rem;
-            margin-left: 8px;
-        }
-
-        .qty-control {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 5px 14px;
-            border-radius: 40px;
-        }
-
-        .qty-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        /* КНОПКИ */
-        .btn-primary {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 18px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 44px;
-            cursor: pointer;
-            margin-top: 16px;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1.5px solid #d90429;
-            color: #ffb3c6;
-            padding: 14px;
-            border-radius: 44px;
-            width: 100%;
-            margin-top: 12px;
-            cursor: pointer;
-        }
-
-        /* ГИФКА В КОРЗИНЕ */
-        .cart-gif {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 30px;
-            animation: pulse 1.5s infinite;
-        }
-
-        .cart-gif img {
-            max-width: 180px;
-            border-radius: 20px;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(217, 4, 41, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(217, 4, 41, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(217, 4, 41, 0); }
-        }
-
-        /* ЧЕЛОВЕЧКИ СПРАВА */
-        .humans-sidebar {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 12px 10px;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-        }
-
-        .human {
-            font-size: 2rem;
-            cursor: default;
-            transition: 0.15s;
-            filter: drop-shadow(0 0 5px #d90429);
-        }
-
-        .human.happy {
-            transform: scale(1.15) rotate(3deg);
-        }
-
-        .human.celebrate {
-            animation: bounceAnim 0.4s ease;
-        }
-
-        @keyframes bounceAnim {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2) rotate(4deg); }
-            100% { transform: scale(1); }
-        }
-
-        /* ФОРМЫ */
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 34px;
-            border: 1px solid var(--border);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            font-size: 1rem;
-        }
-
-        .file-label {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 14px;
-            border-radius: 34px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px dashed var(--border);
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .total-row {
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-align: right;
-            margin-top: 16px;
-        }
-
-        .payment-number {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: #00000055;
-            display: inline-block;
-            padding: 8px 18px;
-            border-radius: 50px;
-            margin: 10px 0;
-            color: #ffb3c6;
-        }
-[04.06.2026 9:40] САНЕК Sunshine: .manager-link {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 40px;
-            text-decoration: none;
-            color: white;
-        }
 
         .payment-info {
             background: rgba(0,0,0,0.4);
@@ -923,7 +299,6 @@
             margin-top: 24px;
         }
 
-        /* АДАПТИВ */
         @media (max-width: 700px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -970,7 +345,6 @@
 </head>
 <body>
 <div class="app-layout">
-    <!-- Левая панель -->
     <div class="sidebar" id="sidebar">
         <div class="logo-area">
             <div class="logo-premium">NŌVA</div>
@@ -988,12 +362,10 @@
     <div class="menu-toggle" id="menuToggle">☰ Меню</div>
 
     <div class="main-content">
-        <!-- Главная -->
         <div id="mainPage" class="content-screen active">
             <div class="card">
                 <div class="section-title">✦ КОЛЛЕКЦИЯ</div>
                 <div id="productsContainer"></div>
-                
                 <div class="payment-info">
                     <div style="font-size:1.2rem; font-weight:600;">💳 Как сделать заказ</div>
                     <p>1️⃣ Оплатите по СБП:<br><span class="payment-number">📱 8 963 089 05 896</span><br>(Т‑Банк, Александр)</p>
@@ -1004,17 +376,14 @@
             </div>
         </div>
 
-        <!-- Отзывы -->
         <div id="reviewsPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">⭐ Отзывы</div>
                 <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Анна</div>🔥 Товар пришёл быстро, качество отличное!</div>
-[04.06.2026 9:40] САНЕК Sunshine: <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично!</div>
-                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Екатерина</div>🌸 Жилетка шикарная!</div>
+                <div class="review-item" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:18px; margin-bottom:14px;"><div style="color:#ff6b8a;">Максим</div>💯 SSD работает отлично!</div>
             </div>
         </div>
 
-        <!-- Корзина с ГИФКОЙ -->
         <div id="cartPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">🛒 Корзина</div>
@@ -1025,7 +394,6 @@
             </div>
         </div>
 
-        <!-- О нас -->
         <div id="aboutPage" class="content-screen" style="display:none;">
             <div class="card">
                 <div class="section-title">📖 О нас</div>
@@ -1034,7 +402,6 @@
             </div>
         </div>
 
-        <!-- Оформление -->
         <div id="orderScreen" style="display:none;" class="card">
             <div class="section-title">✦ Оформление</div>
             <div id="orderSummary" style="background:rgba(0,0,0,0.3); border-radius:28px; padding:16px; margin-bottom:20px;"></div>
@@ -1047,14 +414,12 @@
             <button id="closeOrderBtn" class="btn-outline">← Назад</button>
         </div>
 
-        <!-- Успех -->
         <div id="successScreen" style="display:none;" class="card">
             <div id="successContent"></div>
         </div>
     </div>
 </div>
 
-<!-- ЧЕЛОВЕЧКИ СПРАВА -->
 <div class="humans-sidebar" id="humansSidebar">
     <div class="human">🧑‍🎨</div>
     <div class="human">🤖</div>
@@ -1065,21 +430,18 @@
     const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
     const CHAT_ID = "5233384978";
 
-    // ============================================================
-    // 🔧 НАСТРОЙКИ ГИФКИ В КОРЗИНЕ
-    // ============================================================
-    const SHOW_CART_GIF = true;  // true — гифка есть, false — нет
+    // НАСТРОЙКИ ГИФКИ
+    const SHOW_CART_GIF = true;
     const CART_GIF_URL = "https://media1.tenor.com/m/-_sUqOlcUokAAAAC/cat-basket.gif";
-    // ============================================================
 
-    // ТОВАРЫ (12 штук, всё работает)
+    // ТОВАРЫ (12 штук, РАБОТАЮТ)
     const PRODUCTS = [
         { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" },
         { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, emoji: "🧸" },
         { id: 3, name: "🔌 Зарядка в авто с вольтметром", price: 800, emoji: "🔌" },
         { id: 4, name: "🃏 Мини колода карт", price: 700, emoji: "🃏" },
         { id: 5, name: "🌸 Жилетка женская цветы", price: 2145, emoji: "🌸" },
-[04.06.2026 9:40] САНЕК Sunshine: { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, emoji: "🔑" },
+        { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, emoji: "🔑" },
         { id: 7, name: "💨 Игрушечные сигареты", price: 1500, emoji: "💨" },
         { id: 8, name: "🔬 Цифровой микроскоп", price: 4945, emoji: "🔬" },
         { id: 9, name: "💺 Игровое кресло", price: 9700, emoji: "💺" },
@@ -1106,7 +468,7 @@
             const qty = cart[p.id] || 0;
             const div = document.createElement('div');
             div.className = 'product';
-            div.innerHTML = 
+            div.innerHTML = `
                 <div class="product-emoji">${p.emoji}</div>
                 <div class="product-info">
                     <div class="product-name">${p.name}</div>
@@ -1117,7 +479,7 @@
                     <span>${qty}</span>
                     <button class="qty-plus" data-id="${p.id}">+</button>
                 </div>
-            ;
+            `;
             container.appendChild(div);
         }
         document.querySelectorAll('.qty-plus').forEach(btn => btn.onclick = () => { cart[btn.dataset.id] = (cart[btn.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
@@ -1127,7 +489,6 @@
     function renderCartList() {
         const container = document.getElementById('cartItemsList');
         const gifContainer = document.getElementById('cartGifContainer');
-        
         let total = 0, html = '';
         let hasItems = false;
         
@@ -1138,14 +499,13 @@
                 const q = cart[id];
                 const sum = p.price * q;
                 total += sum;
-                html += <div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>;
+                html += `<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>`;
             }
         }
         
-        // ГИФКА: показываем только если корзина пуста И включена настройка
         if (gifContainer) {
             if (SHOW_CART_GIF && !hasItems) {
-                gifContainer.innerHTML = <div class="cart-gif"><img src="${CART_GIF_URL}" alt="забавная гифка" onerror="this.src='https://media1.tenor.com/m/-_sUqOlcUokAAAAC/cat-basket.gif'"><p style="margin-top:10px; font-size:0.8rem;">😸 Корзина пуста, но котик ждёт твоих покупок!</p></div>;
+                gifContainer.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" alt="гифка"><p>😸 Корзина пуста, но котик ждёт!</p></div>`;
             } else {
                 gifContainer.innerHTML = '';
             }
@@ -1153,7 +513,7 @@
         
         if (!html) html = '<div style="text-align:center; padding:20px;">Корзина пуста</div>';
         container.innerHTML = html;
-        document.getElementById('cartTotal').innerHTML = 💰 Итого: ${total.toLocaleString()} ₽;
+        document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
     }
 
     function showOrderScreen() {
@@ -1161,14 +521,14 @@
         let total=0,totalQty=0,html='';
         for(let id in cart){
             const p=PRODUCTS.find(x=>x.id==id);
-[04.06.2026 9:40] САНЕК Sunshine: if(p){
+            if(p){
                 const q=cart[id];
                 const sum=p.price*q;
                 total+=sum; totalQty+=q;
-                html+=<div>${p.name} — ${q} шт = ${sum.toLocaleString()} ₽</div>;
+                html+=`<div>${p.name} — ${q} шт = ${sum.toLocaleString()} ₽</div>`;
             }
         }
-        html+=<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)</div>;
+        html+=`<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)</div>`;
         document.getElementById('orderSummary').innerHTML = html;
         currentOrderItems = {...cart};
         document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
@@ -1181,16 +541,16 @@
         let itemsText=''; let total=0,totalQty=0;
         for(let id in orderData.items){
             const p=PRODUCTS.find(x=>x.id==id);
-            if(p){ const q=orderData.items[id]; const sum=p.price*q; total+=sum; totalQty+=q; itemsText+=${p.name} — ${q} шт = ${sum} ₽\n; }
+            if(p){ const q=orderData.items[id]; const sum=p.price*q; total+=sum; totalQty+=q; itemsText+=`${p.name} — ${q} шт = ${sum} ₽\n`; }
         }
-        const msg=🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${itemsText}\n💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'};
+        const msg=`🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${itemsText}\n💰 Итого: ${total.toLocaleString()} ₽ (${totalQty} шт)\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
         try{
             if(orderData.photoFile){
                 const fd=new FormData(); fd.append('chat_id',CHAT_ID); fd.append('caption',msg); fd.append('photo',orderData.photoFile);
-                const resp=await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto,{method:'POST',body:fd});
+                const resp=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`,{method:'POST',body:fd});
                 return resp.ok;
             } else {
-                const resp=await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})});
+                const resp=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:msg})});
                 return resp.ok;
             }
         }catch(e){ return false; }
@@ -1201,7 +561,7 @@
         const social=document.getElementById('social').value.trim();
         const address=document.getElementById('address').value.trim();
         const timeSlot=document.getElementById('timeSelect').value;
-        if(!phone!social!address){ alert("Заполните все поля"); return; }
+        if(!phone||!social||!address){ alert("Заполните все поля"); return; }
         if(Object.keys(currentOrderItems||{}).length===0){ alert("Корзина пуста"); return; }
         const btn=document.getElementById('submitOrderBtn');
         btn.disabled=true; btn.innerText="⏳ Отправка...";
@@ -1210,11 +570,12 @@
             playHurray();
             document.getElementById('orderScreen').style.display='none';
             document.getElementById('successScreen').style.display='block';
-            document.getElementById('successContent').innerHTML=<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>;
+            document.getElementById('successContent').innerHTML=`<div style="text-align:center; padding:30px;"><strong>✅ ЗАКАЗ ОТПРАВЛЕН!</strong><br>Менеджер свяжется с вами.<br><button id="newOrderBtn" style="margin-top:20px;" class="btn-primary">🔄 Новый заказ</button></div>`;
             document.getElementById('newOrderBtn')?.addEventListener('click',()=>location.reload());
         } else { alert("Ошибка. Проверьте бота @My_daaate_bot (/start)"); btn.disabled=false; btn.innerText="✅ Отправить"; }
     }
-[04.06.2026 9:40] САНЕК Sunshine: function showPage(pageId){
+
+    function showPage(pageId){
         document.querySelectorAll('.content-screen').forEach(el=>el.style.display='none');
         document.getElementById(pageId).style.display = 'block';
         document.getElementById('orderScreen').style.display='none';
@@ -1232,10 +593,10 @@
     document.getElementById('menuToggle')?.addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
 
     const fileInput=document.getElementById('receiptFile'), fileLabel=document.getElementById('fileLabel'), fileNameSpan=document.getElementById('fileNameSpan');
-    fileInput?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fileNameSpan.innerText=📸 ${receiptFile.name}; } else { receiptFile=null; fileNameSpan.innerText=''; } });
+    fileInput?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fileNameSpan.innerText=`📸 ${receiptFile.name}`; } else { receiptFile=null; fileNameSpan.innerText=''; } });
     fileLabel?.addEventListener('click',()=>fileInput.click());
 
-    // АНИМАЦИЯ ЧЕЛОВЕЧКОВ СПРАВА
+    // АНИМАЦИЯ ЧЕЛОВЕЧКОВ
     const sidebarHumans = document.querySelectorAll('.humans-sidebar .human');
     const inputs = ['#phone', '#social', '#address'];
     inputs.forEach(sel => {
