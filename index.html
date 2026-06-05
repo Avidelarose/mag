@@ -31,47 +31,55 @@
             min-height: 100vh;
         }
 
+        /* ЛЕВАЯ ПАНЕЛЬ — УЖЕ И БЛИЖЕ К ЦЕНТРУ */
         .sidebar {
-            width: 260px;
+            width: 200px;           /* было 260px — сделали УЖЕ */
+            margin-left: 40px;      /* сдвинули ближе к центру */
             background: var(--sidebar-bg);
             backdrop-filter: blur(12px);
             border-right: 1px solid var(--border);
-            padding: 32px 20px;
+            border-radius: 32px;    /* скруглили края */
+            padding: 32px 16px;
             position: fixed;
             left: 0;
-            top: 0;
-            bottom: 0;
+            top: 20px;
+            bottom: 20px;
             z-index: 100;
             transition: transform 0.3s ease;
             overflow-y: auto;
         }
 
         .logo-premium {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 620;
             background: linear-gradient(135deg, #d90429 0%, #b026ff 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-align: center;
         }
 
         .premium-tag {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #b026ff;
             letter-spacing: 1px;
+            text-align: center;
+            display: block;
+            margin-top: 4px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
+            gap: 12px;
+            padding: 12px 14px;
             border-radius: 28px;
             text-decoration: none;
             color: white;
             font-weight: 500;
             transition: 0.2s;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
         .nav-link:hover {
@@ -79,18 +87,19 @@
             color: #ff6b8a;
         }
 
+        /* ОСНОВНОЙ КОНТЕНТ — РАСТЯНУЛСЯ */
         .main-content {
             flex: 1;
-            margin-left: 260px;
-            padding: 24px 28px;
-            max-width: calc(100% - 260px);
+            margin-left: 280px;      /* подстраиваем под новую ширину панели */
+            padding: 24px 32px;
+            max-width: calc(100% - 280px);
         }
 
         .card {
             background: var(--card);
             backdrop-filter: blur(8px);
             border-radius: 44px;
-            padding: 28px 24px;
+            padding: 28px 28px;
             margin-bottom: 24px;
             border: 0.5px solid var(--border);
         }
@@ -194,41 +203,6 @@
             border-radius: 20px;
         }
 
-        .humans-sidebar {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 12px 10px;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-        }
-
-        .human {
-            font-size: 2rem;
-            cursor: default;
-            transition: 0.15s;
-        }
-
-        .human.happy {
-            transform: scale(1.15) rotate(3deg);
-        }
-
-        .human.celebrate {
-            animation: bounceAnim 0.4s ease;
-        }
-
-        @keyframes bounceAnim {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2) rotate(4deg); }
-            100% { transform: scale(1); }
-        }
-
         .form-group {
             margin-bottom: 18px;
         }
@@ -297,6 +271,10 @@
         @media (max-width: 700px) {
             .sidebar {
                 transform: translateX(-100%);
+                margin-left: 0;
+                top: 0;
+                bottom: 0;
+                border-radius: 0;
             }
             .sidebar.open {
                 transform: translateX(0);
@@ -318,15 +296,6 @@
                 padding: 8px 14px;
                 cursor: pointer;
                 color: white;
-            }
-            .humans-sidebar {
-                right: 10px;
-                bottom: 10px;
-                padding: 8px 6px;
-                gap: 8px;
-            }
-            .human {
-                font-size: 1.5rem;
             }
             .cart-gif img {
                 max-width: 120px;
@@ -415,20 +384,12 @@
     </div>
 </div>
 
-<div class="humans-sidebar" id="humansSidebar">
-    <div class="human">🧑‍🎨</div>
-    <div class="human">🤖</div>
-    <div class="human">🕺</div>
-</div>
-
 <script>
     const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
     const CHAT_ID = "5233384978";
 
-    // ========== НАСТРОЙКИ ГИФКИ ==========
-    const SHOW_CART_GIF = true;           // true — показывать гифку, false — убрать
-    const CART_GIF_URL = "cat-dancing.gif";   // ТВОЯ ГИФКА (лежит в той же папке)
-    // ====================================
+    const SHOW_CART_GIF = true;
+    const CART_GIF_URL = "cat-dancing.gif";
 
     const PRODUCTS = [
         { id: 1, name: "💾 SSD 256 SP A56", price: 3650, emoji: "💾" },
@@ -498,7 +459,6 @@
             }
         }
         
-        // ГИФКА ПОЯВЛЯЕТСЯ ТОЛЬКО ЕСЛИ КОРЗИНА ПУСТА
         if (gifContainer) {
             if (SHOW_CART_GIF && !hasItems) {
                 gifContainer.innerHTML = `<div class="cart-gif"><img src="${CART_GIF_URL}" alt="Танцующий кот" style="max-width:200px; border-radius:20px;"><p style="margin-top:10px;">😸 Корзина пуста, но котик ждёт твоих покупок!</p></div>`;
@@ -591,27 +551,6 @@
     const fileInput=document.getElementById('receiptFile'), fileLabel=document.getElementById('fileLabel'), fileNameSpan=document.getElementById('fileNameSpan');
     fileInput?.addEventListener('change',(e)=>{ if(e.target.files.length){ receiptFile=e.target.files[0]; fileNameSpan.innerText=`📸 ${receiptFile.name}`; } else { receiptFile=null; fileNameSpan.innerText=''; } });
     fileLabel?.addEventListener('click',()=>fileInput.click());
-
-    // АНИМАЦИЯ ЧЕЛОВЕЧКОВ
-    const sidebarHumans = document.querySelectorAll('.humans-sidebar .human');
-    const inputs = ['#phone', '#social', '#address'];
-    inputs.forEach(sel => {
-        const inp = document.querySelector(sel);
-        if (inp) {
-            inp.addEventListener('input', () => {
-                sidebarHumans.forEach(h => h.classList.add('happy'));
-                setTimeout(() => sidebarHumans.forEach(h => h.classList.remove('happy')), 300);
-                if (inp.value.length > 2) {
-                    sidebarHumans.forEach(h => h.classList.add('celebrate'));
-                    setTimeout(() => sidebarHumans.forEach(h => h.classList.remove('celebrate')), 500);
-                }
-            });
-        }
-    });
-    setInterval(() => {
-        sidebarHumans.forEach(h => h.classList.add('happy'));
-        setTimeout(() => sidebarHumans.forEach(h => h.classList.remove('happy')), 400);
-    }, 3000);
 
     renderProducts();
     updateCartUI();
