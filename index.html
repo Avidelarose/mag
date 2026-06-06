@@ -661,7 +661,6 @@
             <div class="vip-section">
                 <div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div>
                 <div id="vipCard" class="vip-card">
-                    <div id="vipCard" class="vip-card"></div>
                     <!-- сюда подставится случайный товар -->
                 </div>
             </div>
@@ -1214,10 +1213,7 @@ function updateVipProduct() {
     };
 }
 
-// Запускаем VIP-обновление
-updateVipProduct();
-setInterval(updateVipProduct, 30000);
-    //блок33//
+
 // Запуск и автообновление (каждые 30 секунд)
 updateVipProduct();
 setInterval(updateVipProduct, 30000);
@@ -1328,12 +1324,6 @@ setInterval(updateVipProduct, 30000);
 </div>
 
 <script>
-// ==========================================
-// БЛОК 35: АДМИН-ПАНЕЛЬ (ЛОГИКА)
-// ==========================================
-let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
-const ADMIN_PASSWORD = "nova2025";  // ← ЗАМЕНИ НА СВОЙ ПАРОЛЬ
-
 // ==========================================
 // БЛОК 35: АДМИН-ПАНЕЛЬ (ЛОГИКА)
 // ==========================================
@@ -1600,11 +1590,7 @@ window.renderProducts = function() {
         };
     });
 };
-    // ДОБАВЬ ЭТУ ФУНКЦИЮ ДЛЯ ЗАГРУЗКИ ФАЙЛОВ В GITHUB
-const GITHUB_TOKEN = "ghp_ТВОЙ_ТОКЕН";
-const GITHUB_REPO = "Avidelarose/my-shop";
-
-async function uploadFileToGitHub(filename, base64Data) {
+  
     const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/images/${filename}`;
     const response = await fetch(url, {
         method: 'PUT',
