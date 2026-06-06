@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NŌVA Premium — магазин</title>
     <style>
+        /* ========================================== */
+        /* БЛОК 1: ГЛОБАЛЬНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ */
+        /* ========================================== */
         * {
             margin: 0;
             padding: 0;
@@ -12,12 +15,14 @@
         }
 
         body {
-            font-family: -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            font-family: -apple-system, 'SF Pro Display', 'Segoe UI', sans-serif;
             min-height: 100vh;
             transition: background 0.3s, color 0.2s;
         }
 
-        /* ========== ТЕМЫ ========== */
+        /* ========================================== */
+        /* БЛОК 2: ТЕМЫ */
+        /* ========================================== */
         body.theme-dark {
             background: linear-gradient(135deg, #1a0b14 0%, #0d0210 100%);
             color: white;
@@ -39,7 +44,9 @@
             color: #e6c384;
         }
 
-        /* ========== ШАПКА ========== */
+        /* ========================================== */
+        /* БЛОК 3: ШАПКА И НАВИГАЦИЯ */
+        /* ========================================== */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -58,6 +65,11 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .logo:hover {
+            opacity: 0.8;
         }
         .nav-links {
             display: flex;
@@ -95,7 +107,9 @@
             font-weight: bold;
         }
 
-        /* ========== ГЛАВНАЯ ========== */
+        /* ========================================== */
+        /* БЛОК 4: ОСНОВНАЯ СЕТКА ТОВАРОВ (КАК НА WB/OZON) */
+        /* ========================================== */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -143,7 +157,9 @@
             font-size: 1rem;
         }
 
-        /* ========== VIP-ПАНЕЛЬ СПРАВА ========== */
+        /* ========================================== */
+        /* БЛОК 5: VIP-ПАНЕЛЬ СПРАВА */
+        /* ========================================== */
         .vip-sidebar {
             width: 280px;
             background: rgba(0, 0, 0, 0.6);
@@ -203,7 +219,9 @@
             margin-top: 8px;
         }
 
-        /* ========== СТРАНИЦА ТОВАРА ========== */
+        /* ========================================== */
+        /* БЛОК 6: СТРАНИЦА ТОВАРА */
+        /* ========================================== */
         .product-page {
             max-width: 900px;
             margin: 40px auto;
@@ -271,7 +289,9 @@
             color: inherit;
         }
 
-        /* ========== КОРЗИНА ========== */
+        /* ========================================== */
+        /* БЛОК 7: КОРЗИНА */
+        /* ========================================== */
         .cart-container {
             max-width: 800px;
             margin: 40px auto;
@@ -292,7 +312,9 @@
             font-weight: bold;
         }
 
-        /* ========== ФОРМА ОФОРМЛЕНИЯ ========== */
+        /* ========================================== */
+        /* БЛОК 8: ФОРМА ОФОРМЛЕНИЯ ЗАКАЗА */
+        /* ========================================== */
         .form-group {
             margin-bottom: 20px;
         }
@@ -319,7 +341,9 @@
             border: 1px dashed #d4af37;
         }
 
-        /* ========== АДМИНКА ========== */
+        /* ========================================== */
+        /* БЛОК 9: АДМИН-ПАНЕЛЬ */
+        /* ========================================== */
         .admin-container {
             max-width: 1000px;
             margin: 40px auto;
@@ -363,6 +387,10 @@
             gap: 8px;
             font-size: 12px;
         }
+
+        /* ========================================== */
+        /* БЛОК 10: ОБЩИЕ СТИЛИ ДЛЯ СТРАНИЦ */
+        /* ========================================== */
         .page {
             display: none;
         }
@@ -373,7 +401,9 @@
             display: none !important;
         }
 
-        /* ИНСТРУКЦИЯ */
+        /* ========================================== */
+        /* БЛОК 11: ИНСТРУКЦИЯ ПО ОПЛАТЕ */
+        /* ========================================== */
         .bottom-instruction {
             text-align: center;
             background: rgba(0, 0, 0, 0.6);
@@ -392,6 +422,9 @@
             color: white;
         }
 
+        /* ========================================== */
+        /* БЛОК 12: АДАПТИВ ДЛЯ ТЕЛЕФОНОВ */
+        /* ========================================== */
         @media (max-width: 1000px) {
             .main-container {
                 flex-direction: column;
@@ -416,9 +449,11 @@
 </head>
 <body class="theme-dark">
 
-<!-- ШАПКА -->
+<!-- ========================================== -->
+<!-- БЛОК 13: ШАПКА САЙТА (HTML) -->
+<!-- ========================================== -->
 <div class="top-bar">
-    <div class="logo">NŌVA</div>
+    <div class="logo" onclick="showPage('main')">NŌVA</div>
     <div class="nav-links">
         <button class="nav-btn" onclick="showPage('main')">🏠 Главная</button>
         <button class="nav-btn" onclick="showPage('cart')">🛒 Корзина</button>
@@ -430,7 +465,9 @@
     </div>
 </div>
 
-<!-- МЕНЮ ТЕМ -->
+<!-- ========================================== -->
+<!-- БЛОК 14: МЕНЮ ВЫБОРА ТЕМЫ -->
+<!-- ========================================== -->
 <div id="themeMenu" style="display:none; position:fixed; top:80px; right:20px; background:#1a1a1a; border-radius:30px; padding:16px; z-index:1000; flex-direction:column; gap:10px;">
     <button onclick="setTheme('dark')">🌙 Тёмная</button>
     <button onclick="setTheme('pikmi')">🌸 Пикми</button>
@@ -440,7 +477,9 @@
     <button onclick="toggleThemeMenu()">✖ Закрыть</button>
 </div>
 
-<!-- ГЛАВНАЯ СТРАНИЦА -->
+<!-- ========================================== -->
+<!-- БЛОК 15: ГЛАВНАЯ СТРАНИЦА -->
+<!-- ========================================== -->
 <div id="mainPage" class="page active">
     <div class="main-container">
         <div class="products-grid" id="productsContainer"></div>
@@ -455,12 +494,16 @@
     </div>
 </div>
 
-<!-- СТРАНИЦА ТОВАРА -->
+<!-- ========================================== -->
+<!-- БЛОК 16: СТРАНИЦА ТОВАРА -->
+<!-- ========================================== -->
 <div id="productPage" class="page">
     <div class="product-page" id="productDetailContainer"></div>
 </div>
 
-<!-- КОРЗИНА -->
+<!-- ========================================== -->
+<!-- БЛОК 17: КОРЗИНА -->
+<!-- ========================================== -->
 <div id="cartPage" class="page">
     <div class="cart-container">
         <h2 style="color:#d4af37;">🛒 Корзина</h2>
@@ -470,7 +513,9 @@
     </div>
 </div>
 
-<!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
+<!-- ========================================== -->
+<!-- БЛОК 18: СТРАНИЦА ОФОРМЛЕНИЯ ЗАКАЗА -->
+<!-- ========================================== -->
 <div id="orderPage" class="page">
     <div class="cart-container">
         <h2 style="color:#d4af37;">✏️ Оформление заказа</h2>
@@ -485,7 +530,9 @@
     </div>
 </div>
 
-<!-- АДМИН-ПАНЕЛЬ -->
+<!-- ========================================== -->
+<!-- БЛОК 19: АДМИН-ПАНЕЛЬ -->
+<!-- ========================================== -->
 <div id="adminPage" class="page">
     <div class="admin-container">
         <h2>👑 Админ-панель</h2>
@@ -512,7 +559,9 @@
     </div>
 </div>
 
-<!-- СТРАНИЦА УСПЕХА -->
+<!-- ========================================== -->
+<!-- БЛОК 20: СТРАНИЦА УСПЕХА -->
+<!-- ========================================== -->
 <div id="successPage" class="page">
     <div class="cart-container" style="text-align:center;">
         <h2 style="color:#d4af37;">✅ ЗАКАЗ ОТПРАВЛЕН!</h2>
@@ -522,330 +571,352 @@
 </div>
 
 <script>
-    // ========== TELEGRAM НАСТРОЙКИ ==========
-    const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
-    const CHAT_ID = "5233384978";
+// ==========================================
+// БЛОК 21: НАСТРОЙКИ TELEGRAM
+// ==========================================
+const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
+const CHAT_ID = "5233384978";
 
-    // ========== ТОВАРЫ (с твоими путями) ==========
-    let PRODUCTS = [
-        { id: 1, name: "💾 SSD 256 SP A56", price: 3650, description: "Высокоскоростной SSD", media: [] },
-        { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, description: "Мягкая игрушка", media: [] },
-        { id: 3, name: "🐉 Дракончик светящийся", price: 330, description: "Светится в темноте", media: ["Dragon_girl.jpg"] },
-        { id: 4, name: "🔌 Зарядка в авто с вольтметром", price: 800, description: "", media: [] },
-        { id: 5, name: "🃏 Мини колода карт", price: 700, description: "", media: [] },
-        { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, description: "", media: ["Video/video_kulon.mp4"] },
-        { id: 7, name: "🌸 Жилетка женская цветы", price: 2145, description: "", media: [] },
-        { id: 8, name: "💨 Игрушечные сигареты", price: 1500, description: "", media: [] }
-    ];
+// ==========================================
+// БЛОК 22: ТОВАРЫ (С ТВОИМИ ПУТЯМИ К ФОТО/ВИДЕО)
+// ==========================================
+let PRODUCTS = [
+    { id: 1, name: "💾 SSD 256 SP A56", price: 3650, description: "Высокоскоростной SSD", media: [] },
+    { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, description: "Мягкая игрушка", media: [] },
+    { id: 3, name: "🐉 Дракончик светящийся", price: 330, description: "Светится в темноте", media: ["Dragon_girl.jpg"] },
+    { id: 4, name: "🔌 Зарядка в авто с вольтметром", price: 800, description: "", media: [] },
+    { id: 5, name: "🃏 Мини колода карт", price: 700, description: "", media: [] },
+    { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, description: "", media: ["Video/video_kulon.mp4"] },
+    { id: 7, name: "🌸 Жилетка женская цветы", price: 2145, description: "", media: [] },
+    { id: 8, name: "💨 Игрушечные сигареты", price: 1500, description: "", media: [] }
+];
 
-    let cart = {};
-    let receiptFile = null;
-    let currentProductId = null;
-    let currentQty = 1;
+let cart = {};
+let receiptFile = null;
+let currentProductId = null;
+let currentQty = 1;
 
-    // ========== СОХРАНЕНИЕ ==========
-    function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
-    function loadProductsFromLocal() {
-        const saved = localStorage.getItem('nova_products');
-        if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
-        renderProducts();
-        updateVipSidebar();
-        updateCartUI();
-    }
+// ==========================================
+// БЛОК 23: СОХРАНЕНИЕ В LOCALSTORAGE
+// ==========================================
+function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
+function loadProductsFromLocal() {
+    const saved = localStorage.getItem('nova_products');
+    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
+    renderProducts();
+    updateVipSidebar();
+    updateCartUI();
+}
 
-    // ========== ОТРИСОВКА ГЛАВНОЙ ==========
-    function renderProducts() {
-        const container = document.getElementById('productsContainer');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let p of PRODUCTS) {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.onclick = () => openProductPage(p.id);
-            const firstMedia = p.media && p.media[0] ? p.media[0] : '';
-            const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm'));
-            card.innerHTML = `
-                ${isVideo ? `<video class="product-media" src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${encodeURIComponent(p.name)}'">`}
-                <div class="product-info-card">
-                    <div class="product-name-card">${p.name}</div>
-                    <div class="product-price-card">${p.price.toLocaleString()} ₽</div>
-                </div>
-            `;
-            container.appendChild(card);
-        }
-    }
-
-    // ========== VIP-ПАНЕЛЬ СПРАВА ==========
-    function updateVipSidebar() {
-        const vipDiv = document.getElementById('vipSidebar');
-        if (!vipDiv) return;
-        const vip = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
-        const firstMedia = vip.media && vip.media[0] ? vip.media[0] : '';
+// ==========================================
+// БЛОК 24: ОТРИСОВКА ГЛАВНОЙ СТРАНИЦЫ
+// ==========================================
+function renderProducts() {
+    const container = document.getElementById('productsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    for (let p of PRODUCTS) {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openProductPage(p.id);
+        const firstMedia = p.media && p.media[0] ? p.media[0] : '';
         const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm'));
-        vipDiv.innerHTML = `
-            <div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div>
-            <div class="vip-media">${isVideo ? `<video src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`}</div>
-            <div class="vip-name">${vip.name}</div>
-            <div class="vip-price">${vip.price.toLocaleString()} ₽</div>
-            <div class="vip-badge">✨ эксклюзивно ✨</div>
-            <button class="vip-btn" onclick="addToCartVip(${vip.id})">🛒 В корзину</button>
-        `;
-    }
-    function addToCartVip(id) {
-        cart[id] = (cart[id] || 0) + 1;
-        updateCartUI();
-        alert('✅ Добавлено в корзину');
-    }
-
-    // ========== СТРАНИЦА ТОВАРА ==========
-    function openProductPage(id) {
-        const p = PRODUCTS.find(x => x.id == id);
-        if (!p) return;
-        currentProductId = id;
-        currentQty = 1;
-        const container = document.getElementById('productDetailContainer');
-        let mediaHtml = '';
-        if (p.media && p.media.length) {
-            for (let m of p.media) {
-                const isVideo = m.includes('.mp4') || m.includes('.webm');
-                mediaHtml += isVideo ? `<video src="${m}" controls autoplay muted loop playsinline></video>` : `<img src="${m}">`;
-            }
-        } else {
-            mediaHtml = `<div style="padding:40px; text-align:center;">📷 Нет фото</div>`;
-        }
-        container.innerHTML = `
-            <div class="product-page-media">${mediaHtml}</div>
-            <div class="product-page-name">${p.name}</div>
-            <div class="product-page-price">${p.price.toLocaleString()} ₽</div>
-            <div class="product-page-desc">${p.description || 'Описание отсутствует'}</div>
-            <div class="product-page-qty">
-                <button onclick="changeQty(-1)">−</button>
-                <span id="detailQty">1</span>
-                <button onclick="changeQty(1)">+</button>
+        card.innerHTML = `
+            ${isVideo ? `<video class="product-media" src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${encodeURIComponent(p.name)}'">`}
+            <div class="product-info-card">
+                <div class="product-name-card">${p.name}</div>
+                <div class="product-price-card">${p.price.toLocaleString()} ₽</div>
             </div>
-            <button class="btn-add" onclick="addToCartFromDetail()">🛒 Добавить в корзину</button>
-            <button class="btn-back" onclick="showPage('main')">← Назад в каталог</button>
         `;
-        document.getElementById('detailQty').innerText = currentQty;
-        showPage('product');
+        container.appendChild(card);
     }
-    function changeQty(delta) {
-        currentQty = Math.max(1, currentQty + delta);
-        const span = document.getElementById('detailQty');
-        if (span) span.innerText = currentQty;
+}
+
+// ==========================================
+// БЛОК 25: VIP-ПАНЕЛЬ СПРАВА
+// ==========================================
+function updateVipSidebar() {
+    const vipDiv = document.getElementById('vipSidebar');
+    if (!vipDiv) return;
+    const vip = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
+    const firstMedia = vip.media && vip.media[0] ? vip.media[0] : '';
+    const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm'));
+    vipDiv.innerHTML = `
+        <div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div>
+        <div class="vip-media">${isVideo ? `<video src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`}</div>
+        <div class="vip-name">${vip.name}</div>
+        <div class="vip-price">${vip.price.toLocaleString()} ₽</div>
+        <div class="vip-badge">✨ эксклюзивно ✨</div>
+        <button class="vip-btn" onclick="addToCartVip(${vip.id})">🛒 В корзину</button>
+    `;
+}
+function addToCartVip(id) {
+    cart[id] = (cart[id] || 0) + 1;
+    updateCartUI();
+    alert('✅ Добавлено в корзину');
+}
+
+// ==========================================
+// БЛОК 26: СТРАНИЦА ТОВАРА
+// ==========================================
+function openProductPage(id) {
+    const p = PRODUCTS.find(x => x.id == id);
+    if (!p) return;
+    currentProductId = id;
+    currentQty = 1;
+    const container = document.getElementById('productDetailContainer');
+    let mediaHtml = '';
+    if (p.media && p.media.length) {
+        for (let m of p.media) {
+            const isVideo = m.includes('.mp4') || m.includes('.webm');
+            mediaHtml += isVideo ? `<video src="${m}" controls autoplay muted loop playsinline></video>` : `<img src="${m}">`;
+        }
+    } else {
+        mediaHtml = `<div style="padding:40px; text-align:center;">📷 Нет фото</div>`;
     }
-    function addToCartFromDetail() {
-        cart[currentProductId] = (cart[currentProductId] || 0) + currentQty;
+    container.innerHTML = `
+        <div class="product-page-media">${mediaHtml}</div>
+        <div class="product-page-name">${p.name}</div>
+        <div class="product-page-price">${p.price.toLocaleString()} ₽</div>
+        <div class="product-page-desc">${p.description || 'Описание отсутствует'}</div>
+        <div class="product-page-qty">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="detailQty">1</span>
+            <button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-add" onclick="addToCartFromDetail()">🛒 Добавить в корзину</button>
+        <button class="btn-back" onclick="showPage('main')">← Назад в каталог</button>
+    `;
+    document.getElementById('detailQty').innerText = currentQty;
+    showPage('product');
+}
+function changeQty(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    const span = document.getElementById('detailQty');
+    if (span) span.innerText = currentQty;
+}
+function addToCartFromDetail() {
+    cart[currentProductId] = (cart[currentProductId] || 0) + currentQty;
+    updateCartUI();
+    showPage('main');
+    alert('✅ Добавлено в корзину');
+}
+
+// ==========================================
+// БЛОК 27: КОРЗИНА
+// ==========================================
+function updateCartUI() {
+    let totalCount = 0;
+    for (let id in cart) totalCount += cart[id];
+    document.getElementById('cartCount').innerText = totalCount;
+    renderCartList();
+}
+function renderCartList() {
+    const container = document.getElementById('cartItemsList');
+    if (!container) return;
+    let total = 0, html = '';
+    for (let id in cart) {
+        let p = PRODUCTS.find(x => x.id == id);
+        if (p) {
+            let q = cart[id];
+            let sum = p.price * q;
+            total += sum;
+            html += `<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>`;
+        }
+    }
+    if (!html) html = '<div style="text-align:center; padding:40px;">Корзина пуста</div>';
+    container.innerHTML = html;
+    document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
+}
+function showOrderScreen() {
+    if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
+    let total = 0, tq = 0, html = '';
+    for (let id in cart) {
+        let p = PRODUCTS.find(x => x.id == id);
+        if (p) {
+            let q = cart[id];
+            let sum = p.price * q;
+            total += sum;
+            tq += q;
+            html += `<div>${p.name} — ${q} шт = ${sum} ₽</div>`;
+        }
+    }
+    html += `<div style="margin-top:10px; font-weight:bold;">💰 Итого: ${total} ₽ (${tq} шт)</div>`;
+    document.getElementById('orderSummary').innerHTML = html;
+    showPage('order');
+}
+
+// ==========================================
+// БЛОК 28: ОТПРАВКА В TELEGRAM
+// ==========================================
+async function sendToTelegram(orderData) {
+    let items = '';
+    for (let id in orderData.items) {
+        let p = PRODUCTS.find(x => x.id == id);
+        if (p) items += `${p.name} — ${orderData.items[id]} шт = ${p.price * orderData.items[id]} ₽\n`;
+    }
+    const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${orderData.total} ₽\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
+    try {
+        if (orderData.photoFile) {
+            const fd = new FormData();
+            fd.append('chat_id', CHAT_ID);
+            fd.append('caption', msg);
+            fd.append('photo', orderData.photoFile);
+            const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+            return r.ok;
+        } else {
+            const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+            });
+            return r.ok;
+        }
+    } catch(e) { return false; }
+}
+async function submitOrder() {
+    const phone = document.getElementById('phone').value.trim();
+    const social = document.getElementById('social').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const timeSlot = document.getElementById('timeSelect').value;
+    if (!phone || !social || !address) { alert("Заполните все поля"); return; }
+    if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
+    let total = 0;
+    for (let id in cart) total += PRODUCTS.find(p => p.id == id)?.price * cart[id] || 0;
+    const orderData = { items: cart, total, phone, social, address, time: timeSlot, hasPhoto: !!receiptFile, photoFile: receiptFile };
+    const btn = document.getElementById('submitOrderBtn');
+    btn.disabled = true; btn.innerText = "⏳ Отправка...";
+    const sent = await sendToTelegram(orderData);
+    if (sent) {
+        cart = {}; receiptFile = null;
         updateCartUI();
-        showPage('main');
-        alert('✅ Добавлено в корзину');
-    }
+        showPage('success');
+    } else { alert("❌ Ошибка. Убедитесь, что бот @My_daaate_bot активирован (напишите ему /start)"); }
+    btn.disabled = false; btn.innerText = "✅ ОТПРАВИТЬ ЗАКАЗ";
+}
 
-    // ========== КОРЗИНА ==========
-    function updateCartUI() {
-        let totalCount = 0;
-        for (let id in cart) totalCount += cart[id];
-        document.getElementById('cartCount').innerText = totalCount;
-        renderCartList();
-    }
-    function renderCartList() {
-        const container = document.getElementById('cartItemsList');
-        if (!container) return;
-        let total = 0, html = '';
-        for (let id in cart) {
-            let p = PRODUCTS.find(x => x.id == id);
-            if (p) {
-                let q = cart[id];
-                let sum = p.price * q;
-                total += sum;
-                html += `<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>`;
-            }
-        }
-        if (!html) html = '<div style="text-align:center; padding:40px;">Корзина пуста</div>';
-        container.innerHTML = html;
-        document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
-    }
-    function showOrderScreen() {
-        if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-        let total = 0, tq = 0, html = '';
-        for (let id in cart) {
-            let p = PRODUCTS.find(x => x.id == id);
-            if (p) {
-                let q = cart[id];
-                let sum = p.price * q;
-                total += sum;
-                tq += q;
-                html += `<div>${p.name} — ${q} шт = ${sum} ₽</div>`;
-            }
-        }
-        html += `<div style="margin-top:10px; font-weight:bold;">💰 Итого: ${total} ₽ (${tq} шт)</div>`;
-        document.getElementById('orderSummary').innerHTML = html;
-        showPage('order');
-    }
-
-    // ========== ОТПРАВКА В TELEGRAM ==========
-    async function sendToTelegram(orderData) {
-        let items = '';
-        for (let id in orderData.items) {
-            let p = PRODUCTS.find(x => x.id == id);
-            if (p) items += `${p.name} — ${orderData.items[id]} шт = ${p.price * orderData.items[id]} ₽\n`;
-        }
-        const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${orderData.total} ₽\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
-        try {
-            if (orderData.photoFile) {
-                const fd = new FormData();
-                fd.append('chat_id', CHAT_ID);
-                fd.append('caption', msg);
-                fd.append('photo', orderData.photoFile);
-                const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-                return r.ok;
-            } else {
-                const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
-                });
-                return r.ok;
-            }
-        } catch(e) { return false; }
-    }
-    async function submitOrder() {
-        const phone = document.getElementById('phone').value.trim();
-        const social = document.getElementById('social').value.trim();
-        const address = document.getElementById('address').value.trim();
-        const timeSlot = document.getElementById('timeSelect').value;
-        if (!phone || !social || !address) { alert("Заполните все поля"); return; }
-        if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-        let total = 0;
-        for (let id in cart) total += PRODUCTS.find(p => p.id == id)?.price * cart[id] || 0;
-        const orderData = { items: cart, total, phone, social, address, time: timeSlot, hasPhoto: !!receiptFile, photoFile: receiptFile };
-        const btn = document.getElementById('submitOrderBtn');
-        btn.disabled = true; btn.innerText = "⏳ Отправка...";
-        const sent = await sendToTelegram(orderData);
-        if (sent) {
-            cart = {}; receiptFile = null;
-            updateCartUI();
-            showPage('success');
-        } else { alert("❌ Ошибка. Убедитесь, что бот @My_daaate_bot активирован (напишите ему /start)"); }
-        btn.disabled = false; btn.innerText = "✅ ОТПРАВИТЬ ЗАКАЗ";
-    }
-
-    // ========== АДМИНКА ==========
-    function checkAdminPass() {
-        const pass = document.getElementById('adminPass').value;
-        if (pass === 'nova2025') {
-            document.getElementById('adminLoginBlock').classList.add('hidden');
-            document.getElementById('adminContentBlock').classList.remove('hidden');
-            fillProductSelect();
-            setupDragAndDrop();
-        } else { alert('Неверный пароль'); }
-    }
-    function fillProductSelect() {
-        const select = document.getElementById('productSelect');
-        select.innerHTML = '';
-        PRODUCTS.forEach((p, i) => select.innerHTML += `<option value="${i}">${p.name}</option>`);
-        loadProductForEdit();
-    }
-    function loadProductForEdit() {
-        const idx = document.getElementById('productSelect').value;
-        const p = PRODUCTS[idx];
-        document.getElementById('editName').value = p.name;
-        document.getElementById('editPrice').value = p.price;
-        document.getElementById('editDesc').value = p.description || '';
-        const mediaList = document.getElementById('editMediaList');
-        mediaList.innerHTML = '';
-        if (p.media) p.media.forEach((m, i) => mediaList.innerHTML += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMedia(${i})">✖</button></div>`);
-    }
-    function removeMedia(i) { PRODUCTS[document.getElementById('productSelect').value].media.splice(i, 1); loadProductForEdit(); renderProducts(); saveProductsToLocal(); }
-    function saveProductEdit() {
-        const idx = document.getElementById('productSelect').value;
-        PRODUCTS[idx].name = document.getElementById('editName').value;
-        PRODUCTS[idx].price = parseInt(document.getElementById('editPrice').value);
-        PRODUCTS[idx].description = document.getElementById('editDesc').value;
-        saveProductsToLocal();
-        renderProducts();
+// ==========================================
+// БЛОК 29: АДМИН-ПАНЕЛЬ (ЛОГИКА)
+// ==========================================
+function checkAdminPass() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === 'nova2025') {
+        document.getElementById('adminLoginBlock').classList.add('hidden');
+        document.getElementById('adminContentBlock').classList.remove('hidden');
         fillProductSelect();
-        alert('✅ Товар сохранён');
-    }
-    function deleteCurrentProduct() {
-        if (confirm('Удалить товар?')) { PRODUCTS.splice(document.getElementById('productSelect').value, 1); saveProductsToLocal(); renderProducts(); fillProductSelect(); alert('🗑️ Удалено'); }
-    }
-    function addNewProduct() {
-        const name = document.getElementById('newName').value.trim();
-        const price = parseInt(document.getElementById('newPrice').value);
-        if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
-        PRODUCTS.push({ id: Date.now(), name, price, description: document.getElementById('newDesc').value, media: [] });
-        saveProductsToLocal();
-        renderProducts();
-        fillProductSelect();
-        document.getElementById('newName').value = '';
-        document.getElementById('newPrice').value = '';
-        document.getElementById('newDesc').value = '';
-        alert('✅ Товар добавлен');
-    }
-    function setupDragAndDrop() {
-        const dropzone = document.getElementById('dropzone');
-        dropzone.ondrop = (e) => {
-            e.preventDefault();
-            const file = e.dataTransfer.files[0];
-            if (file) {
+        setupDragAndDrop();
+    } else { alert('Неверный пароль'); }
+}
+function fillProductSelect() {
+    const select = document.getElementById('productSelect');
+    select.innerHTML = '';
+    PRODUCTS.forEach((p, i) => select.innerHTML += `<option value="${i}">${p.name}</option>`);
+    loadProductForEdit();
+}
+function loadProductForEdit() {
+    const idx = document.getElementById('productSelect').value;
+    const p = PRODUCTS[idx];
+    document.getElementById('editName').value = p.name;
+    document.getElementById('editPrice').value = p.price;
+    document.getElementById('editDesc').value = p.description || '';
+    const mediaList = document.getElementById('editMediaList');
+    mediaList.innerHTML = '';
+    if (p.media) p.media.forEach((m, i) => mediaList.innerHTML += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMedia(${i})">✖</button></div>`);
+}
+function removeMedia(i) { PRODUCTS[document.getElementById('productSelect').value].media.splice(i, 1); loadProductForEdit(); renderProducts(); saveProductsToLocal(); }
+function saveProductEdit() {
+    const idx = document.getElementById('productSelect').value;
+    PRODUCTS[idx].name = document.getElementById('editName').value;
+    PRODUCTS[idx].price = parseInt(document.getElementById('editPrice').value);
+    PRODUCTS[idx].description = document.getElementById('editDesc').value;
+    saveProductsToLocal();
+    renderProducts();
+    fillProductSelect();
+    alert('✅ Товар сохранён');
+}
+function deleteCurrentProduct() {
+    if (confirm('Удалить товар?')) { PRODUCTS.splice(document.getElementById('productSelect').value, 1); saveProductsToLocal(); renderProducts(); fillProductSelect(); alert('🗑️ Удалено'); }
+}
+function addNewProduct() {
+    const name = document.getElementById('newName').value.trim();
+    const price = parseInt(document.getElementById('newPrice').value);
+    if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
+    PRODUCTS.push({ id: Date.now(), name, price, description: document.getElementById('newDesc').value, media: [] });
+    saveProductsToLocal();
+    renderProducts();
+    fillProductSelect();
+    document.getElementById('newName').value = '';
+    document.getElementById('newPrice').value = '';
+    document.getElementById('newDesc').value = '';
+    alert('✅ Товар добавлен');
+}
+function setupDragAndDrop() {
+    const dropzone = document.getElementById('dropzone');
+    dropzone.ondrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            const idx = document.getElementById('productSelect').value;
+            if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
+            PRODUCTS[idx].media.push(URL.createObjectURL(file));
+            loadProductForEdit();
+            renderProducts();
+            saveProductsToLocal();
+        }
+    };
+    dropzone.ondragover = e => e.preventDefault();
+    dropzone.onclick = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*,video/*';
+        input.onchange = e => {
+            if (e.target.files[0]) {
                 const idx = document.getElementById('productSelect').value;
                 if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
-                PRODUCTS[idx].media.push(URL.createObjectURL(file));
+                PRODUCTS[idx].media.push(URL.createObjectURL(e.target.files[0]));
                 loadProductForEdit();
                 renderProducts();
                 saveProductsToLocal();
             }
         };
-        dropzone.ondragover = e => e.preventDefault();
-        dropzone.onclick = () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*,video/*';
-            input.onchange = e => {
-                if (e.target.files[0]) {
-                    const idx = document.getElementById('productSelect').value;
-                    if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
-                    PRODUCTS[idx].media.push(URL.createObjectURL(e.target.files[0]));
-                    loadProductForEdit();
-                    renderProducts();
-                    saveProductsToLocal();
-                }
-            };
-            input.click();
-        };
-    }
-
-    // ========== НАВИГАЦИЯ И ТЕМЫ ==========
-    function showPage(page) {
-        document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-        document.getElementById(page + 'Page').classList.add('active');
-        if (page === 'cart') renderCartList();
-        if (page === 'main') { renderProducts(); updateVipSidebar(); }
-    }
-    function toggleThemeMenu() {
-        const menu = document.getElementById('themeMenu');
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-    }
-    function setTheme(theme) {
-        document.body.classList.remove('theme-dark', 'theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
-        document.body.classList.add('theme-' + theme);
-        localStorage.setItem('nova_theme', theme);
-        toggleThemeMenu();
-    }
-    const savedTheme = localStorage.getItem('nova_theme');
-    if (savedTheme) setTheme(savedTheme);
-
-    // ========== ЗАПУСК ==========
-    document.getElementById('checkoutBtn').onclick = showOrderScreen;
-    document.getElementById('closeOrderBtn').onclick = () => showPage('cart');
-    document.getElementById('submitOrderBtn').onclick = submitOrder;
-    document.getElementById('fileLabel').onclick = () => document.getElementById('receiptFile').click();
-    document.getElementById('receiptFile').onchange = (e) => {
-        if (e.target.files.length) { receiptFile = e.target.files[0]; document.getElementById('fileNameSpan').innerText = `📸 ${receiptFile.name}`; }
+        input.click();
     };
-    loadProductsFromLocal();
-    updateCartUI();
+}
+
+// ==========================================
+// БЛОК 30: НАВИГАЦИЯ И ТЕМЫ
+// ==========================================
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+    document.getElementById(page + 'Page').classList.add('active');
+    if (page === 'cart') renderCartList();
+    if (page === 'main') { renderProducts(); updateVipSidebar(); }
+}
+function toggleThemeMenu() {
+    const menu = document.getElementById('themeMenu');
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+}
+function setTheme(theme) {
+    document.body.classList.remove('theme-dark', 'theme-pikmi', 'theme-luxury', 'theme-calm', 'theme-vision');
+    document.body.classList.add('theme-' + theme);
+    localStorage.setItem('nova_theme', theme);
+    toggleThemeMenu();
+}
+const savedTheme = localStorage.getItem('nova_theme');
+if (savedTheme) setTheme(savedTheme);
+
+// ==========================================
+// БЛОК 31: ЗАПУСК ВСЕХ СИСТЕМ
+// ==========================================
+document.getElementById('checkoutBtn').onclick = showOrderScreen;
+document.getElementById('closeOrderBtn').onclick = () => showPage('cart');
+document.getElementById('submitOrderBtn').onclick = submitOrder;
+document.getElementById('fileLabel').onclick = () => document.getElementById('receiptFile').click();
+document.getElementById('receiptFile').onchange = (e) => {
+    if (e.target.files.length) { receiptFile = e.target.files[0]; document.getElementById('fileNameSpan').innerText = `📸 ${receiptFile.name}`; }
+};
+loadProductsFromLocal();
+updateCartUI();
 </script>
 </body>
 </html>
