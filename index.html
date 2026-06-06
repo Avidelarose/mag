@@ -1217,9 +1217,358 @@ function updateVipProduct() {
 // Запускаем VIP-обновление
 updateVipProduct();
 setInterval(updateVipProduct, 30000);
+    //блок33//
 // Запуск и автообновление (каждые 30 секунд)
 updateVipProduct();
 setInterval(updateVipProduct, 30000);
+    
+<!-- ========================================== -->
+<!-- БЛОК 33: АДМИН-ПАНЕЛЬ (СТИЛИ) -->
+<!-- ========================================== -->
+<style>
+/* Админ-панель */
+.admin-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+.admin-panel.active {
+    display: flex;
+}
+.admin-container {
+    background: #1a1a1a;
+    border-radius: 40px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    border: 1px solid #d4af37;
+}
+.admin-container h2 {
+    color: #d4af37;
+    margin-bottom: 20px;
+}
+.admin-container input, .admin-container textarea, .admin-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 30px;
+    border: 1px solid #333;
+    background: #2a2a2a;
+    color: white;
+}
+.admin-container button {
+    background: #d4af37;
+    color: #000;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.admin-close {
+    background: #d90429;
+    color: white;
+}
+.product-list {
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.product-item {
+    background: #2a2a2a;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.product-item button {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+</style>
+
+<!-- ========================================== -->
+<!-- БЛОК 34: АДМИН-ПАНЕЛЬ (HTML) -->
+<!-- ========================================== -->
+<div id="adminPanel" class="admin-panel">
+    <div class="admin-container">
+        <h2>👑 Админ-панель</h2>
+        <div id="adminLogin">
+            <input type="password" id="adminPassword" placeholder="Введите пароль">
+            <button onclick="checkAdminLogin()">Войти</button>
+        </div>
+        <div id="adminContent" style="display:none;">
+            <h3>➕ Добавить товар</h3>
+            <input type="text" id="newProductName" placeholder="Название товара">
+            <input type="number" id="newProductPrice" placeholder="Цена">
+            <input type="text" id="newProductEmoji" placeholder="Эмодзи (например, 💾)">
+            <input type="text" id="newProductImg" placeholder="Ссылка на фото (или оставь пустым)">
+            <input type="text" id="newProductVideo" placeholder="Ссылка на видео (или оставь пустым)">
+            <textarea id="newProductDesc" placeholder="Описание товара" rows="2"></textarea>
+            <button onclick="addProduct()">➕ Добавить товар</button>
+            
+            <h3 style="margin-top:20px;">✏️ Редактировать товары</h3>
+            <div id="adminProductList" class="product-list"></div>
+        </div>
+        <button class="admin-close" onclick="closeAdminPanel()">Закрыть</button>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// БЛОК 35: АДМИН-ПАНЕЛЬ (ЛОГИКА)
+// ==========================================
+const ADMIN_PASSWORD = "nova2025";  // ← ЗАМЕНИ НА СВОЙ ПАРОЛЬ
+
+// Проверка входа
+function checkAdminLogin() {
+    const pass = document.getElementById('adminPassword').value;
+    if (pass === ADMIN_PASSWORD) {
+        document.getElementById('adminLogin').style.display = 'none';
+        document.getElementById('adminContent').style.display = 'block';
+        renderAdminProductList();
+    } else {
+        alert('Неверный пароль');
+    }
+}
+
+// Открыть админ-панель
+function openAdminPanel() {
+    document.getElementById('adminPanel').classList.add('active');
+    document.getElementById('adminLogin').style.display = 'block';
+    document.getElementById('adminContent').style.display = 'none';
+    document.getElementById('adminPassword').value = '';
+}
+
+// Закрыть админ-панель
+function closeAdminPanel() {
+    document.getElementById('adminPanel').classList.remove('active');
+}
+
+// Показать список товаров для редактирования
+function renderAdminProductList() {
+    const container = document.getElementById('adminProductList');
+    if (!container) return;
+    container.innerHTML = '';
+    PRODUCTS.forEach((p, index) => {
+        const div = document.createElement('div');
+        div.className = 'product-item';
+        div.innerHTML = `
+            <div><strong>${p.name}</strong> — ${p.price} ₽</div>
+            <div>
+                <button onclick="editProduct(${index})">✏️</button>
+                <button onclick="deleteProduct(${index})" style="background:#d90429;">🗑️</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// Редактировать товар
+function editProduct(index) {
+    const p = PRODUCTS[index];
+    const newName = prompt('Новое название', p.name);
+    if (newName) p.name = newName;
+    const newPrice = prompt('Новая цена', p.price);
+    if (newPrice) p.price = parseInt(newPrice);
+    const newEmoji = prompt('Новый эмодзи', p.emoji);
+    if (newEmoji) p.emoji = newEmoji;
+    const newImg = prompt('Ссылка на фото (оставь пустым если нет)', p.img || '');
+    p.img = newImg || '';
+    const newVideo = prompt('Ссылка на видео (оставь пустым если нет)', p.video || '');
+    p.video = newVideo || '';
+    const newDesc = prompt('Описание', p.description || '');
+    p.description = newDesc || '';
+    
+    // Сохраняем в localStorage и обновляем отображение
+    saveProductsToLocal();
+    renderProducts();
+    renderAdminProductList();
+    alert('Товар обновлён!');
+}
+
+// Удалить товар
+function deleteProduct(index) {
+    if (confirm('Удалить товар?')) {
+        PRODUCTS.splice(index, 1);
+        saveProductsToLocal();
+        renderProducts();
+        renderAdminProductList();
+        updateCartUI();
+        alert('Товар удалён');
+    }
+}
+
+// Добавить новый товар
+function addProduct() {
+    const name = document.getElementById('newProductName').value.trim();
+    const price = parseInt(document.getElementById('newProductPrice').value);
+    const emoji = document.getElementById('newProductEmoji').value.trim() || '📦';
+    const img = document.getElementById('newProductImg').value.trim();
+    const video = document.getElementById('newProductVideo').value.trim();
+    const description = document.getElementById('newProductDesc').value.trim();
+    
+    if (!name || isNaN(price)) {
+        alert('Заполните название и цену');
+        return;
+    }
+    
+    const newId = Math.max(...PRODUCTS.map(p => p.id), 0) + 1;
+    PRODUCTS.push({
+        id: newId,
+        name: name,
+        price: price,
+        emoji: emoji,
+        img: img,
+        video: video,
+        description: description
+    });
+    
+    saveProductsToLocal();
+    renderProducts();
+    renderAdminProductList();
+    updateCartUI();
+    
+    // Очистить форму
+    document.getElementById('newProductName').value = '';
+    document.getElementById('newProductPrice').value = '';
+    document.getElementById('newProductEmoji').value = '';
+    document.getElementById('newProductImg').value = '';
+    document.getElementById('newProductVideo').value = '';
+    document.getElementById('newProductDesc').value = '';
+    
+    alert('Товар добавлен!');
+}
+
+// Сохранить товары в localStorage (чтобы не терялись при перезагрузке)
+function saveProductsToLocal() {
+    localStorage.setItem('nova_products', JSON.stringify(PRODUCTS));
+}
+
+// Загрузить товары из localStorage
+function loadProductsFromLocal() {
+    const saved = localStorage.getItem('nova_products');
+    if (saved) {
+        try {
+            const savedProducts = JSON.parse(saved);
+            // Обновляем глобальный массив PRODUCTS
+            PRODUCTS.length = 0;
+            savedProducts.forEach(p => PRODUCTS.push(p));
+            renderProducts();
+            updateCartUI();
+        } catch(e) {}
+    }
+}
+
+// Добавляем кнопку админки в левое меню
+document.addEventListener('DOMContentLoaded', () => {
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu && !document.querySelector('.nav-link[data-page="admin"]')) {
+        const adminLi = document.createElement('li');
+        adminLi.className = 'nav-item';
+        adminLi.innerHTML = '<a class="nav-link" id="adminPanelBtn">🔐 Админ</a>';
+        navMenu.appendChild(adminLi);
+        document.getElementById('adminPanelBtn')?.addEventListener('click', openAdminPanel);
+    }
+    
+    // Загружаем сохранённые товары
+    loadProductsFromLocal();
+});
+
+// Обновляем отрисовку товаров с учётом приоритета (видео > фото > эмодзи)
+const originalRenderProducts = renderProducts;
+window.renderProducts = function() {
+    const container = document.getElementById('productsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    for(let p of PRODUCTS) {
+        const qty = cart[p.id] || 0;
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+        
+        let mediaHtml = '';
+        if (p.video && p.video !== '') {
+            mediaHtml = `<video class="product-media" autoplay muted loop playsinline src="${p.video}"></video>`;
+        } else if (p.img && p.img !== '') {
+            mediaHtml = `<img class="product-media" src="${p.img}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=product-emoji>${p.emoji}</div>'">`;
+        } else {
+            mediaHtml = `<div class="product-emoji">${p.emoji}</div>`;
+        }
+        
+        productDiv.innerHTML = `
+            ${mediaHtml}
+            <div class="product-info">
+                <div class="product-name">${p.name}</div>
+                <div class="product-price">${p.price.toLocaleString()} ₽</div>
+                ${p.description ? `<div class="product-description" style="font-size:0.8rem; color:#aaa; margin-top:5px;">${p.description}</div>` : ''}
+                <div class="qty-control">
+                    <span class="qty-label">Кол-во:</span>
+                    <button class="qty-minus" data-id="${p.id}">−</button>
+                    <span class="qty-value">${qty}</span>
+                    <button class="qty-plus" data-id="${p.id}">+</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(productDiv);
+    }
+    
+    // Обработчики
+    document.querySelectorAll('.qty-plus').forEach(btn => {
+        btn.onclick = () => {
+            const id = parseInt(btn.dataset.id);
+            cart[id] = (cart[id] || 0) + 1;
+            window.renderProducts();
+            updateCartUI();
+        };
+    });
+    document.querySelectorAll('.qty-minus').forEach(btn => {
+        btn.onclick = () => {
+            const id = parseInt(btn.dataset.id);
+            if (cart[id] && cart[id] > 0) {
+                cart[id]--;
+                if (cart[id] === 0) delete cart[id];
+                window.renderProducts();
+                updateCartUI();
+            }
+        };
+    });
+};
+    // ДОБАВЬ ЭТУ ФУНКЦИЮ ДЛЯ ЗАГРУЗКИ ФАЙЛОВ В GITHUB
+const GITHUB_TOKEN = "ghp_ТВОЙ_ТОКЕН";
+const GITHUB_REPO = "Avidelarose/my-shop";
+
+async function uploadFileToGitHub(filename, base64Data) {
+    const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/images/${filename}`;
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: `Upload ${filename}`,
+            content: base64Data.split(',')[1]
+        })
+    });
+    return response.ok;
+}
+
+// Заменяем старую функцию
+window.renderProducts();
 </script>
 </body>
 </html>
