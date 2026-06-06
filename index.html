@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NŌVA Premium — магазин</title>
     <style>
-        /* ========================================== */
-        /* БЛОК 1: ГЛОБАЛЬНЫЕ СТИЛИ */
-        /* ========================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, 'SF Pro Display', 'Segoe UI', sans-serif;
             min-height: 100vh;
             transition: background 0.3s, color 0.2s;
         }
-        /* ========================================== */
-        /* БЛОК 2: ТЕМЫ */
-        /* ========================================== */
+        /* ТЕМЫ */
         body.theme-dark { background: linear-gradient(135deg, #1a0b14 0%, #0d0210 100%); color: white; }
-        body.theme-pikmi { background: linear-gradient(135deg, #ffc0cb, #ff99aa); color: #4a0025; }
-        body.theme-luxury { background: linear-gradient(135deg, #8B0000, #DAA520); color: #FFD700; }
-        body.theme-calm { background: linear-gradient(135deg, #87CEEB, #B0E0E6); color: #2c3e50; }
+        body.theme-pikmi { background: linear-gradient(135deg, #ffc0cb, #ff99aa); color: #1a1a1a; }
+        body.theme-pikmi .product-price-card { color: #d90429; }
+        body.theme-luxury { background: linear-gradient(135deg, #8B0000, #DAA520); color: white; }
+        body.theme-luxury .product-price-card { color: #FFD700; }
+        body.theme-calm { background: linear-gradient(135deg, #87CEEB, #B0E0E6); color: #1a1a1a; }
+        body.theme-calm .product-price-card { color: #1E90FF; }
         body.theme-vision { background: #1a1a1a; color: #e6c384; }
-        /* ========================================== */
-        /* БЛОК 3: ШАПКА */
-        /* ========================================== */
+        body.theme-vision .product-price-card { color: #e6c384; }
+        /* ШАПКА */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -44,9 +41,7 @@
             background-clip: text;
             color: transparent;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
-        .logo:hover { opacity: 0.8; }
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-btn {
             background: rgba(255,255,255,0.1);
@@ -57,9 +52,7 @@
             font-weight: 600;
             cursor: pointer;
             color: inherit;
-            transition: 0.2s;
         }
-        .nav-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.02); }
         .cart-icon { position: relative; cursor: pointer; font-size: 1.3rem; }
         .cart-count {
             position: absolute;
@@ -69,11 +62,9 @@
             border-radius: 20px;
             padding: 2px 8px;
             font-size: 12px;
-            font-weight: bold;
+            color: white;
         }
-        /* ========================================== */
-        /* БЛОК 4: ТОВАРЫ (КАК НА WB/OZON) */
-        /* ========================================== */
+        /* СЕТКА ТОВАРОВ */
         .main-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -96,18 +87,12 @@
             transition: 0.2s;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .product-card:hover {
-            transform: translateY(-4px);
-            border-color: #d4af37;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
+        .product-card:hover { transform: translateY(-4px); border-color: #d4af37; }
         .product-media { width: 100%; height: 200px; object-fit: cover; background: #1f1f2a; }
         .product-info-card { padding: 12px; text-align: center; }
         .product-name-card { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
-        .product-price-card { font-weight: 700; color: #ff6b8a; font-size: 1rem; }
-        /* ========================================== */
-        /* БЛОК 5: VIP-ПАНЕЛЬ СПРАВА */
-        /* ========================================== */
+        .product-price-card { font-weight: 700; font-size: 1rem; }
+        /* VIP-САЙДБАР */
         .vip-sidebar {
             width: 280px;
             background: rgba(0, 0, 0, 0.6);
@@ -129,63 +114,35 @@
             font-weight: bold;
             margin-bottom: 15px;
         }
-        .vip-media img, .vip-media video { width: 100%; max-height: 160px; object-fit: cover; border-radius: 20px; margin-bottom: 12px; }
-        .vip-name { font-weight: bold; font-size: 1rem; margin: 8px 0; }
-        .vip-price { font-size: 1rem; color: #d4af37; font-weight: bold; }
-        .vip-badge { font-size: 0.7rem; background: #d4af37; display: inline-block; padding: 4px 12px; border-radius: 20px; margin: 8px 0; color: #000; }
-        .vip-btn { background: #d90429; border: none; padding: 10px; border-radius: 30px; width: 100%; color: white; cursor: pointer; font-weight: bold; margin-top: 8px; }
-        /* ========================================== */
-        /* БЛОК 6: СТРАНИЦА ТОВАРА С LIGHTBOX */
-        /* ========================================== */
-        .product-page {
-            max-width: 900px;
+        .vip-media img, .vip-media video { width: 100%; max-height: 160px; object-fit: cover; border-radius: 20px; }
+        .vip-btn {
+            background: #d90429;
+            border: none;
+            padding: 10px;
+            border-radius: 30px;
+            width: 100%;
+            color: white;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        /* СТРАНИЦА ТОВАРА (ОТДЕЛЬНАЯ СТРАНИЦА) */
+        .product-detail-page {
+            max-width: 1000px;
             margin: 40px auto;
             background: rgba(0, 0, 0, 0.7);
             border-radius: 40px;
             padding: 32px;
         }
-        .product-page-media { display: flex; gap: 16px; overflow-x: auto; margin-bottom: 24px; flex-wrap: wrap; }
-        .product-page-media img, .product-page-media video {
-            max-height: 300px;
-            border-radius: 28px;
-            object-fit: contain;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .product-page-media img:hover { transform: scale(1.02); box-shadow: 0 0 15px #d4af37; }
-        .product-page-name { font-size: 1.8rem; font-weight: bold; color: #d4af37; }
-        .product-page-price { font-size: 1.5rem; margin: 16px 0; }
-        .product-page-desc { margin: 20px 0; line-height: 1.4; }
-        .product-page-qty { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
-        .product-page-qty button { background: #d4af37; border: none; width: 40px; height: 40px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; }
+        .product-detail-media { display: flex; gap: 16px; overflow-x: auto; margin-bottom: 24px; flex-wrap: wrap; }
+        .product-detail-media img, .product-detail-media video { max-height: 350px; border-radius: 28px; object-fit: contain; cursor: pointer; }
+        .product-detail-name { font-size: 2rem; font-weight: bold; color: #d4af37; }
+        .product-detail-price { font-size: 1.6rem; margin: 16px 0; }
+        .product-detail-desc { margin: 20px 0; line-height: 1.5; }
+        .product-detail-qty { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
+        .product-detail-qty button { background: #d4af37; border: none; width: 40px; height: 40px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; }
         .btn-add { background: linear-gradient(135deg, #d90429, #9b1df0); border: none; padding: 14px; border-radius: 40px; font-weight: bold; cursor: pointer; width: 100%; color: white; }
         .btn-back { background: transparent; border: 1px solid #d4af37; padding: 12px; border-radius: 40px; width: 100%; cursor: pointer; margin-top: 16px; color: inherit; }
-        /* ========================================== */
-        /* БЛОК 7: LIGHTBOX (УВЕЛИЧЕНИЕ ФОТО) */
-        /* ========================================== */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-        .lightbox.active { display: flex; }
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 20px;
-        }
-        /* ========================================== */
-        /* БЛОК 8: КОРЗИНА И ФОРМА */
-        /* ========================================== */
+        /* КОРЗИНА */
         .cart-container {
             max-width: 800px;
             margin: 40px auto;
@@ -213,10 +170,9 @@
             text-align: center;
             cursor: pointer;
             border: 1px dashed #d4af37;
+            color: white;
         }
-        /* ========================================== */
-        /* БЛОК 9: АДМИНКА */
-        /* ========================================== */
+        /* АДМИНКА (КАК НА АВИТО) */
         .admin-container {
             max-width: 1000px;
             margin: 40px auto;
@@ -243,7 +199,7 @@
             margin-bottom: 20px;
         }
         .media-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .media-item { background: #333; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-size: 12px; }
+        .media-item { background: #333; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: white; }
         .page { display: none; }
         .page.active { display: block; }
         .hidden { display: none !important; }
@@ -264,6 +220,21 @@
             text-decoration: none;
             color: white;
         }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 20px; }
         @media (max-width: 1000px) {
             .main-container { flex-direction: column; }
             .vip-sidebar { width: 100%; position: static; margin-top: 20px; }
@@ -276,16 +247,10 @@
 </head>
 <body class="theme-dark">
 
-<!-- ========================================== -->
-<!-- БЛОК 10: LIGHTBOX (HTML) -->
-<!-- ========================================== -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
     <img id="lightboxImg" src="">
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 11: ШАПКА -->
-<!-- ========================================== -->
 <div class="top-bar">
     <div class="logo" onclick="showPage('main')">NŌVA</div>
     <div class="nav-links">
@@ -299,9 +264,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 12: МЕНЮ ТЕМ -->
-<!-- ========================================== -->
 <div id="themeMenu" style="display:none; position:fixed; top:80px; right:20px; background:#1a1a1a; border-radius:30px; padding:16px; z-index:1000; flex-direction:column; gap:10px;">
     <button onclick="setTheme('dark')">🌙 Тёмная</button>
     <button onclick="setTheme('pikmi')">🌸 Пикми</button>
@@ -311,9 +273,6 @@
     <button onclick="toggleThemeMenu()">✖ Закрыть</button>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 13: ГЛАВНАЯ -->
-<!-- ========================================== -->
 <div id="mainPage" class="page active">
     <div class="main-container">
         <div class="products-grid" id="productsContainer"></div>
@@ -328,16 +287,10 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 14: СТРАНИЦА ТОВАРА -->
-<!-- ========================================== -->
-<div id="productPage" class="page">
-    <div class="product-page" id="productDetailContainer"></div>
+<div id="productDetailPage" class="page">
+    <div class="product-detail-page" id="productDetailContainer"></div>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 15: КОРЗИНА -->
-<!-- ========================================== -->
 <div id="cartPage" class="page">
     <div class="cart-container">
         <h2 style="color:#d4af37;">🛒 Корзина</h2>
@@ -347,9 +300,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 16: ОФОРМЛЕНИЕ -->
-<!-- ========================================== -->
 <div id="orderPage" class="page">
     <div class="cart-container">
         <h2 style="color:#d4af37;">✏️ Оформление заказа</h2>
@@ -364,9 +314,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 17: АДМИН-ПАНЕЛЬ -->
-<!-- ========================================== -->
 <div id="adminPage" class="page">
     <div class="admin-container">
         <h2>👑 Админ-панель</h2>
@@ -375,10 +322,9 @@
             <button onclick="checkAdminPass()">Войти</button>
         </div>
         <div id="adminContentBlock" class="hidden">
-            <div id="githubTokenBlock">
-                <input type="password" id="githubToken" placeholder="GitHub токен (для сохранения фото/видео)">
+            <div>
+                <input type="password" id="githubToken" placeholder="GitHub токен (получить в настройках GitHub)">
                 <button onclick="saveGitHubToken()">💾 Сохранить токен</button>
-                <div style="font-size:12px; color:#aaa; margin:8px 0;">Токен нужен для загрузки файлов в GitHub. Получить: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → repo</div>
             </div>
             <h3>✏️ Редактировать товар</h3>
             <select id="productSelect" onchange="loadProductForEdit()"></select>
@@ -398,9 +344,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- БЛОК 18: СТРАНИЦА УСПЕХА -->
-<!-- ========================================== -->
 <div id="successPage" class="page">
     <div class="cart-container" style="text-align:center;">
         <h2 style="color:#d4af37;">✅ ЗАКАЗ ОТПРАВЛЕН!</h2>
@@ -411,7 +354,7 @@
 
 <script>
 // ==========================================
-// БЛОК 19: НАСТРОЙКИ
+// НАСТРОЙКИ
 // ==========================================
 const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
 const CHAT_ID = "5233384978";
@@ -419,17 +362,17 @@ const GITHUB_REPO = "Avidelarose/my-shop";
 let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
 
 // ==========================================
-// БЛОК 20: ТОВАРЫ
+// ТОВАРЫ
 // ==========================================
 let PRODUCTS = [
-    { id: 1, name: "💾 SSD 256 SP A56", price: 3650, description: "Высокоскоростной SSD", media: [] },
-    { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, description: "Мягкая игрушка", media: [] },
-    { id: 3, name: "🐉 Дракончик светящийся", price: 330, description: "Светится в темноте", media: ["Dragon_girl.jpg"] },
-    { id: 4, name: "🔌 Зарядка в авто с вольтметром", price: 800, description: "", media: [] },
-    { id: 5, name: "🃏 Мини колода карт", price: 700, description: "", media: [] },
-    { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, description: "", media: ["Video/video_kulon.mp4"] },
-    { id: 7, name: "🌸 Жилетка женская цветы", price: 2145, description: "", media: [] },
-    { id: 8, name: "💨 Игрушечные сигареты", price: 1500, description: "", media: [] }
+    { id: 1, name: "💾 SSD 256 SP A56", price: 3650, description: "Высокоскоростной SSD", media: [], emoji: "💾" },
+    { id: 2, name: "🧸 Чебурашка мягкий", price: 2600, description: "Мягкая игрушка", media: [], emoji: "🧸" },
+    { id: 3, name: "🐉 Дракончик светящийся", price: 330, description: "Светится в темноте", media: ["Dragon_girl.jpg"], emoji: "🐉" },
+    { id: 4, name: "🔌 Зарядка в авто с вольтметром", price: 800, description: "", media: [], emoji: "🔌" },
+    { id: 5, name: "🃏 Мини колода карт", price: 700, description: "", media: [], emoji: "🃏" },
+    { id: 6, name: "🔑 Брелок четырёхлистник", price: 300, description: "", media: ["Video/video_kulon.mp4"], emoji: "🔑" },
+    { id: 7, name: "🌸 Жилетка женская цветы", price: 2145, description: "", media: [], emoji: "🌸" },
+    { id: 8, name: "💨 Игрушечные сигареты", price: 1500, description: "", media: [], emoji: "💨" }
 ];
 
 let cart = {};
@@ -438,31 +381,27 @@ let currentProductId = null;
 let currentQty = 1;
 
 // ==========================================
-// БЛОК 21: LIGHTBOX
+// LIGHTBOX
 // ==========================================
 function openLightbox(imgSrc) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    lightboxImg.src = imgSrc;
-    lightbox.classList.add('active');
+    document.getElementById('lightboxImg').src = imgSrc;
+    document.getElementById('lightbox').classList.add('active');
 }
-function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
-}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
 
 // ==========================================
-// БЛОК 22: СОХРАНЕНИЕ В GITHUB
+// GITHUB API (СОХРАНЕНИЕ И УДАЛЕНИЕ)
 // ==========================================
 function saveGitHubToken() {
     const token = document.getElementById('githubToken').value.trim();
     if (token) {
         localStorage.setItem('github_token', token);
         GITHUB_TOKEN = token;
-        alert('✅ Токен сохранён! Теперь фото/видео будут загружаться в GitHub');
-    } else { alert('Введите токен'); }
+        alert('✅ Токен сохранён!');
+    }
 }
 async function uploadFileToGitHub(file) {
-    if (!GITHUB_TOKEN) { alert('Сначала сохраните GitHub токен в админ-панели'); return null; }
+    if (!GITHUB_TOKEN) { alert('Сохраните GitHub токен'); return null; }
     const filename = Date.now() + '_' + file.name;
     const reader = new FileReader();
     return new Promise((resolve) => {
@@ -484,21 +423,25 @@ async function uploadFileToGitHub(file) {
         reader.readAsDataURL(file);
     });
 }
-
-// ==========================================
-// БЛОК 23: LOCALSTORAGE
-// ==========================================
-function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
-function loadProductsFromLocal() {
-    const saved = localStorage.getItem('nova_products');
-    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
-    renderProducts();
-    updateVipSidebar();
-    updateCartUI();
+async function deleteFileFromGitHub(fileUrl) {
+    if (!GITHUB_TOKEN || !fileUrl) return false;
+    const filename = fileUrl.split('/').pop();
+    const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/images/${filename}`;
+    try {
+        const getResponse = await fetch(url, { headers: { 'Authorization': `token ${GITHUB_TOKEN}` } });
+        if (!getResponse.ok) return false;
+        const data = await getResponse.json();
+        const deleteResponse = await fetch(url, {
+            method: 'DELETE',
+            headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: `Delete ${filename}`, sha: data.sha })
+        });
+        return deleteResponse.ok;
+    } catch(e) { return false; }
 }
 
 // ==========================================
-// БЛОК 24: ОТРИСОВКА ГЛАВНОЙ (ИСПРАВЛЕНА)
+// ОТРИСОВКА ГЛАВНОЙ
 // ==========================================
 function renderProducts() {
     const container = document.getElementById('productsContainer');
@@ -507,97 +450,59 @@ function renderProducts() {
     for (let p of PRODUCTS) {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.onclick = () => openProductPage(p.id);
-        
-        let mediaUrl = '';
-        let isVideo = false;
-        if (p.media && p.media.length > 0 && p.media[0]) {
-            mediaUrl = p.media[0];
-            isVideo = mediaUrl.includes('.mp4') || mediaUrl.includes('.webm') || mediaUrl.includes('video');
-        }
-        
-        const mediaHtml = mediaUrl 
-            ? (isVideo 
-                ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>`
-                : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${encodeURIComponent(p.name)}'">`)
-            : `<div class="product-media" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #d90429, #9b1df0); color: white; font-size: 2rem;">${p.emoji || '📦'}</div>`;
-        
-        card.innerHTML = `
-            ${mediaHtml}
-            <div class="product-info-card">
-                <div class="product-name-card">${p.name}</div>
-                <div class="product-price-card">${p.price.toLocaleString()} ₽</div>
-            </div>
-        `;
+        card.onclick = () => openProductDetail(p.id);
+        let mediaUrl = (p.media && p.media[0]) ? p.media[0] : '';
+        let isVideo = mediaUrl && (mediaUrl.includes('.mp4') || mediaUrl.includes('.webm'));
+        const mediaHtml = mediaUrl ? (isVideo ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${p.name}'">`) : `<div class="product-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d90429,#9b1df0);font-size:2rem;">${p.emoji || '📦'}</div>`;
+        card.innerHTML = `${mediaHtml}<div class="product-info-card"><div class="product-name-card">${p.name}</div><div class="product-price-card">${p.price.toLocaleString()} ₽</div></div>`;
         container.appendChild(card);
     }
 }
 
-// ==========================================
-// БЛОК 25: VIP
-// ==========================================
 function updateVipSidebar() {
     const vipDiv = document.getElementById('vipSidebar');
     if (!vipDiv) return;
     const vip = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
-    const firstMedia = vip.media && vip.media[0] ? vip.media[0] : '';
-    const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm') || firstMedia.includes('video'));
-    vipDiv.innerHTML = `
-        <div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div>
-        <div class="vip-media">${isVideo ? `<video src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`}</div>
-        <div class="vip-name">${vip.name}</div>
-        <div class="vip-price">${vip.price.toLocaleString()} ₽</div>
-        <div class="vip-badge">✨ эксклюзивно ✨</div>
-        <button class="vip-btn" onclick="addToCartVip(${vip.id})">🛒 В корзину</button>
-    `;
+    const mediaUrl = (vip.media && vip.media[0]) ? vip.media[0] : '';
+    const isVideo = mediaUrl && (mediaUrl.includes('.mp4') || mediaUrl.includes('.webm'));
+    vipDiv.innerHTML = `<div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div><div class="vip-media">${isVideo ? `<video src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`}</div><div class="vip-name">${vip.name}</div><div class="vip-price">${vip.price.toLocaleString()} ₽</div><div class="vip-badge">✨ эксклюзивно ✨</div><button class="vip-btn" onclick="addToCartVip(${vip.id})">🛒 В корзину</button>`;
 }
 function addToCartVip(id) { cart[id] = (cart[id] || 0) + 1; updateCartUI(); alert('✅ Добавлено в корзину'); }
 
 // ==========================================
-// БЛОК 26: СТРАНИЦА ТОВАРА С LIGHTBOX
+// СТРАНИЦА ТОВАРА (ОТДЕЛЬНАЯ)
 // ==========================================
-function openProductPage(id) {
+function openProductDetail(id) {
     const p = PRODUCTS.find(x => x.id == id);
     if (!p) return;
     currentProductId = id;
     currentQty = 1;
-    const container = document.getElementById('productDetailContainer');
     let mediaHtml = '';
     if (p.media && p.media.length) {
         for (let m of p.media) {
-            const isVideo = m.includes('.mp4') || m.includes('.webm') || m.includes('video');
-            if (isVideo) {
-                mediaHtml += `<video src="${m}" controls autoplay muted loop playsinline></video>`;
-            } else {
-                mediaHtml += `<img src="${m}" onclick="event.stopPropagation(); openLightbox('${m}')">`;
-            }
+            const isVideo = m.includes('.mp4') || m.includes('.webm');
+            mediaHtml += isVideo ? `<video src="${m}" controls autoplay muted loop playsinline></video>` : `<img src="${m}" onclick="event.stopPropagation(); openLightbox('${m}')">`;
         }
-    } else {
-        mediaHtml = `<div style="padding:40px; text-align:center; background:#1f1f2a; border-radius:28px;">📷 Нет фото</div>`;
-    }
-    container.innerHTML = `
-        <div class="product-page-media">${mediaHtml}</div>
-        <div class="product-page-name">${p.name}</div>
-        <div class="product-page-price">${p.price.toLocaleString()} ₽</div>
-        <div class="product-page-desc">${p.description || 'Описание отсутствует'}</div>
-        <div class="product-page-qty">
-            <button onclick="changeQty(-1)">−</button>
-            <span id="detailQty">1</span>
-            <button onclick="changeQty(1)">+</button>
-        </div>
+    } else { mediaHtml = `<div style="padding:40px;text-align:center;background:#1f1f2a;border-radius:28px;">📷 Нет фото</div>`; }
+    document.getElementById('productDetailContainer').innerHTML = `
+        <div class="product-detail-media">${mediaHtml}</div>
+        <div class="product-detail-name">${p.name}</div>
+        <div class="product-detail-price">${p.price.toLocaleString()} ₽</div>
+        <div class="product-detail-desc">${p.description || 'Описание отсутствует'}</div>
+        <div class="product-detail-qty"><button onclick="changeQty(-1)">−</button><span id="detailQty">1</span><button onclick="changeQty(1)">+</button></div>
         <button class="btn-add" onclick="addToCartFromDetail()">🛒 Добавить в корзину</button>
         <button class="btn-back" onclick="showPage('main')">← Назад в каталог</button>
     `;
     document.getElementById('detailQty').innerText = currentQty;
-    showPage('product');
+    showPage('productDetail');
 }
 function changeQty(delta) { currentQty = Math.max(1, currentQty + delta); const span = document.getElementById('detailQty'); if (span) span.innerText = currentQty; }
 function addToCartFromDetail() { cart[currentProductId] = (cart[currentProductId] || 0) + currentQty; updateCartUI(); showPage('main'); alert('✅ Добавлено в корзину'); }
 
 // ==========================================
-// БЛОК 27: КОРЗИНА
+// КОРЗИНА
 // ==========================================
-function updateCartUI() { let totalCount = 0; for (let id in cart) totalCount += cart[id]; document.getElementById('cartCount').innerText = totalCount; renderCartList(); }
+function updateCartUI() { let total = 0; for (let id in cart) total += cart[id]; document.getElementById('cartCount').innerText = total; renderCartList(); }
 function renderCartList() {
     const container = document.getElementById('cartItemsList');
     if (!container) return;
@@ -634,7 +539,7 @@ function showOrderScreen() {
 }
 
 // ==========================================
-// БЛОК 28: TELEGRAM
+// TELEGRAM
 // ==========================================
 async function sendToTelegram(orderData) {
     let items = '';
@@ -670,12 +575,12 @@ async function submitOrder() {
     const btn = document.getElementById('submitOrderBtn');
     btn.disabled = true; btn.innerText = "⏳ Отправка...";
     const sent = await sendToTelegram(orderData);
-    if (sent) { cart = {}; receiptFile = null; updateCartUI(); showPage('success'); } else { alert("❌ Ошибка. Убедитесь, что бот @My_daaate_bot активирован (напишите ему /start)"); }
+    if (sent) { cart = {}; receiptFile = null; updateCartUI(); showPage('success'); } else { alert("❌ Ошибка. Напишите /start боту @My_daaate_bot"); }
     btn.disabled = false; btn.innerText = "✅ ОТПРАВИТЬ ЗАКАЗ";
 }
 
 // ==========================================
-// БЛОК 29: АДМИНКА
+// АДМИНКА С УДАЛЕНИЕМ ФАЙЛОВ
 // ==========================================
 function checkAdminPass() {
     const pass = document.getElementById('adminPass').value;
@@ -703,7 +608,18 @@ function loadProductForEdit() {
     mediaList.innerHTML = '';
     if (p.media) p.media.forEach((m, i) => mediaList.innerHTML += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMedia(${i})">✖</button></div>`);
 }
-function removeMedia(i) { PRODUCTS[document.getElementById('productSelect').value].media.splice(i, 1); loadProductForEdit(); renderProducts(); saveProductsToLocal(); }
+async function removeMedia(idx) {
+    const prodIdx = document.getElementById('productSelect').value;
+    const fileUrl = PRODUCTS[prodIdx].media[idx];
+    if (fileUrl && !fileUrl.startsWith('http')) {
+        const deleted = await deleteFileFromGitHub(fileUrl);
+        if (!deleted) console.warn('Не удалось удалить файл из GitHub');
+    }
+    PRODUCTS[prodIdx].media.splice(idx, 1);
+    loadProductForEdit();
+    renderProducts();
+    saveProductsToLocal();
+}
 function saveProductEdit() {
     const idx = document.getElementById('productSelect').value;
     PRODUCTS[idx].name = document.getElementById('editName').value;
@@ -715,13 +631,19 @@ function saveProductEdit() {
     alert('✅ Товар сохранён');
 }
 function deleteCurrentProduct() {
-    if (confirm('Удалить товар?')) { PRODUCTS.splice(document.getElementById('productSelect').value, 1); saveProductsToLocal(); renderProducts(); fillProductSelect(); alert('🗑️ Удалено'); }
+    if (confirm('Удалить товар?')) {
+        PRODUCTS.splice(document.getElementById('productSelect').value, 1);
+        saveProductsToLocal();
+        renderProducts();
+        fillProductSelect();
+        alert('🗑️ Удалено');
+    }
 }
 function addNewProduct() {
     const name = document.getElementById('newName').value.trim();
     const price = parseInt(document.getElementById('newPrice').value);
     if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
-    PRODUCTS.push({ id: Date.now(), name, price, description: document.getElementById('newDesc').value, media: [] });
+    PRODUCTS.push({ id: Date.now(), name, price, description: document.getElementById('newDesc').value, media: [], emoji: '📦' });
     saveProductsToLocal();
     renderProducts();
     fillProductSelect();
@@ -730,23 +652,30 @@ function addNewProduct() {
     document.getElementById('newDesc').value = '';
     alert('✅ Товар добавлен');
 }
+function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
+function loadProductsFromLocal() {
+    const saved = localStorage.getItem('nova_products');
+    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
+    renderProducts();
+    updateVipSidebar();
+    updateCartUI();
+}
 function setupDragAndDrop() {
     const dropzone = document.getElementById('dropzone');
     dropzone.ondrop = async (e) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
-        if (file) {
-            const idx = document.getElementById('productSelect').value;
-            if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
-            const url = await uploadFileToGitHub(file);
-            if (url) {
-                PRODUCTS[idx].media.push(url);
-                loadProductForEdit();
-                renderProducts();
-                saveProductsToLocal();
-                alert('✅ Файл загружен в GitHub');
-            } else { alert('❌ Ошибка загрузки. Проверьте токен'); }
-        }
+        if (!file) return;
+        const idx = document.getElementById('productSelect').value;
+        if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
+        const url = await uploadFileToGitHub(file);
+        if (url) {
+            PRODUCTS[idx].media.push(url);
+            loadProductForEdit();
+            renderProducts();
+            saveProductsToLocal();
+            alert('✅ Файл загружен в GitHub');
+        } else { alert('❌ Ошибка загрузки. Проверьте токен'); }
     };
     dropzone.ondragover = e => e.preventDefault();
     dropzone.onclick = async () => {
@@ -772,7 +701,7 @@ function setupDragAndDrop() {
 }
 
 // ==========================================
-// БЛОК 30: НАВИГАЦИЯ И ТЕМЫ
+// НАВИГАЦИЯ И ТЕМЫ
 // ==========================================
 function showPage(page) {
     document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
@@ -791,7 +720,7 @@ const savedTheme = localStorage.getItem('nova_theme');
 if (savedTheme) setTheme(savedTheme);
 
 // ==========================================
-// БЛОК 31: ЗАПУСК
+// ЗАПУСК
 // ==========================================
 document.getElementById('checkoutBtn').onclick = showOrderScreen;
 document.getElementById('closeOrderBtn').onclick = () => showPage('cart');
