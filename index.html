@@ -467,7 +467,7 @@ function loadProductsFromLocal() {
 }
 
 // ==========================================
-// БЛОК 24: ОТРИСОВКА
+// БЛОК 24: ОТРИСОВКА ГЛАВНОЙ СТРАНИЦЫ (исправленный)
 // ==========================================
 function renderProducts() {
     const container = document.getElementById('productsContainer');
@@ -477,10 +477,24 @@ function renderProducts() {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => openProductPage(p.id);
-        const firstMedia = p.media && p.media[0] ? p.media[0] : '';
-        const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('.webm'));
+        
+        // Берём ПЕРВОЕ медиа из массива (если есть)
+        let mediaUrl = '';
+        let isVideo = false;
+        if (p.media && p.media.length > 0 && p.media[0]) {
+            mediaUrl = p.media[0];
+            isVideo = mediaUrl.includes('.mp4') || mediaUrl.includes('.webm') || mediaUrl.includes('video');
+        }
+        
+        // Если нет медиа — показываем заглушку
+        const mediaHtml = mediaUrl 
+            ? (isVideo 
+                ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>`
+                : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${encodeURIComponent(p.name)}'">`)
+            : `<div class="product-media" style="display: flex; align-items: center; justify-content: center; background: #1f1f2a; color: white;">📷 Нет фото</div>`;
+        
         card.innerHTML = `
-            ${isVideo ? `<video class="product-media" src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${encodeURIComponent(p.name)}'">`}
+            ${mediaHtml}
             <div class="product-info-card">
                 <div class="product-name-card">${p.name}</div>
                 <div class="product-price-card">${p.price.toLocaleString()} ₽</div>
@@ -489,7 +503,6 @@ function renderProducts() {
         container.appendChild(card);
     }
 }
-
 // ==========================================
 // БЛОК 25: VIP
 // ==========================================
