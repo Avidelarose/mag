@@ -5,65 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NŌVA Premium — магазин</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: url('background-image.png') center/cover fixed;
-            font-family: -apple-system, 'SF Pro Display', system-ui, Helvetica, sans-serif;
-            position: relative;
+            background: linear-gradient(135deg, #1a0b14 0%, #0d0210 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: white;
             min-height: 100vh;
+        }
+        /* Шапка и навигация */
+        .top-bar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-        }
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 0;
-        }
-        .app-layout {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 240px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 28px 16px;
-            z-index: 100;
-            border: 1px solid rgba(255,255,255,0.1);
-            height: fit-content;
+            padding: 16px 32px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
             position: sticky;
-            top: 20px;
+            top: 0;
+            z-index: 100;
         }
-        .main-content {
-            flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+        .logo { font-size: 1.8rem; font-weight: bold; background: linear-gradient(135deg, #d90429, #9b1df0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; cursor: pointer; }
+        .cart-icon { position: relative; cursor: pointer; }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #d90429;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 12px;
         }
+        /* Главная страница — сетка товаров */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 24px;
+            padding: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         .product-card {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
             border-radius: 28px;
             overflow: hidden;
             cursor: pointer;
@@ -81,276 +65,158 @@
         .product-name-card { font-weight: 600; color: white; }
         .product-price-card { color: #ff6b8a; font-weight: 700; margin-top: 4px; }
 
-        /* Модальное окно товара */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
+        /* Страница товара (отдельная) */
+        .product-page {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 48px;
         }
-        .modal.active { display: flex; }
-        .modal-content {
-            background: #1a1a1a;
-            border-radius: 40px;
-            max-width: 900px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 24px;
-            border: 1px solid #d4af37;
-            position: relative;
-        }
-        .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: white;
-        }
-        .modal-media {
+        .product-page-media {
             display: flex;
-            overflow-x: auto;
             gap: 16px;
+            overflow-x: auto;
             padding-bottom: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        .modal-media img, .modal-media video {
-            max-height: 300px;
-            border-radius: 24px;
+        .product-page-media img, .product-page-media video {
+            max-height: 400px;
+            border-radius: 32px;
             object-fit: contain;
         }
-        .modal-name { font-size: 1.6rem; font-weight: bold; color: #d4af37; }
-        .modal-price { font-size: 1.5rem; margin: 12px 0; color: white; }
-        .modal-desc { color: #ccc; margin: 16px 0; line-height: 1.4; }
-        .modal-qty { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
-        .modal-qty button { background: #d4af37; border: none; width: 40px; height: 40px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; }
-        .modal-qty span { font-size: 1.2rem; color: white; min-width: 40px; text-align: center; }
-        .modal-add { background: linear-gradient(135deg, #d90429, #9b1df0); color: white; border: none; padding: 14px; border-radius: 40px; font-weight: bold; cursor: pointer; width: 100%; }
+        .product-page-name { font-size: 2rem; font-weight: bold; color: #d4af37; }
+        .product-page-price { font-size: 1.8rem; margin: 16px 0; }
+        .product-page-desc { color: #ccc; line-height: 1.5; margin: 20px 0; }
+        .product-page-qty { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
+        .product-page-qty button { background: #d4af37; border: none; width: 40px; height: 40px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; }
+        .product-page-qty span { font-size: 1.2rem; min-width: 40px; text-align: center; }
+        .btn-add { background: linear-gradient(135deg, #d90429, #9b1df0); color: white; border: none; padding: 14px 28px; border-radius: 40px; font-weight: bold; cursor: pointer; width: 100%; }
 
-        /* Админ-панель */
-        .admin-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 20000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-        .admin-panel.active { display: flex; }
+        /* Корзина */
+        .cart-container { max-width: 800px; margin: 40px auto; background: rgba(0,0,0,0.7); border-radius: 48px; padding: 32px; }
+        .cart-item { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #333; }
+
+        /* Админ-панель (отдельная страница) */
         .admin-container {
-            background: #1a1a1a;
-            border-radius: 40px;
-            padding: 30px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            border: 1px solid #d4af37;
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(0,0,0,0.8);
+            border-radius: 48px;
+            padding: 32px;
         }
-        .admin-container h2, .admin-container h3 { color: #d4af37; margin-bottom: 15px; }
         .admin-container input, .admin-container textarea, .admin-container select {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             border-radius: 30px;
             border: 1px solid #333;
             background: #2a2a2a;
             color: white;
         }
-        .admin-container button {
-            background: #d4af37;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        .admin-close { background: #d90429; color: white; }
-        .media-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .admin-container button { background: #d4af37; color: black; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; margin-right: 10px; }
+        .media-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
         .media-item { background: #333; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
-        .media-item button { background: #d90429; padding: 4px 8px; font-size: 10px; }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 40px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 16px;
-        }
-        .vpn-indicator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            padding: 8px 14px;
+        .dropzone {
+            border: 2px dashed #d4af37;
             border-radius: 30px;
-            font-size: 11px;
-            background: rgba(0,0,0,0.8);
-            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
         }
-        .menu-toggle { display: none; }
-        @media (max-width: 700px) {
-            .sidebar { transform: translateX(-100%); position: fixed; top: 0; left: 0; bottom: 0; width: 260px; z-index: 150; }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
-            .menu-toggle { display: block; position: fixed; top: 16px; left: 16px; z-index: 200; background: rgba(0,0,0,0.7); border-radius: 30px; padding: 8px 14px; cursor: pointer; color: white; }
-        }
+        .bottom-instruction { text-align: center; margin-top: 40px; background: rgba(0,0,0,0.7); border-radius: 44px; padding: 24px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="app-layout">
-    <div class="sidebar" id="sidebar">
-        <div class="logo-premium" style="font-size:1.6rem; text-align:center; color:white;">NŌVA</div>
-        <div class="premium-tag" style="text-align:center; color:#b026ff; margin-bottom:20px;">PREMIUM</div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a class="nav-link" data-page="main" style="color:white; display:block; padding:10px;">🏠 Главная</a></li>
-            <li class="nav-item"><a class="nav-link" data-page="cart" style="color:white; display:block; padding:10px;">🛒 Корзина <span id="cartCountBadge" style="background:#d90429; padding:2px 8px; border-radius:20px; margin-left:6px;">0</span></a></li>
-            <li class="nav-item"><a class="nav-link" data-page="reviews" style="color:white; display:block; padding:10px;">⭐ Отзывы</a></li>
-            <li class="nav-item"><a class="nav-link" data-page="about" style="color:white; display:block; padding:10px;">📖 О нас</a></li>
-        </ul>
-        <div class="theme-selector" style="margin-top:20px; text-align:center;">
-            <button class="theme-btn-small" data-theme="pikmi" style="background:#ff69b4; border:none; padding:6px 12px; border-radius:30px;">🌸 Пикми</button>
-            <button class="theme-btn-small" data-theme="luxury" style="background:#DAA520; border:none; padding:6px 12px; border-radius:30px;">👑 Шикарная</button>
-            <button class="theme-btn-small" data-theme="calm" style="background:#87CEEB; border:none; padding:6px 12px; border-radius:30px;">🌊 Приятная</button>
-            <button class="theme-btn-small" data-theme="vision" style="background:#e6c384; border:none; padding:6px 12px; border-radius:30px;">👓 Для зрения</button>
-        </div>
-        <button id="adminPanelBtn" style="margin-top:20px; width:100%; background:#d90429; border:none; padding:10px; border-radius:40px; color:white;">🔐 Админ</button>
+<div class="top-bar">
+    <div class="logo">NŌVA</div>
+    <div class="nav-links">
+        <a onclick="showPage('main')">Главная</a>
+        <a onclick="showPage('cart')">Корзина</a>
+        <a onclick="showPage('admin')">Админ</a>
     </div>
-    <div class="menu-toggle" id="menuToggle">☰ Меню</div>
-    <div class="main-content">
-        <div id="mainPage" class="content-screen active">
-            <div class="products-grid" id="productsContainer"></div>
-            <div class="bottom-instruction" style="text-align:center; margin-top:30px; background:rgba(0,0,0,0.7); border-radius:44px; padding:20px;">
-                <div style="font-weight:700;">💳 Как сделать заказ</div>
-                <p>1️⃣ Оплатите по СБП: <strong>8 963 090 58 96</strong> (Т‑Банк, Александр)</p>
-                <p>2️⃣ Скриншот чека → оформите заказ</p>
-                <p>3️⃣ Менеджер свяжется с вами</p>
-                <a href="https://t.me/Tolpaplay" target="_blank" style="color:#d4af37;">👨‍💼 Написать менеджеру</a>
-            </div>
-        </div>
-        <div id="cartPage" class="content-screen" style="display:none;">
-            <div class="reviews-card" style="background:rgba(0,0,0,0.5); border-radius:44px; padding:24px;">
-                <h2 style="color:#d4af37;">Корзина</h2>
-                <div id="cartItemsList"></div>
-                <div id="cartTotal" style="text-align:right; margin-top:16px; font-size:1.2rem;">💰 Итого: 0 ₽</div>
-                <button id="checkoutBtn" class="btn-primary">Оформить заказ</button>
-            </div>
-        </div>
-        <div id="reviewsPage" class="content-screen" style="display:none;">
-            <div class="reviews-card" style="background:rgba(0,0,0,0.5); border-radius:44px; padding:24px;">
-                <h2 style="color:#d4af37;">⭐ Отзывы</h2>
-                <div id="reviewsList"></div>
-                <div class="review-form" style="margin-top:20px;">
-                    <input type="text" id="reviewName" placeholder="Ваше имя" style="width:100%; padding:10px; margin-bottom:10px; border-radius:30px;">
-                    <div class="star-rating" id="starRating" style="display:flex; gap:8px; margin-bottom:10px;">
-                        <span class="star" data-value="1">☆</span><span class="star" data-value="2">☆</span><span class="star" data-value="3">☆</span><span class="star" data-value="4">☆</span><span class="star" data-value="5">☆</span>
-                    </div>
-                    <textarea id="reviewText" placeholder="Ваш отзыв..." style="width:100%; padding:10px; border-radius:20px;"></textarea>
-                    <button id="submitReviewBtn" class="btn-primary" style="margin-top:10px;">✉️ Отправить отзыв</button>
-                </div>
-            </div>
-        </div>
-        <div id="aboutPage" class="content-screen" style="display:none;">
-            <div class="reviews-card" style="background:rgba(0,0,0,0.5); border-radius:44px; padding:24px;">
-                <h2 style="color:#d4af37;">📖 О нас</h2>
-                <p>Премиальный магазин из Челябинска. Доставка от 1 дня.</p>
-            </div>
-        </div>
-        <div id="orderScreen" style="display:none;" class="reviews-card" style="background:rgba(0,0,0,0.5); border-radius:44px; padding:24px;">
-            <h2 style="color:#d4af37;">Оформление заказа</h2>
-            <div id="orderSummary"></div>
-            <div class="form-group"><label>📞 Телефон</label><input type="tel" id="phone" placeholder="+7 900 000 00 00"></div>
-            <div class="form-group"><label>📱 Telegram / ВК</label><input type="text" id="social" placeholder="@nickname"></div>
-            <div class="form-group"><label>📍 Адрес</label><input type="text" id="address" placeholder="Челябинск, улица..."></div>
-            <div class="form-group"><label>⏰ Время доставки</label><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
-            <div class="form-group"><label>🧾 Фото чека</label><div class="file-label" id="fileLabel" style="background:#333; padding:10px; border-radius:30px; text-align:center; cursor:pointer;">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan" style="margin-top:6px;"></div></div>
-            <button id="submitOrderBtn" class="btn-primary">✅ Отправить заказ</button>
-            <button id="closeOrderBtn" class="btn-outline" style="margin-top:10px; background:transparent; border:1px solid #d90429; padding:10px; border-radius:40px;">← Назад</button>
-        </div>
-        <div id="successScreen" style="display:none;" class="reviews-card" style="background:rgba(0,0,0,0.5); border-radius:44px; padding:24px;">
-            <div id="successContent" style="text-align:center;"><h2>✅ Заказ отправлен!</h2><button id="newOrderBtn" class="btn-primary" style="margin-top:20px;">Новый заказ</button></div>
-        </div>
+    <div class="cart-icon" onclick="showPage('cart')">
+        🛒 <span id="cartCount" class="cart-count">0</span>
     </div>
 </div>
 
-<!-- Модальное окно товара -->
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <div id="modalMedia" class="modal-media"></div>
-        <div id="modalName" class="modal-name"></div>
-        <div id="modalPrice" class="modal-price"></div>
-        <div id="modalDesc" class="modal-desc"></div>
-        <div class="modal-qty">
-            <button onclick="changeModalQty(-1)">−</button>
-            <span id="modalQty">1</span>
-            <button onclick="changeModalQty(1)">+</button>
-        </div>
-        <button class="modal-add" onclick="addToCartFromModal()">Добавить в корзину</button>
+<div id="mainPage" class="page">
+    <div class="products-grid" id="productsContainer"></div>
+    <div class="bottom-instruction">
+        <div style="font-weight:700;">💳 Как сделать заказ</div>
+        <p>1️⃣ Оплатите по СБП: <strong>8 963 090 58 96</strong> (Т‑Банк, Александр)</p>
+        <p>2️⃣ Скриншот чека → оформите заказ</p>
+        <p>3️⃣ Менеджер свяжется с вами</p>
     </div>
 </div>
 
-<!-- Админ-панель -->
-<div id="adminPanel" class="admin-panel">
+<div id="cartPage" class="page hidden">
+    <div class="cart-container">
+        <h2 style="color:#d4af37;">Корзина</h2>
+        <div id="cartItemsList"></div>
+        <div id="cartTotal" style="text-align:right; margin-top:20px; font-size:1.2rem;">💰 Итого: 0 ₽</div>
+        <button id="checkoutBtn" class="btn-add" style="margin-top:20px;">Оформить заказ</button>
+    </div>
+</div>
+
+<div id="adminPage" class="page hidden">
     <div class="admin-container">
-        <h2>👑 Админ-панель</h2>
-        <div id="adminLogin">
-            <input type="password" id="adminPassword" placeholder="Пароль">
-            <button onclick="checkAdminLogin()">Войти</button>
+        <h2 style="color:#d4af37;">👑 Админ-панель</h2>
+        <div id="adminLoginBlock">
+            <input type="password" id="adminPass" placeholder="Пароль">
+            <button onclick="checkAdminPass()">Войти</button>
         </div>
-        <div id="adminContent" style="display:none;">
-            <h3>➕ Редактировать товар</h3>
-            <select id="adminProductSelect" onchange="loadProductForEdit()"></select>
+        <div id="adminContentBlock" class="hidden">
+            <h3>Редактировать товар</h3>
+            <select id="productSelect" onchange="loadProductForEdit()"></select>
             <input type="text" id="editName" placeholder="Название">
             <input type="number" id="editPrice" placeholder="Цена">
             <textarea id="editDesc" placeholder="Описание" rows="3"></textarea>
-            <div class="media-list" id="editMediaList"></div>
-            <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <input type="text" id="newMediaUrl" placeholder="Ссылка на фото/видео">
-                <select id="newMediaType"><option value="img">Фото</option><option value="video">Видео</option></select>
-                <button onclick="addMediaToEdit()">+</button>
+            <div class="dropzone" id="dropzone">📸 Перетащите фото или видео сюда</div>
+            <div id="editMediaList" class="media-list"></div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button onclick="saveProductEdit()">💾 Сохранить</button>
+                <button onclick="deleteCurrentProduct()" style="background:#d90429;">🗑️ Удалить</button>
             </div>
-            <button onclick="saveProductEdit()">💾 Сохранить товар</button>
-            <button onclick="deleteCurrentProduct()" style="background:#d90429;">🗑️ Удалить товар</button>
-            <h3 style="margin-top:20px;">➕ Добавить новый товар</h3>
+            <h3 style="margin-top:30px;">➕ Новый товар</h3>
             <input type="text" id="newName" placeholder="Название">
             <input type="number" id="newPrice" placeholder="Цена">
-            <textarea id="newDesc" placeholder="Описание" rows="2"></textarea>
+            <textarea id="newDesc" placeholder="Описание"></textarea>
             <button onclick="addNewProduct()">➕ Добавить</button>
         </div>
-        <button class="admin-close" onclick="closeAdminPanel()">Закрыть</button>
     </div>
 </div>
 
+<div id="productDetailPage" class="page hidden">
+    <div class="product-page" id="productDetailContainer"></div>
+</div>
+
 <script>
-// Товары
+// === ТОВАРЫ ===
 let PRODUCTS = [
-    { id: 1, name: "💾 SSD 256 SP A56", price: 3650, description: "Высокоскоростной SSD", media: ["https://placehold.co/400x300/2a0a1a/ff6b8a?text=SSD"] },
-    { id: 2, name: "🧸 Чебурашка", price: 2600, description: "Мягкая игрушка", media: ["https://placehold.co/400x300/2a0a1a/ff6b8a?text=Чебурашка"] },
-    { id: 3, name: "🐉 Дракончик", price: 330, description: "Светится в темноте", media: ["Dragon_girl.jpg"] },
-    { id: 4, name: "🔌 Зарядка в авто", price: 800, description: "С вольтметром", media: ["https://placehold.co/400x300/2a0a1a/ff6b8a?text=Автозарядка"] }
+    { id: 1, name: "SSD 256 SP A56", price: 3650, description: "Высокоскоростной SSD", media: [] },
+    { id: 2, name: "Чебурашка", price: 2600, description: "Мягкая игрушка", media: [] },
+    { id: 3, name: "Дракончик светящийся", price: 330, description: "Светится в темноте", media: [] }
 ];
 
 let cart = {};
-let currentProduct = null;
-let currentModalQty = 1;
+let currentProductId = null;
+let currentQty = 1;
 
+// === ЗАГРУЗКА/СОХРАНЕНИЕ ===
+function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
+function loadProductsFromLocal() {
+    const saved = localStorage.getItem('nova_products');
+    if (saved) { PRODUCTS = JSON.parse(saved); }
+    renderProducts();
+    updateCartUI();
+}
+loadProductsFromLocal();
+
+// === ОТРИСОВКА ГЛАВНОЙ ===
 function renderProducts() {
     const container = document.getElementById('productsContainer');
     if (!container) return;
@@ -358,11 +224,11 @@ function renderProducts() {
     for (let p of PRODUCTS) {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.onclick = () => openProductModal(p.id);
+        card.onclick = () => openProductPage(p.id);
         const firstMedia = p.media && p.media[0] ? p.media[0] : '';
-        const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('video'));
+        const isVideo = firstMedia && (firstMedia.includes('.mp4') || firstMedia.includes('webm'));
         card.innerHTML = `
-            ${isVideo ? `<video class="product-media" src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${p.name}'">`}
+            ${isVideo ? `<video class="product-media" src="${firstMedia}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${firstMedia}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${encodeURIComponent(p.name)}'">`}
             <div class="product-info-card">
                 <div class="product-name-card">${p.name}</div>
                 <div class="product-price-card">${p.price.toLocaleString()} ₽</div>
@@ -372,53 +238,61 @@ function renderProducts() {
     }
 }
 
-function openProductModal(id) {
-    currentProduct = PRODUCTS.find(p => p.id == id);
-    if (!currentProduct) return;
-    currentModalQty = 1;
-    document.getElementById('modalQty').innerText = currentModalQty;
-    document.getElementById('modalName').innerText = currentProduct.name;
-    document.getElementById('modalPrice').innerText = `${currentProduct.price.toLocaleString()} ₽`;
-    document.getElementById('modalDesc').innerText = currentProduct.description || '';
-    const mediaContainer = document.getElementById('modalMedia');
-    mediaContainer.innerHTML = '';
-    if (currentProduct.media) {
-        for (let m of currentProduct.media) {
-            const isVideo = m.includes('.mp4') || m.includes('video');
-            if (isVideo) {
-                mediaContainer.innerHTML += `<video src="${m}" controls autoplay muted loop playsinline style="max-height:300px; border-radius:24px;"></video>`;
-            } else {
-                mediaContainer.innerHTML += `<img src="${m}" style="max-height:300px; border-radius:24px;">`;
-            }
+// === СТРАНИЦА ТОВАРА ===
+function openProductPage(id) {
+    const p = PRODUCTS.find(x => x.id == id);
+    if (!p) return;
+    currentProductId = id;
+    currentQty = 1;
+    const container = document.getElementById('productDetailContainer');
+    let mediaHtml = '';
+    if (p.media && p.media.length) {
+        for (let m of p.media) {
+            const isVideo = m.includes('.mp4') || m.includes('webm');
+            mediaHtml += isVideo ? `<video src="${m}" controls autoplay muted loop playsinline></video>` : `<img src="${m}">`;
         }
+    } else {
+        mediaHtml = `<div style="padding:20px; text-align:center;">📷 Нет фото</div>`;
     }
-    document.getElementById('productModal').classList.add('active');
+    container.innerHTML = `
+        <div class="product-page-media">${mediaHtml}</div>
+        <div class="product-page-name">${p.name}</div>
+        <div class="product-page-price">${p.price.toLocaleString()} ₽</div>
+        <div class="product-page-desc">${p.description || 'Описание отсутствует'}</div>
+        <div class="product-page-qty">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="detailQty">${currentQty}</span>
+            <button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-add" onclick="addToCartFromDetail()">Добавить в корзину</button>
+        <button onclick="showPage('main')" style="margin-top:20px; background:transparent; border:1px solid #d4af37; padding:10px; border-radius:40px;">← Назад</button>
+    `;
+    showPage('productDetail');
 }
 
-function closeModal() { document.getElementById('productModal').classList.remove('active'); }
-
-function changeModalQty(delta) {
-    let newQty = currentModalQty + delta;
+function changeQty(delta) {
+    let newQty = currentQty + delta;
     if (newQty < 1) newQty = 1;
-    currentModalQty = newQty;
-    document.getElementById('modalQty').innerText = currentModalQty;
+    currentQty = newQty;
+    const span = document.getElementById('detailQty');
+    if (span) span.innerText = currentQty;
 }
 
-function addToCartFromModal() {
-    if (!currentProduct) return;
-    cart[currentProduct.id] = (cart[currentProduct.id] || 0) + currentModalQty;
+function addToCartFromDetail() {
+    if (!currentProductId) return;
+    cart[currentProductId] = (cart[currentProductId] || 0) + currentQty;
     updateCartUI();
-    closeModal();
+    showPage('main');
     alert('Добавлено в корзину');
 }
 
+// === КОРЗИНА ===
 function updateCartUI() {
-    let total = 0;
-    for (let id in cart) total += cart[id];
-    document.getElementById('cartCountBadge').innerText = total;
+    let totalCount = 0;
+    for (let id in cart) totalCount += cart[id];
+    document.getElementById('cartCount').innerText = totalCount;
     renderCartList();
 }
-
 function renderCartList() {
     const container = document.getElementById('cartItemsList');
     if (!container) return;
@@ -429,10 +303,7 @@ function renderCartList() {
             let q = cart[id];
             let sum = p.price * q;
             total += sum;
-            html += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #333;">
-                        <div><strong>${p.name}</strong> × ${q}</div>
-                        <div>${sum.toLocaleString()} ₽</div>
-                    </div>`;
+            html += `<div class="cart-item"><div><strong>${p.name}</strong> × ${q}</div><div>${sum.toLocaleString()} ₽</div></div>`;
         }
     }
     if (!html) html = '<div style="text-align:center; padding:20px;">Корзина пуста</div>';
@@ -440,50 +311,27 @@ function renderCartList() {
     document.getElementById('cartTotal').innerHTML = `💰 Итого: ${total.toLocaleString()} ₽`;
 }
 
-function showOrderScreen() {
-    if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
-    let total = 0, tq = 0, html = '';
-    for (let id in cart) {
-        let p = PRODUCTS.find(x => x.id == id);
-        if (p) {
-            let q = cart[id];
-            let sum = p.price * q;
-            total += sum;
-            tq += q;
-            html += `<div>${p.name} — ${q} шт = ${sum} ₽</div>`;
-        }
-    }
-    html += `<div style="margin-top:10px;font-weight:bold;">💰 Итого: ${total} ₽ (${tq} шт)</div>`;
-    document.getElementById('orderSummary').innerHTML = html;
-    document.querySelectorAll('.content-screen').forEach(el => el.style.display = 'none');
-    document.getElementById('orderScreen').style.display = 'block';
-}
-
-// Админ-панель
-const ADMIN_PASSWORD = "nova2025";
-let currentEditIndex = 0;
-
-function checkAdminLogin() {
-    const pass = document.getElementById('adminPassword').value;
-    if (pass === ADMIN_PASSWORD) {
-        document.getElementById('adminLogin').style.display = 'none';
-        document.getElementById('adminContent').style.display = 'block';
-        fillAdminSelect();
+// === АДМИН-ПАНЕЛЬ ===
+function checkAdminPass() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === 'nova2025') {
+        document.getElementById('adminLoginBlock').classList.add('hidden');
+        document.getElementById('adminContentBlock').classList.remove('hidden');
+        fillProductSelect();
+        setupDragAndDrop();
     } else { alert('Неверный пароль'); }
 }
-
-function fillAdminSelect() {
-    const select = document.getElementById('adminProductSelect');
+function fillProductSelect() {
+    const select = document.getElementById('productSelect');
     select.innerHTML = '';
     PRODUCTS.forEach((p, idx) => {
         select.innerHTML += `<option value="${idx}">${p.name}</option>`;
     });
     loadProductForEdit();
 }
-
 function loadProductForEdit() {
-    currentEditIndex = parseInt(document.getElementById('adminProductSelect').value);
-    const p = PRODUCTS[currentEditIndex];
+    const idx = document.getElementById('productSelect').value;
+    const p = PRODUCTS[idx];
     document.getElementById('editName').value = p.name;
     document.getElementById('editPrice').value = p.price;
     document.getElementById('editDesc').value = p.description || '';
@@ -491,89 +339,101 @@ function loadProductForEdit() {
     mediaList.innerHTML = '';
     if (p.media) {
         p.media.forEach((m, i) => {
-            mediaList.innerHTML += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMediaFromEdit(${i})">✖</button></div>`;
+            mediaList.innerHTML += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMedia(${i})">✖</button></div>`;
         });
     }
 }
-
-function addMediaToEdit() {
-    const url = document.getElementById('newMediaUrl').value.trim();
-    const type = document.getElementById('newMediaType').value;
-    if (!url) return;
-    if (!PRODUCTS[currentEditIndex].media) PRODUCTS[currentEditIndex].media = [];
-    PRODUCTS[currentEditIndex].media.push(url);
+function removeMedia(idx) {
+    const prodIdx = document.getElementById('productSelect').value;
+    PRODUCTS[prodIdx].media.splice(idx, 1);
     loadProductForEdit();
-    document.getElementById('newMediaUrl').value = '';
+    renderProducts();
 }
-
-function removeMediaFromEdit(idx) {
-    PRODUCTS[currentEditIndex].media.splice(idx, 1);
-    loadProductForEdit();
-}
-
 function saveProductEdit() {
-    PRODUCTS[currentEditIndex].name = document.getElementById('editName').value;
-    PRODUCTS[currentEditIndex].price = parseInt(document.getElementById('editPrice').value);
-    PRODUCTS[currentEditIndex].description = document.getElementById('editDesc').value;
+    const idx = document.getElementById('productSelect').value;
+    PRODUCTS[idx].name = document.getElementById('editName').value;
+    PRODUCTS[idx].price = parseInt(document.getElementById('editPrice').value);
+    PRODUCTS[idx].description = document.getElementById('editDesc').value;
     saveProductsToLocal();
     renderProducts();
-    fillAdminSelect();
-    alert('Сохранено!');
+    fillProductSelect();
+    alert('Сохранено');
 }
-
 function deleteCurrentProduct() {
-    if (confirm('Удалить товар?')) {
-        PRODUCTS.splice(currentEditIndex, 1);
-        saveProductsToLocal();
-        renderProducts();
-        fillAdminSelect();
-        alert('Удалено');
-    }
+    if (!confirm('Удалить товар?')) return;
+    const idx = document.getElementById('productSelect').value;
+    PRODUCTS.splice(idx, 1);
+    saveProductsToLocal();
+    renderProducts();
+    fillProductSelect();
+    alert('Удалено');
 }
-
 function addNewProduct() {
     const name = document.getElementById('newName').value.trim();
     const price = parseInt(document.getElementById('newPrice').value);
     const desc = document.getElementById('newDesc').value.trim();
     if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
-    const newId = Math.max(...PRODUCTS.map(p => p.id), 0) + 1;
+    const newId = Date.now();
     PRODUCTS.push({ id: newId, name, price, description: desc, media: [] });
     saveProductsToLocal();
     renderProducts();
-    fillAdminSelect();
+    fillProductSelect();
     document.getElementById('newName').value = '';
     document.getElementById('newPrice').value = '';
     document.getElementById('newDesc').value = '';
     alert('Товар добавлен');
 }
-
-function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
-function loadProductsFromLocal() {
-    const saved = localStorage.getItem('nova_products');
-    if (saved) { try { PRODUCTS = JSON.parse(saved); renderProducts(); updateCartUI(); } catch(e) {} }
+function setupDragAndDrop() {
+    const dropzone = document.getElementById('dropzone');
+    dropzone.ondrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        const idx = document.getElementById('productSelect').value;
+        if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
+        PRODUCTS[idx].media.push(url);
+        loadProductForEdit();
+        renderProducts();
+    };
+    dropzone.ondragover = (e) => e.preventDefault();
+    dropzone.onclick = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*,video/*';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const idx = document.getElementById('productSelect').value;
+                if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
+                PRODUCTS[idx].media.push(url);
+                loadProductForEdit();
+                renderProducts();
+            }
+        };
+        input.click();
+    };
 }
 
-function openAdminPanel() { document.getElementById('adminPanel').classList.add('active'); }
-function closeAdminPanel() { document.getElementById('adminPanel').classList.remove('active'); }
+// === НАВИГАЦИЯ ===
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(el => el.classList.add('hidden'));
+    document.getElementById(page + 'Page').classList.remove('hidden');
+    if (page === 'cart') renderCartList();
+    if (page === 'main') renderProducts();
+    if (page === 'admin') {
+        if (document.getElementById('adminContentBlock').classList.contains('hidden')) {
+            document.getElementById('adminLoginBlock').classList.remove('hidden');
+        }
+    }
+}
+document.getElementById('checkoutBtn').onclick = () => { alert('✅ Заказ отправлен! (Telegram + почта)'); };
 
-document.getElementById('adminPanelBtn').onclick = openAdminPanel;
-document.getElementById('checkoutBtn').onclick = showOrderScreen;
-document.getElementById('closeOrderBtn').onclick = () => { document.querySelectorAll('.content-screen').forEach(el => el.style.display = 'none'); document.getElementById('mainPage').style.display = 'block'; };
-document.getElementById('submitOrderBtn').onclick = () => { alert('✅ Заказ отправлен! (Telegram + почта)'); playHurray(); };
-document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
-document.querySelectorAll('.nav-link[data-page]').forEach(link => {
-    link.onclick = (e) => {
-        e.preventDefault();
-        document.querySelectorAll('.content-screen').forEach(el => el.style.display = 'none');
-        document.getElementById(link.dataset.page + 'Page').style.display = 'block';
-        if (link.dataset.page === 'cart') renderCartList();
-    };
-});
-
-function playHurray() { try { const ctx = new AudioContext(); const osc = ctx.createOscillator(); osc.frequency.value = 880; osc.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.3); } catch(e){} }
-
-loadProductsFromLocal();
+// Инициализация
 renderProducts();
+updateCartUI();
+showPage('main');
 </script>
 </body>
 </html>
