@@ -278,6 +278,56 @@
 .qty-control {
     justify-content: center;
 }
+        /* Карточка товара — крупная, квадратная */
+.product {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 32px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #333;
+    transition: 0.2s;
+}
+
+/* Медиа (фото или видео) — занимает всю ширину карточки */
+.product-media {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 24px;
+    background: #1f1f2a;
+}
+
+/* Эмодзи если нет медиа */
+.product-emoji {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #d90429, #9b1df0);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+/* Информация под медиа */
+.product-info {
+    text-align: left;
+    padding: 4px;
+}
+
+/* Блок количества */
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 12px;
+    border-radius: 40px;
+    justify-content: space-between;
+    margin-top: 8px;
+}
         
         
         /* ========================================== */
@@ -861,29 +911,61 @@ function setupStars() {
 function updateCartUI() { let t=0; for(let i in cart) t+=cart[i]; document.getElementById('cartCountBadge').innerText = t; renderCartList(); }
 
 function renderProducts() {
-    const c = document.getElementById('productsContainer'); c.innerHTML = '';
+    const container = document.getElementById('productsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    
     for(let p of PRODUCTS) {
-        let q = cart[p.id]||0;
-        let d = document.createElement('div'); d.className = 'product';
+        const qty = cart[p.id] || 0;
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
         
-        // Если есть фото — показываем фото, иначе эмодзи
-        const imageHtml = p.img ? `<img src="${p.img}" style="width: 56px; height: 56px; border-radius: 28px; object-fit: cover;">` : p.emoji;
+        // МЕДИА: видео > фото > эмодзи
+        let mediaHtml = '';
+        if (p.video && p.video !== '') {
+            mediaHtml = `<video class="product-media" autoplay muted loop playsinline src="${p.video}"></video>`;
+        } else if (p.img && p.img !== '') {
+            mediaHtml = `<img class="product-media" src="${p.img}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='${p.emoji}'">`;
+        } else {
+            mediaHtml = `<div class="product-emoji">${p.emoji}</div>`;
+        }
         
-        d.innerHTML = `<div class="product-emoji">${imageHtml}</div>
-                       <div class="product-info">
-                           <div class="product-name">${p.name}</div>
-                           <div class="product-price">${p.price.toLocaleString()} ₽</div>
-                       </div>
-                       <div class="qty-control">
-                           <span class="qty-label">Кол-во:</span>
-                           <button class="qty-minus" data-id="${p.id}">−</button>
-                           <span class="qty-value">${q}</span>
-                           <button class="qty-plus" data-id="${p.id}">+</button>
-                       </div>`;
-        c.appendChild(d);
+        productDiv.innerHTML = `
+            ${mediaHtml}
+            <div class="product-info">
+                <div class="product-name">${p.name}</div>
+                <div class="product-price">${p.price.toLocaleString()} ₽</div>
+                <div class="qty-control">
+                    <span class="qty-label">Кол-во:</span>
+                    <button class="qty-minus" data-id="${p.id}">−</button>
+                    <span class="qty-value">${qty}</span>
+                    <button class="qty-plus" data-id="${p.id}">+</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(productDiv);
     }
-    document.querySelectorAll('.qty-plus').forEach(b=>b.onclick=()=>{ cart[b.dataset.id]=(cart[b.dataset.id]||0)+1; renderProducts(); updateCartUI(); });
-    document.querySelectorAll('.qty-minus').forEach(b=>b.onclick=()=>{ let id=b.dataset.id; if(cart[id]){ cart[id]--; if(cart[id]===0) delete cart[id]; } renderProducts(); updateCartUI(); });
+    
+    // Обработчики кнопок
+    document.querySelectorAll('.qty-plus').forEach(btn => {
+        btn.onclick = () => {
+            const id = parseInt(btn.dataset.id);
+            cart[id] = (cart[id] || 0) + 1;
+            renderProducts();
+            updateCartUI();
+        };
+    });
+    document.querySelectorAll('.qty-minus').forEach(btn => {
+        btn.onclick = () => {
+            const id = parseInt(btn.dataset.id);
+            if (cart[id] && cart[id] > 0) {
+                cart[id]--;
+                if (cart[id] === 0) delete cart[id];
+                renderProducts();
+                updateCartUI();
+            }
+        };
+    });
 }
 
 function renderCartList() {
