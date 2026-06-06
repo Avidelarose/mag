@@ -245,6 +245,58 @@
 .vip-price { font-size: 1.5rem; margin-top: 8px; }
 .vip-oldprice { text-decoration: line-through; font-size: 0.9rem; color: #aaa; margin-left: 10px; }
 .vip-badge { background: #d4af37; color: #000; display: inline-block; padding: 4px 16px; border-radius: 30px; margin-top: 12px; }
+        /* ========================================== */
+/* БЛОК 8.1: VIP-БЛОК (премиум стили) */
+/* ========================================== */
+.vip-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, #111, #1a1a1a);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    outline: 1px solid rgba(212, 175, 55, 0.2);
+    outline-offset: 4px;
+}
+.vip-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3), 0 0 0 3px rgba(212, 175, 55, 0.5);
+}
+.vip-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
+    animation: rotateGlow 8s linear infinite;
+    pointer-events: none;
+}
+@keyframes rotateGlow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.vip-name {
+    background: linear-gradient(135deg, #F5E7A3, #D4AF37, #B8860B);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+}
+.vip-crown {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: #D4AF37;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 30px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 10;
+}
 
 /* Новая сетка товаров — как Авито */
 .products-grid {
@@ -609,6 +661,7 @@
             <div class="vip-section">
                 <div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div>
                 <div id="vipCard" class="vip-card">
+                    <div id="vipCard" class="vip-card"></div>
                     <!-- сюда подставится случайный товар -->
                 </div>
             </div>
@@ -1130,7 +1183,8 @@ loadReviews();
 setupStars();
 renderProducts();
 updateCartUI();
-    // VIP-товар: случайный, с видео если есть
+
+// VIP-товар: случайный, с видео если есть (обновлённая версия с короной)
 function updateVipProduct() {
     const vipDiv = document.getElementById('vipCard');
     if (!vipDiv) return;
@@ -1139,10 +1193,11 @@ function updateVipProduct() {
     const vip = candidates.length ? candidates[Math.floor(Math.random() * candidates.length)] : PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
 
     const mediaHtml = vip.video
-        ? `<video autoplay muted loop playsinline src="${vip.video}"></video>`
-        : `<img src="${vip.img || ''}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`;
+        ? `<video autoplay muted loop playsinline src="${vip.video}" class="vip-media"></video>`
+        : `<img src="${vip.img || ''}" class="vip-media" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`;
 
     vipDiv.innerHTML = `
+        <div class="vip-crown">💎 VIP 💎</div>
         <div class="vip-media">${mediaHtml}</div>
         <div class="vip-name">${vip.name}</div>
         <div class="vip-price">${vip.price.toLocaleString()} ₽ ${vip.oldPrice ? `<span class="vip-oldprice">${vip.oldPrice.toLocaleString()} ₽</span>` : ''}</div>
@@ -1159,6 +1214,9 @@ function updateVipProduct() {
     };
 }
 
+// Запускаем VIP-обновление
+updateVipProduct();
+setInterval(updateVipProduct, 30000);
 // Запуск и автообновление (каждые 30 секунд)
 updateVipProduct();
 setInterval(updateVipProduct, 30000);
