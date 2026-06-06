@@ -1331,17 +1331,70 @@ setInterval(updateVipProduct, 30000);
 // ==========================================
 // БЛОК 35: АДМИН-ПАНЕЛЬ (ЛОГИКА)
 // ==========================================
+let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
 const ADMIN_PASSWORD = "nova2025";  // ← ЗАМЕНИ НА СВОЙ ПАРОЛЬ
+
+// ==========================================
+// БЛОК 35: АДМИН-ПАНЕЛЬ (ЛОГИКА)
+// ==========================================
+const ADMIN_PASSWORD = "nova2025";  // ← ЗАМЕНИ НА СВОЙ ПАРОЛЬ
+const GITHUB_REPO = "Avidelarose/my-shop";  // ← ТВОЙ РЕПОЗИТОРИЙ
+let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
 
 // Проверка входа
 function checkAdminLogin() {
     const pass = document.getElementById('adminPassword').value;
     if (pass === ADMIN_PASSWORD) {
+        // Запрашиваем GitHub токен при входе в админку
+        let gitToken = localStorage.getItem('github_token');
+        if (!gitToken) {
+            gitToken = prompt('🔐 Введите GitHub токен для сохранения файлов:\n\nКак получить:\n1. GitHub → Settings → Developer settings\n2. Personal access tokens → Tokens (classic)\n3. Generate new token\n4. Выберите права: repo\n5. Скопируйте токен\n\nТокен будет сохранён в вашем браузере');
+            if (gitToken) {
+                localStorage.setItem('github_token', gitToken);
+                GITHUB_TOKEN = gitToken;
+            }
+        } else {
+            GITHUB_TOKEN = gitToken;
+        }
+        
         document.getElementById('adminLogin').style.display = 'none';
         document.getElementById('adminContent').style.display = 'block';
         renderAdminProductList();
     } else {
         alert('Неверный пароль');
+    }
+}
+
+// Функция загрузки файлов в GitHub
+async function uploadFileToGitHub(filename, base64Data) {
+    if (!GITHUB_TOKEN) {
+        alert('GitHub токен не введён. Выйдите из админки и зайдите снова.');
+        return false;
+    }
+    const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/images/${filename}`;
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `Upload ${filename}`,
+                content: base64Data.split(',')[1]
+            })
+        });
+        if (response.ok) {
+            console.log(`✅ Файл ${filename} загружен в GitHub`);
+            return true;
+        } else {
+            const error = await response.json();
+            console.error('Ошибка:', error);
+            return false;
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+        return false;
     }
 }
 
