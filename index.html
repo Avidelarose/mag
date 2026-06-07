@@ -339,6 +339,17 @@
             .editor-row { flex-direction: column; }
             .admin-grid { grid-template-columns: 1fr; }
         }
+
+        .bonus-block {
+    background: linear-gradient(135deg, #d90429, #9b1df0);
+    border-radius: 24px;
+    padding: 12px;
+    text-align: center;
+}
+.bonus-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
     </style>
 </head>
 <body class="theme-dark">
@@ -433,38 +444,6 @@
         <a href="https://t.me/Tolpaplay" target="_blank" style="color:#d4af37;">👨‍💼 Написать менеджеру</a>
     </div>
 </div>
-        <!-- ВКЛАДКИ (ХИТЫ / ДОСТАВКА) -->
-        <div class="extra-sections">
-            <div class="info-card" onclick="showHits()">
-                <div class="title">🔥 Хиты</div>
-                <div class="value" id="hitsCount">0</div>
-                <div style="font-size:0.7rem;">товаров</div>
-            </div>
-            <div class="info-card" onclick="showDeliveryInfo()">
-                <div class="title">📦 Доставка</div>
-                <div class="value">1 день</div>
-                <div style="font-size:0.7rem;">по Челябинску</div>
-            </div>
-            <div class="info-card" onclick="showContacts()">
-                <div class="title">📱 Контакты</div>
-                <div class="value">@Tolpaplay</div>
-                <div style="font-size:0.7rem;">Telegram</div>
-            </div>
-        </div>
-        <!-- ТОВАРЫ -->
-        <div class="products-grid" id="productsContainer"></div>
-        <!-- VIP-БЛОК -->
-        <div class="vip-sidebar" id="vipSidebar"></div>
-        <div class="bottom-instruction">
-            <div style="font-weight:600; margin-bottom:8px;">💳 Как сделать заказ</div>
-            <p>1️⃣ Оплатите по СБП: <strong>8 963 090 58 96</strong></p>
-            <p>2️⃣ Скриншот чека → оформите заказ</p>
-            <p>3️⃣ Менеджер свяжется с вами</p>
-            <a href="https://t.me/Tolpaplay" target="_blank" style="color:#d4af37;">👨‍💼 Написать менеджеру</a>
-        </div>
-    </div>
-</div>
-
 <div id="productDetailPage" class="page">
     <div class="product-detail-page" id="productDetailContainer"></div>
 </div>
@@ -542,14 +521,14 @@ function loadProductsFromLocal() {
     updateCartUI();
 }
 
-// ========== ОТРИСОВКА ГЛАВНОЙ ==========
 function renderProducts() {
     const container = document.getElementById('productsContainer');
     if (!container) return;
     const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
     const category = document.getElementById('categorySelect')?.value || 'all';
     const sort = document.getElementById('sortSelect')?.value || 'default';
-    let filtered = PRODUCTS.filter(p => p.status === 'active' && p.name.toLowerCase().includes(search));
+    let filtered = PRODUCTS.filter(p => p.status === 'active');
+    if (search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
     if (category !== 'all') filtered = filtered.filter(p => p.category === category);
     if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
     if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
