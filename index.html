@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>NŌVA — магазин в стиле Apple</title>
+    <title>NŌVA — магазин</title>
     <style>
-        /* ========== ГЛОБАЛЬНЫЕ СТИЛИ (SF Pro) ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', system-ui, Helvetica, sans-serif;
+            font-family: -apple-system, 'SF Pro Text', system-ui, Helvetica, sans-serif;
             min-height: 100vh;
             transition: background 0.3s, color 0.2s;
             background: linear-gradient(145deg, #0a0a0a 0%, #141414 100%);
             color: #ffffff;
         }
-        /* СВЕТЛАЯ ТЕМА */
         body.theme-light {
             background: linear-gradient(145deg, #f5f5f7, #e8e8ed);
             color: #1c1c1e;
         }
-        body.theme-light .product-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); border: 0.5px solid rgba(0,0,0,0.05); }
-        body.theme-light .product-name-card { color: #1c1c1e; }
-        body.theme-light .product-price-card { color: #d90429; }
-        body.theme-light .vip-sidebar { background: rgba(255,255,255,0.85); }
-        body.theme-light .vip-name, body.theme-light .vip-price { color: #1c1c1e; }
-        body.theme-light .bottom-instruction { background: rgba(0,0,0,0.05); color: #1c1c1e; }
+        body.theme-light .product-card, body.theme-light .admin-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); }
         body.theme-light .top-bar { background: rgba(255,255,255,0.98); border-bottom: 0.5px solid rgba(0,0,0,0.1); }
         body.theme-light .nav-btn { background: rgba(0,0,0,0.05); color: #1c1c1e; }
+        body.theme-light .cart-container, body.theme-light .admin-fullscreen { background: rgba(255,255,255,0.85); color: #1c1c1e; }
         /* ========== ШАПКА ========== */
         .top-bar {
             display: flex;
@@ -96,34 +90,18 @@
             border: 0.5px solid rgba(255,255,255,0.1);
         }
         .product-card:active { transform: scale(0.98); }
-        .product-media { width: 100%; height: 170px; object-fit: cover; }
+        .product-media { width: 100%; height: 170px; object-fit: cover; background: #1f1f2a; }
         .product-info-card { padding: 12px; text-align: center; }
         .product-name-card { font-weight: 590; font-size: 0.9rem; margin-bottom: 4px; }
         .product-price-card { font-weight: 620; font-size: 1rem; color: #ff6b8a; }
-        /* ========== VIP-БЛОК (ТОЛСТАЯ ЗОЛОТАЯ РАМКА + ГРАДИЕНТ) ========== */
+        /* ========== VIP-БЛОК ========== */
         .vip-sidebar {
             background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(30,20,40,0.8));
             border-radius: 32px;
             padding: 20px;
-            border: 2px solid;
-            border-image: linear-gradient(135deg, #d4af37, #ffd700, #b8860b) 1;
-            box-shadow: 0 0 15px rgba(212,175,55,0.3);
+            border: 2px solid #d4af37;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-        .vip-sidebar::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.15), transparent);
-            animation: rotateGlow 10s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes rotateGlow { 100% { transform: rotate(360deg); } }
         .vip-label {
             background: #d4af37;
             color: #000;
@@ -134,9 +112,9 @@
             font-weight: bold;
             margin-bottom: 12px;
         }
-        .vip-media img, .vip-media video { width: 100%; max-height: 140px; object-fit: cover; border-radius: 20px; margin-bottom: 12px; }
+        .vip-media img, .vip-media video { width: 100%; max-height: 140px; object-fit: cover; border-radius: 20px; }
         .vip-name { font-weight: 600; font-size: 1rem; margin: 8px 0; }
-        .vip-price { font-size: 1.1rem; font-weight: 700; color: #d4af37; margin: 6px 0; }
+        .vip-price { font-size: 1.1rem; font-weight: 700; color: #d4af37; }
         .vip-btn {
             background: #d90429;
             border: none;
@@ -148,7 +126,16 @@
             cursor: pointer;
             margin-top: 8px;
         }
-        /* ========== НОВЫЕ ВКЛАДКИ ========== */
+        /* ========== БОНУС В ЛЕВОЙ ПАНЕЛИ ========== */
+        .bonus-block {
+            background: linear-gradient(135deg, #d90429, #9b1df0);
+            border-radius: 24px;
+            padding: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .bonus-block .bonus-value { font-size: 1.3rem; font-weight: 700; }
+        /* ========== ВКЛАДКИ (ХИТЫ / ДОСТАВКА) ========== */
         .extra-sections {
             display: flex;
             gap: 16px;
@@ -167,49 +154,6 @@
         }
         .info-card .title { font-weight: 600; margin-bottom: 8px; }
         .info-card .value { font-size: 1.3rem; font-weight: 700; color: #d4af37; }
-        /* ========== БОНУС В ЛЕВОЙ ПАНЕЛИ ========== */
-        .bonus-block {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            border-radius: 24px;
-            padding: 12px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .bonus-block .bonus-value { font-size: 1.3rem; font-weight: 700; }
-        /* ========== СТРАНИЦА ТОВАРА ========== */
-        .product-detail-page {
-            max-width: 700px;
-            margin: 20px auto;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 48px;
-            padding: 24px;
-        }
-        .product-detail-media { display: flex; gap: 12px; overflow-x: auto; margin-bottom: 20px; }
-        .product-detail-media img, .product-detail-media video { max-height: 280px; border-radius: 28px; cursor: pointer; }
-        .product-detail-name { font-size: 1.6rem; font-weight: 620; margin-bottom: 8px; }
-        .product-detail-price { font-size: 1.5rem; font-weight: 700; margin: 12px 0; color: #ff6b8a; }
-        .product-detail-qty { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
-        .product-detail-qty button { background: #d4af37; border: none; width: 44px; height: 44px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; }
-        .btn-add {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            border: none;
-            padding: 16px;
-            border-radius: 44px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            color: white;
-        }
-        .btn-back {
-            background: transparent;
-            border: 1px solid #d4af37;
-            padding: 14px;
-            border-radius: 44px;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 16px;
-        }
         /* ========== КОРЗИНА ========== */
         .cart-container {
             max-width: 700px;
@@ -220,6 +164,16 @@
             padding: 24px;
         }
         .cart-item { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
+        .btn-add {
+            background: linear-gradient(135deg, #d90429, #9b1df0);
+            border: none;
+            padding: 14px;
+            border-radius: 44px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            color: white;
+        }
         .form-group { margin-bottom: 20px; }
         input, select {
             width: 100%;
@@ -246,17 +200,104 @@
             padding: 20px;
             margin-top: 20px;
         }
-        /* ========== АДАПТИВ ПОД ТЕЛЕФОН (КАК APPLE) ========== */
-        @media (max-width: 600px) {
-            .top-bar { padding: 12px 16px; }
-            .logo { font-size: 1.3rem; }
-            .nav-btn { padding: 6px 14px; font-size: 0.8rem; }
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-            .product-media { height: 150px; }
-            .vip-sidebar { padding: 16px; }
-            .extra-sections { gap: 12px; }
-            .info-card { padding: 12px; }
+        /* ========== ПОИСК И СОРТИРОВКА ========== */
+        .search-sort-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+            justify-content: space-between;
         }
+        .search-input {
+            flex: 2;
+            min-width: 200px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        .category-select, .sort-select {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        /* ========== АДМИН-ПАНЕЛЬ ========== */
+        .admin-fullscreen {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 24px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 48px;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .admin-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 32px;
+            padding: 20px;
+        }
+        .admin-card-title { font-size: 1.2rem; font-weight: 600; }
+        .admin-card-price { color: #ff6b8a; margin: 8px 0; }
+        .admin-status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; }
+        .status-active { background: #2e7d32; color: white; }
+        .status-hidden { background: #9e9e9e; color: white; }
+        .admin-actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .admin-btn { padding: 8px 16px; border-radius: 30px; border: none; cursor: pointer; }
+        .admin-btn-edit { background: #d4af37; color: black; }
+        .admin-btn-toggle { background: #2c3e66; color: white; }
+        .admin-btn-delete { background: #d90429; color: white; }
+        /* ========== РЕДАКТОР ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #1e1e1e;
+            border-radius: 48px;
+            padding: 24px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .editor-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+        .editor-field { flex: 1; min-width: 200px; }
+        .editor-field input, .editor-field textarea, .editor-field select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            background: #2a2a2a;
+            color: white;
+            border: none;
+        }
+        .preview-card {
+            background: rgba(0,0,0,0.5);
+            border-radius: 28px;
+            overflow: hidden;
+            max-width: 260px;
+            margin: 0 auto;
+        }
+        .preview-media { height: 160px; display: flex; align-items: center; justify-content: center; background: #1f1f2a; }
+        .media-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+        .media-item { background: #333; padding: 5px 12px; border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; }
         .page { display: none; }
         .page.active { display: block; }
         .hidden { display: none; }
@@ -282,92 +323,10 @@
             color: white;
             cursor: pointer;
         }
-        /* ========== ПОИСК И СОРТИРОВКА ========== */
-.search-sort-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-    align-items: center;
-    justify-content: space-between;
-}
-.search-input {
-    flex: 2;
-    min-width: 200px;
-    padding: 12px 18px;
-    border-radius: 40px;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: white;
-    font-size: 1rem;
-}
-.category-select, .sort-select {
-    flex: 1;
-    min-width: 140px;
-    padding: 12px 18px;
-    border-radius: 40px;
-    background: rgba(255,255,255,0.1);
-    color: white;
-}
-/* ========== АДМИН-ПАНЕЛЬ (ВСЯ СТРАНИЦА) ========== */
-.admin-fullscreen {
-    max-width: 1400px;
-    margin: 20px auto;
-    padding: 24px;
-    background: rgba(0,0,0,0.7);
-    border-radius: 48px;
-}
-.admin-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-}
-.admin-card {
-    background: rgba(255,255,255,0.1);
-    border-radius: 32px;
-    padding: 20px;
-    cursor: pointer;
-}
-.admin-card-title { font-size: 1.2rem; font-weight: 600; }
-.admin-card-price { color: #ff6b8a; margin: 8px 0; }
-.admin-status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; }
-.status-active { background: #2e7d32; color: white; }
-.status-hidden { background: #9e9e9e; color: white; }
-.admin-actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
-.admin-btn { padding: 8px 16px; border-radius: 30px; border: none; cursor: pointer; }
-.admin-btn-edit { background: #d4af37; color: black; }
-.admin-btn-toggle { background: #2c3e66; color: white; }
-.admin-btn-delete { background: #d90429; color: white; }
-/* ========== РЕДАКТОР (СКЕЛЕТ) ========== */
-.editor-skeleton {
-    background: rgba(0,0,0,0.8);
-    border-radius: 48px;
-    padding: 24px;
-}
-.editor-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-.editor-field { flex: 1; min-width: 200px; }
-.editor-field input, .editor-field textarea, .editor-field select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 30px;
-    background: #2a2a2a;
-    color: white;
-    border: none;
-}
-.preview-card {
-    background: rgba(0,0,0,0.5);
-    border-radius: 28px;
-    overflow: hidden;
-    max-width: 260px;
-    margin: 0 auto;
-}
-.preview-media { height: 160px; display: flex; align-items: center; justify-content: center; background: #1f1f2a; }
-        
+        @media (max-width: 700px) {
+            .editor-row { flex-direction: column; }
+            .admin-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body class="theme-dark">
@@ -393,20 +352,20 @@
 <div id="mainPage" class="page active">
     <div class="main-container">
         <div class="search-sort-bar">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по товарам...">
-    <select id="categorySelect" class="category-select">
-        <option value="all">📋 Все категории</option>
-        <option value="Электроника">💾 Электроника</option>
-        <option value="Игрушки">🧸 Игрушки</option>
-        <option value="Одежда">👕 Одежда</option>
-        <option value="Аксессуары">🔑 Аксессуары</option>
-    </select>
-    <select id="sortSelect" class="sort-select">
-        <option value="default">📊 По умолчанию</option>
-        <option value="price-asc">💰 По возрастанию цены</option>
-        <option value="price-desc">💰 По убыванию цены</option>
-    </select>
-</div>
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по товарам...">
+            <select id="categorySelect" class="category-select">
+                <option value="all">📋 Все категории</option>
+                <option value="Электроника">💾 Электроника</option>
+                <option value="Игрушки">🧸 Игрушки</option>
+                <option value="Одежда">👕 Одежда</option>
+                <option value="Аксессуары">🔑 Аксессуары</option>
+            </select>
+            <select id="sortSelect" class="sort-select">
+                <option value="default">📊 По умолчанию</option>
+                <option value="price-asc">💰 По возрастанию цены</option>
+                <option value="price-desc">💰 По убыванию цены</option>
+            </select>
+        </div>
         <!-- ЛЕВАЯ ПАНЕЛЬ (БОНУС) + ДОП.ИНФО -->
         <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; margin-bottom: 8px;">
             <div class="bonus-block" style="flex:1">
@@ -475,9 +434,10 @@
         <div class="form-group"><label>⏰ Время</label><select id="timeSelect"><option>Не важно</option><option>09:00–12:00</option><option>12:00–15:00</option><option>15:00–18:00</option><option>18:00–21:00</option></select></div>
         <div class="form-group"><label>🧾 Фото чека</label><div class="file-label" id="fileLabel">📎 Загрузить чек<input type="file" id="receiptFile" accept="image/*" style="display:none"></div><div id="fileNameSpan"></div></div>
         <button id="submitOrderBtn" class="btn-add">Отправить заказ</button>
-        <button id="closeOrderBtn" class="btn-back">← Назад</button>
+        <button id="closeOrderBtn" class="btn-back" style="margin-top:12px; background:transparent; border:1px solid #d4af37; padding:14px; border-radius:44px;">← Назад</button>
     </div>
 </div>
+
 <div id="adminPage" class="page">
     <div class="admin-fullscreen">
         <div id="adminLoginBlock">
@@ -501,75 +461,72 @@
 </div>
 
 <script>
-// ========== TELEGRAM / НАСТРОЙКИ ==========
+// ========== TELEGRAM ==========
 const BOT_TOKEN = "8112529237:AAGX6nHQEnMcJKflsAg-SmclgdJCD5xzaZU";
 const CHAT_ID = "5233384978";
-const GITHUB_REPO = "Avidelarose/my-shop";
-let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
+
+// ========== ТОВАРЫ ==========
 let PRODUCTS = [
-    { id: 1, name: "SSD 256 SP A56", price: 3650, category: "Электроника", status: "active", media: [], emoji: "💾", description: "Высокоскоростной SSD" },
-    { id: 2, name: "Чебурашка", price: 2600, category: "Игрушки", status: "active", media: [], emoji: "🧸", description: "Мягкая игрушка" },
-    { id: 3, name: "Дракончик", price: 330, category: "Игрушки", status: "active", media: ["Dragon_girl.jpg"], emoji: "🐉", description: "Светится в темноте" },
-    { id: 4, name: "Зарядка в авто", price: 800, category: "Электроника", status: "active", media: [], emoji: "🔌", description: "" },
-    { id: 5, name: "Мини колода карт", price: 700, category: "Игрушки", status: "active", media: [], emoji: "🃏", description: "" },
-    { id: 6, name: "Брелок", price: 300, category: "Аксессуары", status: "active", media: ["Video/video_kulon.mp4"], emoji: "🔑", description: "" },
-    { id: 7, name: "Жилетка", price: 2145, category: "Одежда", status: "active", media: [], emoji: "🌸", description: "" },
-    { id: 8, name: "Игрушечные сигареты", price: 1500, category: "Игрушки", status: "active", media: [], emoji: "💨", description: "" }
+    { id: 1, name: "💾 SSD 256 SP A56", price: 3650, category: "Электроника", status: "active", media: [], emoji: "💾", description: "Высокоскоростной SSD" },
+    { id: 2, name: "🧸 Чебурашка", price: 2600, category: "Игрушки", status: "active", media: [], emoji: "🧸", description: "Мягкая игрушка" },
+    { id: 3, name: "🐉 Дракончик", price: 330, category: "Игрушки", status: "active", media: ["Dragon_girl.jpg"], emoji: "🐉", description: "Светится в темноте" },
+    { id: 4, name: "🔌 Зарядка в авто", price: 800, category: "Электроника", status: "active", media: [], emoji: "🔌", description: "" },
+    { id: 5, name: "🃏 Мини колода карт", price: 700, category: "Игрушки", status: "active", media: [], emoji: "🃏", description: "" },
+    { id: 6, name: "🔑 Брелок", price: 300, category: "Аксессуары", status: "active", media: ["Video/video_kulon.mp4"], emoji: "🔑", description: "" },
+    { id: 7, name: "🌸 Жилетка", price: 2145, category: "Одежда", status: "active", media: [], emoji: "🌸", description: "" },
+    { id: 8, name: "💨 Игрушечные сигареты", price: 1500, category: "Игрушки", status: "active", media: [], emoji: "💨", description: "" }
 ];
-let cart = {}, receiptFile = null, currentProductId = null, currentQty = 1;
+let cart = {}, receiptFile = null;
+let currentEditId = null;
 
-// ========== СВЕТЛАЯ/ТЁМНАЯ ТЕМА ==========
-function toggleTheme() {
-    if (document.body.classList.contains('theme-dark')) {
-        document.body.classList.remove('theme-dark');
-        document.body.classList.add('theme-light');
-        localStorage.setItem('nova_theme', 'light');
-    } else {
-        document.body.classList.remove('theme-light');
-        document.body.classList.add('theme-dark');
-        localStorage.setItem('nova_theme', 'dark');
-    }
+function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
+function loadProductsFromLocal() {
+    let saved = localStorage.getItem('nova_products');
+    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
+    renderProducts();
+    updateVipSidebar();
+    updateCartUI();
 }
-if (localStorage.getItem('nova_theme') === 'light') document.body.classList.add('theme-light');
 
-// ========== НОВЫЕ ВКЛАДКИ ==========
-function showHits() { alert('🔥 Хиты продаж: SSD, Чебурашка, Дракончик'); }
-function showDeliveryInfo() { alert('📦 Доставка по Челябинску от 1 дня. Срочная доставка от 2 часов — 300₽'); }
-function showContacts() { alert('📱 Наш Telegram: @Tolpaplay\n📞 СБП: 8 963 090 58 96'); }
-
-// ========== ОТРИСОВКА ==========
+// ========== ОТРИСОВКА ГЛАВНОЙ ==========
 function renderProducts() {
-    let container = document.getElementById('productsContainer');
+    const container = document.getElementById('productsContainer');
     if (!container) return;
+    const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const category = document.getElementById('categorySelect')?.value || 'all';
+    const sort = document.getElementById('sortSelect')?.value || 'default';
+    let filtered = PRODUCTS.filter(p => p.status === 'active' && p.name.toLowerCase().includes(search));
+    if (category !== 'all') filtered = filtered.filter(p => p.category === category);
+    if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+    if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
     container.innerHTML = '';
     let hits = 0;
-    for (let p of PRODUCTS) {
-        let card = document.createElement('div');
+    filtered.forEach(p => {
+        const mediaUrl = p.media?.[0] || '';
+        const isVideo = mediaUrl.includes('.mp4');
+        const mediaHtml = mediaUrl ? (isVideo ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${p.name}'">`) : `<div class="product-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d90429,#9b1df0);font-size:2rem;">${p.emoji}</div>`;
+        const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => openProductDetail(p.id);
-        let mediaUrl = (p.media && p.media[0]) ? p.media[0] : '';
-        let isVideo = mediaUrl && (mediaUrl.includes('.mp4') || mediaUrl.includes('.webm'));
-        let mediaHtml = mediaUrl ? (isVideo ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${p.name}'">`) : `<div class="product-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d90429,#9b1df0);font-size:2rem;">${p.emoji}</div>`;
         card.innerHTML = `${mediaHtml}<div class="product-info-card"><div class="product-name-card">${p.name}</div><div class="product-price-card">${p.price.toLocaleString()} ₽</div></div>`;
         container.appendChild(card);
         if (p.price > 2000) hits++;
-    }
+    });
     document.getElementById('hitsCount').innerText = hits;
 }
 function updateVipSidebar() {
     let vipDiv = document.getElementById('vipSidebar');
     if (!vipDiv) return;
-    let vip = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
+    let active = PRODUCTS.filter(p => p.status === 'active');
+    if (active.length === 0) return;
+    let vip = active[Math.floor(Math.random() * active.length)];
     let mediaUrl = (vip.media && vip.media[0]) ? vip.media[0] : '';
     let isVideo = mediaUrl && (mediaUrl.includes('.mp4') || mediaUrl.includes('.webm'));
-    vipDiv.innerHTML = `<div class="vip-label">⚡ ТОЛЬКО ПО РЕКОМЕНДАЦИИ ⚡</div>
+    vipDiv.innerHTML = `<div class="vip-label">⚡ VIP РЕКОМЕНДАЦИЯ ⚡</div>
         <div class="vip-media">${isVideo ? `<video src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=VIP'">`}</div>
         <div class="vip-name">${vip.name}</div>
         <div class="vip-price">${vip.price.toLocaleString()} ₽</div>
-        <div class="vip-badge" style="background:#d4af37; color:#000;">✨ эксклюзивно ✨</div>
         <button class="vip-btn" onclick="addToCartVip(${vip.id})">🛒 В корзину</button>`;
-    vipDiv.style.cursor = 'pointer';
-    vipDiv.onclick = (e) => { if (!e.target.classList.contains('vip-btn')) openProductDetail(vip.id); };
 }
 function addToCartVip(id) { cart[id] = (cart[id] || 0) + 1; updateCartUI(); alert('✅ Добавлено'); }
 
@@ -577,28 +534,8 @@ function addToCartVip(id) { cart[id] = (cart[id] || 0) + 1; updateCartUI(); aler
 function openProductDetail(id) {
     let p = PRODUCTS.find(x => x.id == id);
     if (!p) return;
-    currentProductId = id; currentQty = 1;
-    let mediaHtml = '';
-    if (p.media && p.media.length) {
-        for (let m of p.media) {
-            let isVideo = m.includes('.mp4') || m.includes('.webm');
-            mediaHtml += isVideo ? `<video src="${m}" controls autoplay muted loop playsinline></video>` : `<img src="${m}" onclick="event.stopPropagation(); openLightbox('${m}')">`;
-        }
-    } else { mediaHtml = `<div style="padding:40px;text-align:center;">📷 Нет фото</div>`; }
-    document.getElementById('productDetailContainer').innerHTML = `
-        <div class="product-detail-media">${mediaHtml}</div>
-        <div class="product-detail-name">${p.name}</div>
-        <div class="product-detail-price">${p.price.toLocaleString()} ₽</div>
-        <div class="product-detail-desc">${p.description || 'Описание отсутствует'}</div>
-        <div class="product-detail-qty"><button onclick="changeQty(-1)">−</button><span id="detailQty">1</span><button onclick="changeQty(1)">+</button></div>
-        <button class="btn-add" onclick="addToCartFromDetail()">🛒 Добавить в корзину</button>
-        <button class="btn-back" onclick="showPage('main')">← Назад</button>
-    `;
-    document.getElementById('detailQty').innerText = currentQty;
-    showPage('productDetail');
+    alert(`📦 ${p.name}\n💰 ${p.price}₽\n📝 ${p.description || 'Описание отсутствует'}`);
 }
-function changeQty(delta) { currentQty = Math.max(1, currentQty + delta); let span = document.getElementById('detailQty'); if (span) span.innerText = currentQty; }
-function addToCartFromDetail() { cart[currentProductId] = (cart[currentProductId] || 0) + currentQty; updateCartUI(); showPage('main'); alert('✅ Добавлено'); }
 
 // ========== КОРЗИНА ==========
 function updateCartUI() { let total = 0; for (let i in cart) total += cart[i]; document.getElementById('cartCount').innerText = total; renderCartList(); }
@@ -624,29 +561,6 @@ function showOrderScreen() {
     document.getElementById('orderSummary').innerHTML = html;
     showPage('order');
 }
-
-// ========== TELEGRAM ==========
-async function sendToTelegram(orderData) {
-    let items = '';
-    for (let id in orderData.items) {
-        let p = PRODUCTS.find(x => x.id == id);
-        if (p) items += `${p.name} — ${orderData.items[id]} шт = ${p.price * orderData.items[id]} ₽\n`;
-    }
-    const msg = `🛍️ НОВЫЙ ЗАКАЗ NŌVA\n\n📦 Товары:\n${items}\n💰 Итого: ${orderData.total} ₽\n\n👤 ${orderData.phone} | ${orderData.social}\n📍 ${orderData.address} | ⏰ ${orderData.time}\n🧾 Чек: ${orderData.hasPhoto ? 'есть фото' : 'нет фото'}`;
-    try {
-        if (orderData.photoFile) {
-            let fd = new FormData();
-            fd.append('chat_id', CHAT_ID);
-            fd.append('caption', msg);
-            fd.append('photo', orderData.photoFile);
-            let r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-            return r.ok;
-        } else {
-            let r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CHAT_ID, text: msg }) });
-            return r.ok;
-        }
-    } catch(e) { return false; }
-}
 async function submitOrder() {
     let phone = document.getElementById('phone').value.trim();
     let social = document.getElementById('social').value.trim();
@@ -656,36 +570,23 @@ async function submitOrder() {
     if (Object.keys(cart).length === 0) { alert("Корзина пуста"); return; }
     let total = 0;
     for (let id in cart) total += PRODUCTS.find(p => p.id == id)?.price * cart[id] || 0;
-    let orderData = { items: cart, total, phone, social, address, time: timeSlot, hasPhoto: !!receiptFile, photoFile: receiptFile };
-    let btn = document.getElementById('submitOrderBtn');
-    btn.disabled = true; btn.innerText = "⏳ Отправка...";
-    let sent = await sendToTelegram(orderData);
-    if (sent) { cart = {}; receiptFile = null; updateCartUI(); showPage('success'); } else { alert("❌ Ошибка. Напишите /start боту @My_daaate_bot"); }
-    btn.disabled = false; btn.innerText = "Отправить заказ";
+    let msg = `🛍️ НОВЫЙ ЗАКАЗ\n\n👤 ${phone} | ${social}\n📍 ${address} | ⏰ ${timeSlot}\n💰 Итого: ${total} ₽`;
+    try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+        });
+        cart = {}; receiptFile = null; updateCartUI(); showPage('success');
+        alert('✅ Заказ отправлен!');
+    } catch(e) { alert("Ошибка"); }
 }
 
-// ========== LIGHTBOX ==========
-function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').classList.add('active'); }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
-
-// ========== НАВИГАЦИЯ ==========
-function showPage(page) {
-    document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-    document.getElementById(page + 'Page').classList.add('active');
-    if (page === 'cart') renderCartList();
-    if (page === 'main') { renderProducts(); updateVipSidebar(); }
-}
-document.getElementById('checkoutBtn').onclick = showOrderScreen;
-document.getElementById('closeOrderBtn').onclick = () => showPage('cart');
-document.getElementById('submitOrderBtn').onclick = submitOrder;
-document.getElementById('fileLabel').onclick = () => document.getElementById('receiptFile').click();
-document.getElementById('receiptFile').onchange = (e) => { if (e.target.files.length) { receiptFile = e.target.files[0]; document.getElementById('fileNameSpan').innerText = `📸 ${receiptFile.name}`; } };
-
-// ========== АДМИН-ПАНЕЛЬ (РАСШИРЕННАЯ) ==========
+// ========== АДМИНКА ==========
 function renderAdminPanel() {
     const container = document.getElementById('adminPanelContainer');
     if (!container) return;
-    let html = `<div class="admin-fullscreen"><div class="admin-grid">`;
+    let html = '';
     PRODUCTS.forEach(p => {
         html += `<div class="admin-card">
             <div class="admin-card-title">${p.name}</div>
@@ -698,52 +599,54 @@ function renderAdminPanel() {
             </div>
         </div>`;
     });
-    html += `</div></div>`;
     container.innerHTML = html;
 }
-
 function toggleProductStatus(id) {
-    const p = PRODUCTS.find(x => x.id == id);
+    let p = PRODUCTS.find(x => x.id == id);
     if (p) { p.status = p.status === 'active' ? 'hidden' : 'active'; saveProductsToLocal(); renderAdminPanel(); renderProducts(); updateVipSidebar(); }
 }
 function deleteProductItem(id) {
     if (confirm('Удалить товар навсегда?')) {
         PRODUCTS = PRODUCTS.filter(p => p.id != id);
-        saveProductsToLocal();
-        renderAdminPanel();
-        renderProducts();
-        updateVipSidebar();
+        saveProductsToLocal(); renderAdminPanel(); renderProducts(); updateVipSidebar();
     }
 }
-
-let currentEditId = null;
 function openEditor(id = null) {
     currentEditId = id;
-    const p = id ? PRODUCTS.find(x => x.id == id) : null;
-    const mediaListHtml = p?.media?.map((m, i) => `<div class="media-item">${m.split('/').pop()} <button onclick="removeMediaFromEdit(${i})">✖</button></div>`).join('') || '';
-    const modalHtml = `
+    let p = id ? PRODUCTS.find(x => x.id == id) : null;
+    let mediaHtml = '';
+    if (p?.media) {
+        p.media.forEach((m, i) => { mediaHtml += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMediaFromEdit(${i})">✖</button></div>`; });
+    }
+    let modalHtml = `
     <div id="editorModal" class="modal active" style="display:flex;">
-        <div class="modal-content" style="max-width:800px;">
-            <h2>${p ? '✏️ Редактировать' : '➕ Новый товар'}</h2>
-            <div class="editor-skeleton">
-                <div class="editor-row">
-                    <div class="editor-field"><label>Название</label><input type="text" id="editName" value="${p?.name || ''}"></div>
-                    <div class="editor-field"><label>Цена</label><input type="number" id="editPrice" value="${p?.price || ''}"></div>
-                </div>
-                <div class="editor-row">
-                    <div class="editor-field"><label>Категория</label><select id="editCategory"><option value="Электроника">💾 Электроника</option><option value="Игрушки">🧸 Игрушки</option><option value="Одежда">👕 Одежда</option><option value="Аксессуары">🔑 Аксессуары</option></select></div>
-                    <div class="editor-field"><label>Статус</label><select id="editStatus"><option value="active">✅ Активен</option><option value="hidden">🔒 Скрыт</option></select></div>
-                </div>
-                <div class="editor-row">
-                    <div class="editor-field"><label>Описание</label><textarea id="editDesc" rows="2">${p?.description || ''}</textarea></div>
-                </div>
-                <div class="editor-row">
-                    <div class="editor-field"><label>Фото/видео (ссылки)</label><div id="editMediaList" style="display:flex; flex-wrap:wrap; gap:8px;">${mediaListHtml}</div><input type="text" id="newMediaUrl" placeholder="https://..."><button onclick="addMediaToEdit()" style="margin-top:5px;">➕ Добавить</button></div>
-                    <div class="preview-card"><div class="preview-media" id="previewMedia">📷</div><div class="preview-info"><div id="previewName">${p?.name || 'Название'}</div><div id="previewPrice">${p?.price?.toLocaleString() || '0'} ₽</div></div></div>
-                </div>
-                <button class="editor-save" onclick="saveEditorProduct()">💾 Сохранить</button>
-                <button onclick="closeEditor()">✖ Отмена</button>
+        <div class="modal-content">
+            <h2 style="margin-bottom:20px;">${p ? '✏️ Редактировать товар' : '➕ Новый товар'}</h2>
+            <div class="editor-row">
+                <div class="editor-field"><label>Название</label><input type="text" id="editName" value="${p?.name || ''}"></div>
+                <div class="editor-field"><label>Цена</label><input type="number" id="editPrice" value="${p?.price || ''}"></div>
             </div>
+            <div class="editor-row">
+                <div class="editor-field"><label>Категория</label><select id="editCategory"><option value="Электроника">Электроника</option><option value="Игрушки">Игрушки</option><option value="Одежда">Одежда</option><option value="Аксессуары">Аксессуары</option></select></div>
+                <div class="editor-field"><label>Статус</label><select id="editStatus"><option value="active">Активен</option><option value="hidden">Скрыт</option></select></div>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field"><label>Описание</label><textarea id="editDesc" rows="2">${p?.description || ''}</textarea></div>
+            </div>
+            <div class="editor-row">
+                <div class="editor-field">
+                    <label>Фото/видео (ссылки)</label>
+                    <div id="editMediaList" class="media-list">${mediaHtml}</div>
+                    <input type="text" id="newMediaUrl" placeholder="https://...">
+                    <button onclick="addMediaToEdit()" style="margin-top:8px;">➕ Добавить медиа</button>
+                </div>
+                <div class="preview-card">
+                    <div class="preview-media" id="previewMedia">📷</div>
+                    <div class="preview-info"><div id="previewName">${p?.name || 'Название'}</div><div id="previewPrice">${p?.price?.toLocaleString() || '0'} ₽</div></div>
+                </div>
+            </div>
+            <button onclick="saveEditorProduct()" class="btn-add" style="margin-top:20px;">💾 Сохранить</button>
+            <button onclick="closeEditor()" style="margin-top:10px; background:#333; padding:12px; border-radius:40px; width:100%; border:none; color:white;">✖ Отмена</button>
         </div>
     </div>`;
     let old = document.getElementById('editorModal');
@@ -754,102 +657,90 @@ function openEditor(id = null) {
     updatePreview();
 }
 function updatePreview() {
-    const name = document.getElementById('editName')?.value || 'Название';
-    const price = document.getElementById('editPrice')?.value || '0';
+    let name = document.getElementById('editName')?.value || 'Название';
+    let price = document.getElementById('editPrice')?.value || '0';
     document.getElementById('previewName').innerText = name;
     document.getElementById('previewPrice').innerText = `${parseInt(price).toLocaleString()} ₽`;
 }
 function addMediaToEdit() {
-    const url = document.getElementById('newMediaUrl')?.value.trim();
+    let url = document.getElementById('newMediaUrl')?.value.trim();
     if (url) {
-        const container = document.getElementById('editMediaList');
-        const idx = container.children.length;
+        let container = document.getElementById('editMediaList');
+        let idx = container.children.length;
         container.innerHTML += `<div class="media-item">${url.split('/').pop()} <button onclick="removeMediaFromEdit(${idx})">✖</button></div>`;
         document.getElementById('newMediaUrl').value = '';
     }
 }
 function removeMediaFromEdit(idx) {
-    const item = document.getElementById('editMediaList')?.children[idx];
+    let item = document.getElementById('editMediaList')?.children[idx];
     if (item) item.remove();
 }
 function saveEditorProduct() {
-    const name = document.getElementById('editName').value.trim();
-    const price = parseInt(document.getElementById('editPrice').value);
-    const category = document.getElementById('editCategory').value;
-    const status = document.getElementById('editStatus').value;
-    const desc = document.getElementById('editDesc').value;
+    let name = document.getElementById('editName').value.trim();
+    let price = parseInt(document.getElementById('editPrice').value);
+    let category = document.getElementById('editCategory').value;
+    let status = document.getElementById('editStatus').value;
+    let desc = document.getElementById('editDesc').value;
     if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
-    const media = [];
-    const mediaContainer = document.getElementById('editMediaList');
+    let media = [];
+    let mediaContainer = document.getElementById('editMediaList');
     for (let i = 0; i < mediaContainer.children.length; i++) {
-        const txt = mediaContainer.children[i].innerText;
-        const url = txt.replace('✖', '').trim();
+        let txt = mediaContainer.children[i].innerText;
+        let url = txt.replace('✖', '').trim();
         if (url) media.push(url);
     }
     if (currentEditId) {
-        const p = PRODUCTS.find(x => x.id == currentEditId);
+        let p = PRODUCTS.find(x => x.id == currentEditId);
         p.name = name; p.price = price; p.category = category; p.status = status; p.description = desc; p.media = media; p.emoji = media.length ? '📷' : '📦';
     } else {
-        PRODUCTS.push({ id: Date.now(), name, price, category, status, description: desc, media, emoji: media.length ? '📷' : '📦' });
+        let newId = Date.now();
+        PRODUCTS.push({ id: newId, name, price, category, status, description: desc, media, emoji: media.length ? '📷' : '📦' });
     }
     saveProductsToLocal();
     closeEditor();
     renderAdminPanel();
     renderProducts();
     updateVipSidebar();
-    alert('✅ Товар сохранён');
+    alert('✅ Товар сохранён!');
 }
 function closeEditor() { document.getElementById('editorModal')?.remove(); }
-
-// Переопределяем функции для поиска и фильтрации
-window.renderProducts = function() {
-    const container = document.getElementById('productsContainer');
-    if (!container) return;
-    const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
-    const category = document.getElementById('categorySelect')?.value || 'all';
-    const sort = document.getElementById('sortSelect')?.value || 'default';
-    let filtered = PRODUCTS.filter(p => p.status === 'active' && p.name.toLowerCase().includes(search));
-    if (category !== 'all') filtered = filtered.filter(p => p.category === category);
-    if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
-    if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
-    container.innerHTML = '';
-    let hits = 0;
-    filtered.forEach(p => {
-        const mediaUrl = p.media?.[0] || '';
-        const isVideo = mediaUrl.includes('.mp4');
-        const mediaHtml = mediaUrl ? (isVideo ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${p.name}'">`) : `<div class="product-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d90429,#9b1df0);font-size:2rem;">${p.emoji || '📦'}</div>`;
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.onclick = () => openProductDetail(p.id);
-        card.innerHTML = `${mediaHtml}<div class="product-info-card"><div class="product-name-card">${p.name}</div><div class="product-price-card">${p.price.toLocaleString()} ₽</div></div>`;
-        container.appendChild(card);
-        if (p.price > 2000) hits++;
-    });
-    document.getElementById('hitsCount').innerText = hits;
-};
-
-// Обработчики поиска и сортировки
-document.getElementById('searchInput')?.addEventListener('input', () => renderProducts());
-document.getElementById('categorySelect')?.addEventListener('change', () => renderProducts());
-document.getElementById('sortSelect')?.addEventListener('change', () => renderProducts());
-
-// Проверка пароля админки
-window.checkAdminPass = function() {
+function checkAdminPass() {
     if (document.getElementById('adminPass').value === 'nova2025') {
         document.getElementById('adminLoginBlock').classList.add('hidden');
         document.getElementById('adminContentBlock').classList.remove('hidden');
         renderAdminPanel();
     } else alert('Неверный пароль');
-};
-
-function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
-function loadProductsFromLocal() {
-    let saved = localStorage.getItem('nova_products');
-    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
-    renderProducts();
-    updateVipSidebar();
-    updateCartUI();
 }
+
+// ========== НАВИГАЦИЯ ==========
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+    document.getElementById(page + 'Page').classList.add('active');
+    if (page === 'cart') renderCartList();
+    if (page === 'main') renderProducts();
+}
+function toggleTheme() {
+    document.body.classList.toggle('theme-light');
+    localStorage.setItem('nova_theme', document.body.classList.contains('theme-light') ? 'light' : 'dark');
+}
+if (localStorage.getItem('nova_theme') === 'light') document.body.classList.add('theme-light');
+
+// ========== ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ ==========
+function showHits() { alert('🔥 Хиты продаж: SSD, Чебурашка, Дракончик'); }
+function showDeliveryInfo() { alert('📦 Доставка по Челябинску от 1 дня. Срочная доставка от 2 часов — 300₽'); }
+function showContacts() { alert('📱 Наш Telegram: @Tolpaplay\n📞 СБП: 8 963 090 58 96'); }
+function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').classList.add('active'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+document.getElementById('checkoutBtn').onclick = showOrderScreen;
+document.getElementById('closeOrderBtn').onclick = () => showPage('cart');
+document.getElementById('submitOrderBtn').onclick = submitOrder;
+document.getElementById('fileLabel').onclick = () => document.getElementById('receiptFile').click();
+document.getElementById('receiptFile').onchange = (e) => { if (e.target.files.length) { receiptFile = e.target.files[0]; document.getElementById('fileNameSpan').innerText = `📸 ${receiptFile.name}`; } };
+document.getElementById('searchInput')?.addEventListener('input', () => renderProducts());
+document.getElementById('categorySelect')?.addEventListener('change', () => renderProducts());
+document.getElementById('sortSelect')?.addEventListener('change', () => renderProducts());
+
 loadProductsFromLocal();
 updateCartUI();
 </script>
