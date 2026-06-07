@@ -94,47 +94,59 @@
         .product-info-card { padding: 12px; text-align: center; }
         .product-name-card { font-weight: 590; font-size: 0.9rem; margin-bottom: 4px; }
         .product-price-card { font-weight: 620; font-size: 1rem; color: #ff6b8a; }
-        /* ========== VIP-БЛОК ========== */
-        .vip-sidebar {
-            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(30,20,40,0.8));
-            border-radius: 32px;
-            padding: 20px;
-            border: 2px solid #d4af37;
-            text-align: center;
-        }
-        .vip-label {
-            background: #d4af37;
-            color: #000;
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-        .vip-media img, .vip-media video { width: 100%; max-height: 140px; object-fit: cover; border-radius: 20px; }
-        .vip-name { font-weight: 600; font-size: 1rem; margin: 8px 0; }
-        .vip-price { font-size: 1.1rem; font-weight: 700; color: #d4af37; }
-        .vip-btn {
-            background: #d90429;
-            border: none;
-            padding: 10px;
-            border-radius: 30px;
-            width: 100%;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-        /* ========== БОНУС В ЛЕВОЙ ПАНЕЛИ ========== */
-        .bonus-block {
-            background: linear-gradient(135deg, #d90429, #9b1df0);
-            border-radius: 24px;
-            padding: 12px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .bonus-block .bonus-value { font-size: 1.3rem; font-weight: 700; }
+      /* ========== VIP-БЛОК (СПРАВА, КРУПНЫЙ) ========== */
+.vip-sidebar {
+    background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(30,20,40,0.8));
+    border-radius: 32px;
+    padding: 24px;
+    border: 2px solid #d4af37;
+    text-align: center;
+    position: sticky;
+    top: 100px;
+}
+.vip-label {
+    background: #d4af37;
+    color: #000;
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+.vip-media img, .vip-media video {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.vip-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 12px 0 8px;
+}
+.vip-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #d4af37;
+    margin: 8px 0;
+}
+.vip-btn {
+    background: #d90429;
+    border: none;
+    padding: 12px;
+    border-radius: 30px;
+    width: 100%;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: 0.2s;
+}
+.vip-btn:hover {
+    background: #b0021f;
+    transform: scale(1.02);
+}
         /* ========== ВКЛАДКИ (ХИТЫ / ДОСТАВКА) ========== */
         .extra-sections {
             display: flex;
@@ -351,34 +363,76 @@
 
 <div id="mainPage" class="page active">
     <div class="main-container">
-        <div class="search-sort-bar">
-            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по товарам...">
-            <select id="categorySelect" class="category-select">
-                <option value="all">📋 Все категории</option>
-                <option value="Электроника">💾 Электроника</option>
-                <option value="Игрушки">🧸 Игрушки</option>
-                <option value="Одежда">👕 Одежда</option>
-                <option value="Аксессуары">🔑 Аксессуары</option>
-            </select>
-            <select id="sortSelect" class="sort-select">
-                <option value="default">📊 По умолчанию</option>
-                <option value="price-asc">💰 По возрастанию цены</option>
-                <option value="price-desc">💰 По убыванию цены</option>
-            </select>
-        </div>
-        <!-- ЛЕВАЯ ПАНЕЛЬ (БОНУС) + ДОП.ИНФО -->
-        <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; margin-bottom: 8px;">
-            <div class="bonus-block" style="flex:1">
-                <div style="font-size:0.8rem;">Ваш бонус</div>
-                <div class="bonus-value">+500 ₽</div>
-                <div style="font-size:0.7rem;">за следующий заказ</div>
+    <div class="search-sort-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по товарам...">
+        <select id="categorySelect" class="category-select">
+            <option value="all">📋 Все категории</option>
+            <option value="Электроника">💾 Электроника</option>
+            <option value="Игрушки">🧸 Игрушки</option>
+            <option value="Одежда">👕 Одежда</option>
+            <option value="Аксессуары">🔑 Аксессуары</option>
+        </select>
+        <select id="sortSelect" class="sort-select">
+            <option value="default">📊 По умолчанию</option>
+            <option value="price-asc">💰 По возрастанию цены</option>
+            <option value="price-desc">💰 По убыванию цены</option>
+        </select>
+    </div>
+    
+    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+        <!-- ЛЕВАЯ КОЛОНКА (ТОВАРЫ) -->
+        <div style="flex: 2; min-width: 250px;">
+            <!-- Бонусы -->
+            <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
+                <div class="bonus-block" style="flex:1">
+                    <div style="font-size:0.8rem;">Ваш бонус</div>
+                    <div class="bonus-value">+500 ₽</div>
+                    <div style="font-size:0.7rem;">за следующий заказ</div>
+                </div>
+                <div class="bonus-block" style="flex:1; background: linear-gradient(135deg,#2c3e66,#1e2a47);">
+                    <div style="font-size:0.8rem;">Кэшбэк</div>
+                    <div class="bonus-value">5%</div>
+                    <div style="font-size:0.7rem;">на всё</div>
+                </div>
             </div>
-            <div class="bonus-block" style="flex:1; background: linear-gradient(135deg,#2c3e66,#1e2a47);">
-                <div style="font-size:0.8rem;">Кэшбэк</div>
-                <div class="bonus-value">5%</div>
-                <div style="font-size:0.7rem;">на всё</div>
+            
+            <!-- Вкладки -->
+            <div class="extra-sections">
+                <div class="info-card" onclick="showHits()">
+                    <div class="title">🔥 Хиты</div>
+                    <div class="value" id="hitsCount">0</div>
+                    <div style="font-size:0.7rem;">товаров</div>
+                </div>
+                <div class="info-card" onclick="showDeliveryInfo()">
+                    <div class="title">📦 Доставка</div>
+                    <div class="value">1 день</div>
+                    <div style="font-size:0.7rem;">по Челябинску</div>
+                </div>
+                <div class="info-card" onclick="showContacts()">
+                    <div class="title">📱 Контакты</div>
+                    <div class="value">@Tolpaplay</div>
+                    <div style="font-size:0.7rem;">Telegram</div>
+                </div>
             </div>
+            
+            <!-- Товары -->
+            <div class="products-grid" id="productsContainer"></div>
         </div>
+        
+        <!-- ПРАВАЯ КОЛОНКА (VIP) -->
+        <div style="flex: 1; min-width: 260px;">
+            <div class="vip-sidebar" id="vipSidebar"></div>
+        </div>
+    </div>
+    
+    <div class="bottom-instruction">
+        <div style="font-weight:600; margin-bottom:8px;">💳 Как сделать заказ</div>
+        <p>1️⃣ Оплатите по СБП: <strong>8 963 090 58 96</strong></p>
+        <p>2️⃣ Скриншот чека → оформите заказ</p>
+        <p>3️⃣ Менеджер свяжется с вами</p>
+        <a href="https://t.me/Tolpaplay" target="_blank" style="color:#d4af37;">👨‍💼 Написать менеджеру</a>
+    </div>
+</div>
         <!-- ВКЛАДКИ (ХИТЫ / ДОСТАВКА) -->
         <div class="extra-sections">
             <div class="info-card" onclick="showHits()">
