@@ -282,6 +282,92 @@
             color: white;
             cursor: pointer;
         }
+        /* ========== ПОИСК И СОРТИРОВКА ========== */
+.search-sort-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+.search-input {
+    flex: 2;
+    min-width: 200px;
+    padding: 12px 18px;
+    border-radius: 40px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 1rem;
+}
+.category-select, .sort-select {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px 18px;
+    border-radius: 40px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+/* ========== АДМИН-ПАНЕЛЬ (ВСЯ СТРАНИЦА) ========== */
+.admin-fullscreen {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 24px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 48px;
+}
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+.admin-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 32px;
+    padding: 20px;
+    cursor: pointer;
+}
+.admin-card-title { font-size: 1.2rem; font-weight: 600; }
+.admin-card-price { color: #ff6b8a; margin: 8px 0; }
+.admin-status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; }
+.status-active { background: #2e7d32; color: white; }
+.status-hidden { background: #9e9e9e; color: white; }
+.admin-actions { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+.admin-btn { padding: 8px 16px; border-radius: 30px; border: none; cursor: pointer; }
+.admin-btn-edit { background: #d4af37; color: black; }
+.admin-btn-toggle { background: #2c3e66; color: white; }
+.admin-btn-delete { background: #d90429; color: white; }
+/* ========== РЕДАКТОР (СКЕЛЕТ) ========== */
+.editor-skeleton {
+    background: rgba(0,0,0,0.8);
+    border-radius: 48px;
+    padding: 24px;
+}
+.editor-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.editor-field { flex: 1; min-width: 200px; }
+.editor-field input, .editor-field textarea, .editor-field select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    background: #2a2a2a;
+    color: white;
+    border: none;
+}
+.preview-card {
+    background: rgba(0,0,0,0.5);
+    border-radius: 28px;
+    overflow: hidden;
+    max-width: 260px;
+    margin: 0 auto;
+}
+.preview-media { height: 160px; display: flex; align-items: center; justify-content: center; background: #1f1f2a; }
+        
     </style>
 </head>
 <body class="theme-dark">
@@ -306,6 +392,21 @@
 
 <div id="mainPage" class="page active">
     <div class="main-container">
+        <div class="search-sort-bar">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по товарам...">
+    <select id="categorySelect" class="category-select">
+        <option value="all">📋 Все категории</option>
+        <option value="Электроника">💾 Электроника</option>
+        <option value="Игрушки">🧸 Игрушки</option>
+        <option value="Одежда">👕 Одежда</option>
+        <option value="Аксессуары">🔑 Аксессуары</option>
+    </select>
+    <select id="sortSelect" class="sort-select">
+        <option value="default">📊 По умолчанию</option>
+        <option value="price-asc">💰 По возрастанию цены</option>
+        <option value="price-desc">💰 По убыванию цены</option>
+    </select>
+</div>
         <!-- ЛЕВАЯ ПАНЕЛЬ (БОНУС) + ДОП.ИНФО -->
         <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; margin-bottom: 8px;">
             <div class="bonus-block" style="flex:1">
@@ -377,31 +478,17 @@
         <button id="closeOrderBtn" class="btn-back">← Назад</button>
     </div>
 </div>
-
 <div id="adminPage" class="page">
-    <div class="cart-container">
-        <h2>Админ-панель</h2>
+    <div class="admin-fullscreen">
         <div id="adminLoginBlock">
-            <input type="password" id="adminPass" placeholder="Пароль">
-            <button onclick="checkAdminPass()" class="btn-add">Войти</button>
+            <input type="password" id="adminPass" placeholder="Пароль" style="width:100%; padding:14px; border-radius:40px; margin-bottom:16px;">
+            <button onclick="checkAdminPass()" style="background:#d90429; padding:14px; border-radius:40px; width:100%; border:none; color:white;">Войти</button>
         </div>
         <div id="adminContentBlock" class="hidden">
-            <input type="password" id="githubToken" placeholder="GitHub токен">
-            <button onclick="saveGitHubToken()">💾 Сохранить токен</button>
-            <h3>Редактировать товар</h3>
-            <select id="productSelect" onchange="loadProductForEdit()"></select>
-            <input type="text" id="editName" placeholder="Название">
-            <input type="number" id="editPrice" placeholder="Цена">
-            <textarea id="editDesc" placeholder="Описание" rows="2"></textarea>
-            <div class="dropzone" id="dropzone">📸 Перетащите фото/видео</div>
-            <div id="editMediaList" style="display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;"></div>
-            <button onclick="saveProductEdit()">💾 Сохранить</button>
-            <button onclick="deleteCurrentProduct()" style="background:#d90429;">🗑️ Удалить</button>
-            <h3>Новый товар</h3>
-            <input type="text" id="newName" placeholder="Название">
-            <input type="number" id="newPrice" placeholder="Цена">
-            <textarea id="newDesc" placeholder="Описание"></textarea>
-            <button onclick="addNewProduct()">➕ Добавить</button>
+            <div id="adminPanelContainer" class="admin-grid"></div>
+            <div style="text-align:center; margin-top:30px;">
+                <button onclick="openEditor()" style="background:#d4af37; border:none; padding:14px 28px; border-radius:40px; font-weight:bold;">➕ Создать товар</button>
+            </div>
         </div>
     </div>
 </div>
@@ -420,14 +507,14 @@ const CHAT_ID = "5233384978";
 const GITHUB_REPO = "Avidelarose/my-shop";
 let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
 let PRODUCTS = [
-    { id: 1, name: "SSD 256 SP A56", price: 3650, media: [], emoji: "💾" },
-    { id: 2, name: "Чебурашка", price: 2600, media: [], emoji: "🧸" },
-    { id: 3, name: "Дракончик", price: 330, media: ["Dragon_girl.jpg"], emoji: "🐉" },
-    { id: 4, name: "Зарядка в авто", price: 800, media: [], emoji: "🔌" },
-    { id: 5, name: "Мини колода карт", price: 700, media: [], emoji: "🃏" },
-    { id: 6, name: "Брелок", price: 300, media: ["Video/video_kulon.mp4"], emoji: "🔑" },
-    { id: 7, name: "Жилетка", price: 2145, media: [], emoji: "🌸" },
-    { id: 8, name: "Игрушечные сигареты", price: 1500, media: [], emoji: "💨" }
+    { id: 1, name: "SSD 256 SP A56", price: 3650, category: "Электроника", status: "active", media: [], emoji: "💾", description: "Высокоскоростной SSD" },
+    { id: 2, name: "Чебурашка", price: 2600, category: "Игрушки", status: "active", media: [], emoji: "🧸", description: "Мягкая игрушка" },
+    { id: 3, name: "Дракончик", price: 330, category: "Игрушки", status: "active", media: ["Dragon_girl.jpg"], emoji: "🐉", description: "Светится в темноте" },
+    { id: 4, name: "Зарядка в авто", price: 800, category: "Электроника", status: "active", media: [], emoji: "🔌", description: "" },
+    { id: 5, name: "Мини колода карт", price: 700, category: "Игрушки", status: "active", media: [], emoji: "🃏", description: "" },
+    { id: 6, name: "Брелок", price: 300, category: "Аксессуары", status: "active", media: ["Video/video_kulon.mp4"], emoji: "🔑", description: "" },
+    { id: 7, name: "Жилетка", price: 2145, category: "Одежда", status: "active", media: [], emoji: "🌸", description: "" },
+    { id: 8, name: "Игрушечные сигареты", price: 1500, category: "Игрушки", status: "active", media: [], emoji: "💨", description: "" }
 ];
 let cart = {}, receiptFile = null, currentProductId = null, currentQty = 1;
 
@@ -577,110 +664,6 @@ async function submitOrder() {
     btn.disabled = false; btn.innerText = "Отправить заказ";
 }
 
-// ========== АДМИНКА ==========
-function checkAdminPass() {
-    if (document.getElementById('adminPass').value === 'nova2025') {
-        document.getElementById('adminLoginBlock').classList.add('hidden');
-        document.getElementById('adminContentBlock').classList.remove('hidden');
-        fillProductSelect();
-        setupDragAndDrop();
-    } else alert('Неверный пароль');
-}
-function fillProductSelect() {
-    let select = document.getElementById('productSelect');
-    select.innerHTML = '';
-    PRODUCTS.forEach((p, i) => select.innerHTML += `<option value="${i}">${p.name}</option>`);
-    loadProductForEdit();
-}
-function loadProductForEdit() {
-    let idx = document.getElementById('productSelect').value;
-    let p = PRODUCTS[idx];
-    document.getElementById('editName').value = p.name;
-    document.getElementById('editPrice').value = p.price;
-    document.getElementById('editDesc').value = p.description || '';
-    let mediaList = document.getElementById('editMediaList');
-    mediaList.innerHTML = '';
-    if (p.media) p.media.forEach((m, i) => mediaList.innerHTML += `<div class="media-item">${m.split('/').pop()} <button onclick="removeMedia(${i})">✖</button></div>`);
-}
-function removeMedia(idx) { PRODUCTS[document.getElementById('productSelect').value].media.splice(idx, 1); loadProductForEdit(); renderProducts(); saveProductsToLocal(); }
-function saveProductEdit() {
-    let idx = document.getElementById('productSelect').value;
-    PRODUCTS[idx].name = document.getElementById('editName').value;
-    PRODUCTS[idx].price = parseInt(document.getElementById('editPrice').value);
-    PRODUCTS[idx].description = document.getElementById('editDesc').value;
-    saveProductsToLocal(); renderProducts(); fillProductSelect(); alert('✅ Сохранён');
-}
-function deleteCurrentProduct() {
-    if (confirm('Удалить?')) { PRODUCTS.splice(document.getElementById('productSelect').value, 1); saveProductsToLocal(); renderProducts(); fillProductSelect(); alert('🗑️ Удалён'); }
-}
-function addNewProduct() {
-    let name = document.getElementById('newName').value.trim();
-    let price = parseInt(document.getElementById('newPrice').value);
-    if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
-    PRODUCTS.push({ id: Date.now(), name, price, description: document.getElementById('newDesc').value, media: [], emoji: '📦' });
-    saveProductsToLocal(); renderProducts(); fillProductSelect(); alert('✅ Добавлен');
-}
-function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
-function loadProductsFromLocal() {
-    let saved = localStorage.getItem('nova_products');
-    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
-    renderProducts(); updateVipSidebar(); updateCartUI();
-}
-function setupDragAndDrop() {
-    let dropzone = document.getElementById('dropzone');
-    dropzone.ondrop = async (e) => {
-        e.preventDefault();
-        let file = e.dataTransfer.files[0];
-        if (!file) return;
-        let idx = document.getElementById('productSelect').value;
-        if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
-        let url = await uploadFileToGitHub(file);
-        if (url) { PRODUCTS[idx].media.push(url); loadProductForEdit(); renderProducts(); saveProductsToLocal(); alert('✅ Файл загружен'); }
-        else alert('❌ Ошибка загрузки');
-    };
-    dropzone.ondragover = e => e.preventDefault();
-    dropzone.onclick = async () => {
-        let input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*,video/*';
-        input.onchange = async (e) => {
-            if (e.target.files[0]) {
-                let idx = document.getElementById('productSelect').value;
-                if (!PRODUCTS[idx].media) PRODUCTS[idx].media = [];
-                let url = await uploadFileToGitHub(e.target.files[0]);
-                if (url) { PRODUCTS[idx].media.push(url); loadProductForEdit(); renderProducts(); saveProductsToLocal(); alert('✅ Файл загружен'); }
-                else alert('❌ Ошибка загрузки');
-            }
-        };
-        input.click();
-    };
-}
-async function uploadFileToGitHub(file) {
-    if (!GITHUB_TOKEN) { alert('Сохраните GitHub токен'); return null; }
-    const filename = Date.now() + '_' + file.name;
-    const reader = new FileReader();
-    return new Promise((resolve) => {
-        reader.onloadend = async () => {
-            const base64 = reader.result.split(',')[1];
-            const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/images/${filename}`;
-            try {
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `Upload ${filename}`, content: base64 })
-                });
-                if (response.ok) { const data = await response.json(); resolve(data.content.download_url); }
-                else resolve(null);
-            } catch(e) { resolve(null); }
-        };
-        reader.readAsDataURL(file);
-    });
-}
-function saveGitHubToken() {
-    let token = document.getElementById('githubToken').value.trim();
-    if (token) { localStorage.setItem('github_token', token); GITHUB_TOKEN = token; alert('✅ Токен сохранён'); }
-}
-
 // ========== LIGHTBOX ==========
 function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').classList.add('active'); }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
@@ -697,8 +680,178 @@ document.getElementById('closeOrderBtn').onclick = () => showPage('cart');
 document.getElementById('submitOrderBtn').onclick = submitOrder;
 document.getElementById('fileLabel').onclick = () => document.getElementById('receiptFile').click();
 document.getElementById('receiptFile').onchange = (e) => { if (e.target.files.length) { receiptFile = e.target.files[0]; document.getElementById('fileNameSpan').innerText = `📸 ${receiptFile.name}`; } };
+
+// ========== АДМИН-ПАНЕЛЬ (РАСШИРЕННАЯ) ==========
+function renderAdminPanel() {
+    const container = document.getElementById('adminPanelContainer');
+    if (!container) return;
+    let html = `<div class="admin-fullscreen"><div class="admin-grid">`;
+    PRODUCTS.forEach(p => {
+        html += `<div class="admin-card">
+            <div class="admin-card-title">${p.name}</div>
+            <div class="admin-card-price">${p.price.toLocaleString()} ₽</div>
+            <div><span class="admin-status ${p.status === 'active' ? 'status-active' : 'status-hidden'}">${p.status === 'active' ? 'Активен' : 'Скрыт'}</span></div>
+            <div class="admin-actions">
+                <button class="admin-btn admin-btn-edit" onclick="openEditor(${p.id})">✏️ Редактировать</button>
+                <button class="admin-btn admin-btn-toggle" onclick="toggleProductStatus(${p.id})">${p.status === 'active' ? '🔒 Скрыть' : '✅ Показать'}</button>
+                <button class="admin-btn admin-btn-delete" onclick="deleteProductItem(${p.id})">🗑️ Удалить</button>
+            </div>
+        </div>`;
+    });
+    html += `</div></div>`;
+    container.innerHTML = html;
+}
+
+function toggleProductStatus(id) {
+    const p = PRODUCTS.find(x => x.id == id);
+    if (p) { p.status = p.status === 'active' ? 'hidden' : 'active'; saveProductsToLocal(); renderAdminPanel(); renderProducts(); updateVipSidebar(); }
+}
+function deleteProductItem(id) {
+    if (confirm('Удалить товар навсегда?')) {
+        PRODUCTS = PRODUCTS.filter(p => p.id != id);
+        saveProductsToLocal();
+        renderAdminPanel();
+        renderProducts();
+        updateVipSidebar();
+    }
+}
+
+let currentEditId = null;
+function openEditor(id = null) {
+    currentEditId = id;
+    const p = id ? PRODUCTS.find(x => x.id == id) : null;
+    const mediaListHtml = p?.media?.map((m, i) => `<div class="media-item">${m.split('/').pop()} <button onclick="removeMediaFromEdit(${i})">✖</button></div>`).join('') || '';
+    const modalHtml = `
+    <div id="editorModal" class="modal active" style="display:flex;">
+        <div class="modal-content" style="max-width:800px;">
+            <h2>${p ? '✏️ Редактировать' : '➕ Новый товар'}</h2>
+            <div class="editor-skeleton">
+                <div class="editor-row">
+                    <div class="editor-field"><label>Название</label><input type="text" id="editName" value="${p?.name || ''}"></div>
+                    <div class="editor-field"><label>Цена</label><input type="number" id="editPrice" value="${p?.price || ''}"></div>
+                </div>
+                <div class="editor-row">
+                    <div class="editor-field"><label>Категория</label><select id="editCategory"><option value="Электроника">💾 Электроника</option><option value="Игрушки">🧸 Игрушки</option><option value="Одежда">👕 Одежда</option><option value="Аксессуары">🔑 Аксессуары</option></select></div>
+                    <div class="editor-field"><label>Статус</label><select id="editStatus"><option value="active">✅ Активен</option><option value="hidden">🔒 Скрыт</option></select></div>
+                </div>
+                <div class="editor-row">
+                    <div class="editor-field"><label>Описание</label><textarea id="editDesc" rows="2">${p?.description || ''}</textarea></div>
+                </div>
+                <div class="editor-row">
+                    <div class="editor-field"><label>Фото/видео (ссылки)</label><div id="editMediaList" style="display:flex; flex-wrap:wrap; gap:8px;">${mediaListHtml}</div><input type="text" id="newMediaUrl" placeholder="https://..."><button onclick="addMediaToEdit()" style="margin-top:5px;">➕ Добавить</button></div>
+                    <div class="preview-card"><div class="preview-media" id="previewMedia">📷</div><div class="preview-info"><div id="previewName">${p?.name || 'Название'}</div><div id="previewPrice">${p?.price?.toLocaleString() || '0'} ₽</div></div></div>
+                </div>
+                <button class="editor-save" onclick="saveEditorProduct()">💾 Сохранить</button>
+                <button onclick="closeEditor()">✖ Отмена</button>
+            </div>
+        </div>
+    </div>`;
+    let old = document.getElementById('editorModal');
+    if (old) old.remove();
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    if (p?.category) document.getElementById('editCategory').value = p.category;
+    if (p?.status) document.getElementById('editStatus').value = p.status;
+    updatePreview();
+}
+function updatePreview() {
+    const name = document.getElementById('editName')?.value || 'Название';
+    const price = document.getElementById('editPrice')?.value || '0';
+    document.getElementById('previewName').innerText = name;
+    document.getElementById('previewPrice').innerText = `${parseInt(price).toLocaleString()} ₽`;
+}
+function addMediaToEdit() {
+    const url = document.getElementById('newMediaUrl')?.value.trim();
+    if (url) {
+        const container = document.getElementById('editMediaList');
+        const idx = container.children.length;
+        container.innerHTML += `<div class="media-item">${url.split('/').pop()} <button onclick="removeMediaFromEdit(${idx})">✖</button></div>`;
+        document.getElementById('newMediaUrl').value = '';
+    }
+}
+function removeMediaFromEdit(idx) {
+    const item = document.getElementById('editMediaList')?.children[idx];
+    if (item) item.remove();
+}
+function saveEditorProduct() {
+    const name = document.getElementById('editName').value.trim();
+    const price = parseInt(document.getElementById('editPrice').value);
+    const category = document.getElementById('editCategory').value;
+    const status = document.getElementById('editStatus').value;
+    const desc = document.getElementById('editDesc').value;
+    if (!name || isNaN(price)) { alert('Заполните название и цену'); return; }
+    const media = [];
+    const mediaContainer = document.getElementById('editMediaList');
+    for (let i = 0; i < mediaContainer.children.length; i++) {
+        const txt = mediaContainer.children[i].innerText;
+        const url = txt.replace('✖', '').trim();
+        if (url) media.push(url);
+    }
+    if (currentEditId) {
+        const p = PRODUCTS.find(x => x.id == currentEditId);
+        p.name = name; p.price = price; p.category = category; p.status = status; p.description = desc; p.media = media; p.emoji = media.length ? '📷' : '📦';
+    } else {
+        PRODUCTS.push({ id: Date.now(), name, price, category, status, description: desc, media, emoji: media.length ? '📷' : '📦' });
+    }
+    saveProductsToLocal();
+    closeEditor();
+    renderAdminPanel();
+    renderProducts();
+    updateVipSidebar();
+    alert('✅ Товар сохранён');
+}
+function closeEditor() { document.getElementById('editorModal')?.remove(); }
+
+// Переопределяем функции для поиска и фильтрации
+window.renderProducts = function() {
+    const container = document.getElementById('productsContainer');
+    if (!container) return;
+    const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const category = document.getElementById('categorySelect')?.value || 'all';
+    const sort = document.getElementById('sortSelect')?.value || 'default';
+    let filtered = PRODUCTS.filter(p => p.status === 'active' && p.name.toLowerCase().includes(search));
+    if (category !== 'all') filtered = filtered.filter(p => p.category === category);
+    if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+    if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+    container.innerHTML = '';
+    let hits = 0;
+    filtered.forEach(p => {
+        const mediaUrl = p.media?.[0] || '';
+        const isVideo = mediaUrl.includes('.mp4');
+        const mediaHtml = mediaUrl ? (isVideo ? `<video class="product-media" src="${mediaUrl}" autoplay muted loop playsinline></video>` : `<img class="product-media" src="${mediaUrl}" onerror="this.src='https://placehold.co/400x300/2a0a1a/ff6b8a?text=${p.name}'">`) : `<div class="product-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#d90429,#9b1df0);font-size:2rem;">${p.emoji || '📦'}</div>`;
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openProductDetail(p.id);
+        card.innerHTML = `${mediaHtml}<div class="product-info-card"><div class="product-name-card">${p.name}</div><div class="product-price-card">${p.price.toLocaleString()} ₽</div></div>`;
+        container.appendChild(card);
+        if (p.price > 2000) hits++;
+    });
+    document.getElementById('hitsCount').innerText = hits;
+};
+
+// Обработчики поиска и сортировки
+document.getElementById('searchInput')?.addEventListener('input', () => renderProducts());
+document.getElementById('categorySelect')?.addEventListener('change', () => renderProducts());
+document.getElementById('sortSelect')?.addEventListener('change', () => renderProducts());
+
+// Проверка пароля админки
+window.checkAdminPass = function() {
+    if (document.getElementById('adminPass').value === 'nova2025') {
+        document.getElementById('adminLoginBlock').classList.add('hidden');
+        document.getElementById('adminContentBlock').classList.remove('hidden');
+        renderAdminPanel();
+    } else alert('Неверный пароль');
+};
+
+function saveProductsToLocal() { localStorage.setItem('nova_products', JSON.stringify(PRODUCTS)); }
+function loadProductsFromLocal() {
+    let saved = localStorage.getItem('nova_products');
+    if (saved) { try { PRODUCTS = JSON.parse(saved); } catch(e){} }
+    renderProducts();
+    updateVipSidebar();
+    updateCartUI();
+}
 loadProductsFromLocal();
 updateCartUI();
 </script>
 </body>
-</html>    
+</html>
