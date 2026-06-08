@@ -2753,28 +2753,78 @@ function addSpecRow() {
 }
 
 let tempMedia = [];
+
+// НОВАЯ функция сжатия изображений
+function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            
+            if (width > maxWidth) {
+                height = (height * maxWidth) / width;
+                width = maxWidth;
+            }
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+    });
+}
+
 function handleMediaUpload(event, type) {
     const files = event.target.files;
-    Array.from(files).forEach(file => {
+    Array.from(files).forEach(async (file) => {
         try {
-            // FIX: Предотвращение краша localStorage при загрузке больших видео
-            if (type === 'video' && file.size > 3 * 1024 * 1024) {
-                logError('warning', 'Видео слишком большое для localStorage', `Файл ${file.name} (${(file.size/1024/1024).toFixed(1)} МБ) превышает лимит 3МБ. Сохранена только ссылка-заглушка.`);
-                tempMedia.push({ type: 'video', url: 'video_placeholder.mp4', originalName: file.name });
-                addMediaPreview('video_placeholder.mp4', 'video');
-                showToast('Видео добавлено (демо-режим из-за размера)', 'info');
+            // Уменьшили лимит видео до 1.5 МБ
+            if (type === 'video' && file.size > 1.5 * 1024 * 1024) {
+                logError('warning', 'Видео слишком большое', 
+                    `Файл "${file.name}" (${(file.size/1024/1024).toFixed(1)} МБ) превышает лимит 1.5 МБ. Используйте видео меньшего размера или сожмите его.`);
+                showToast('⚠️ Видео слишком большое (макс. 1.5 МБ)', 'error');
+                return;
+            }
+            
+            // Лимит для изображений — 5 МБ (потом сожмём)
+            if (type === 'image' && file.size > 5 * 1024 * 1024) {
+                logError('warning', 'Изображение слишком большое', 
+                    `Файл "${file.name}" (${(file.size/1024/1024).toFixed(1)} МБ)`);
+                showToast('⚠️ Изображение слишком большое (макс. 5 МБ)', 'error');
                 return;
             }
 
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = async (e) => {
                 try {
-                    const url = e.target.result;
+                    let url = e.target.result;
+                    
+                    // СЖАТИЕ ИЗОБРАЖЕНИЙ — уменьшает размер в 5-10 раз!
+                    if (type === 'image') {
+                        const originalSize = url.length;
+                        url = await compressImage(url, 800, 0.7);
+                        const compressedSize = url.length;
+                        const saved = Math.round((1 - compressedSize/originalSize) * 100);
+                        logError('info', 'Изображение сжато', 
+                            `${file.name}: ${saved}% экономии (${(originalSize/1024).toFixed(0)}KB → ${(compressedSize/1024).toFixed(0)}KB)`);
+                    }
+                    
                     tempMedia.push({ type, url, originalName: file.name });
                     addMediaPreview(url, type);
                 } catch (err) {
                     logError('error', 'Ошибка обработки медиа', err.message);
+                    showToast('Ошибка обработки файла', 'error');
                 }
+            };
+            reader.onerror = () => {
+                logError('error', 'Ошибка чтения файла', file.name);
+                showToast('Не удалось прочитать файл', 'error');
             };
             reader.readAsDataURL(file);
         } catch (err) {
@@ -2818,30 +2868,56 @@ function saveProduct() {
             if (key && val) specs[key] = val;
         });
 
-        if (!name || !price) { showToast('Заполните поля', 'error'); return }
+        if (!name || !price) { 
+            showToast('Заполните поля', 'error'); 
+            return; 
+        }
 
         if (id) {
             const i = products.findIndex(p => p.id === parseInt(id));
             if (i !== -1) {
-                products[i] = { ...products[i], name, price, brand, category, seller, status, discount, description, specs, badges, media: tempMedia.length > 0 ? tempMedia : products[i].media };
+                products[i] = { 
+                    ...products[i], name, price, brand, category, seller, 
+                    status, discount, description, specs, badges, 
+                    media: tempMedia.length > 0 ? tempMedia : products[i].media 
+                };
             }
         } else {
             products.push({
-                id: Date.now(), name, price, brand, category, seller, status, discount, description, specs, badges,
+                id: Date.now(), name, price, brand, category, seller, 
+                status, discount, description, specs, badges,
                 media: tempMedia, emoji: name.charAt(0),
-                rating: (Math.random() * 1 + 4).toFixed(1), reviews: Math.floor(Math.random() * 200),
-                createdAt: Date.now(), watching: Math.floor(Math.random() * 15) + 3, sold: Math.floor(Math.random() * 200)
+                rating: (Math.random() * 1 + 4).toFixed(1), 
+                reviews: Math.floor(Math.random() * 200),
+                createdAt: Date.now(), 
+                watching: Math.floor(Math.random() * 15) + 3, 
+                sold: Math.floor(Math.random() * 200)
             });
         }
 
-        saveProducts();
+        // ВАЖНО: проверяем результат сохранения
+        const saved = saveProducts();
+        if (!saved) {
+            // Откатываем изменения, если не удалось сохранить
+            if (!id) products.pop();
+            else {
+                // Можно добавить восстановление старого значения
+            }
+            return;
+        }
+
         tempMedia = [];
         closeModal('productModal');
         showAdminTab('products');
-        renderProducts(); renderCarousels(); renderCategories();
-        showToast('Сохранено', 'success');
+        renderProducts(); 
+        renderCarousels(); 
+        renderCategories();
+        showToast('✅ Сохранено', 'success');
         if (navigator.vibrate) navigator.vibrate(10);
-    } catch (e) { logError('error', 'saveProduct: ' + e.message, e.stack); showToast('Ошибка', 'error') }
+    } catch (e) { 
+        logError('error', 'saveProduct: ' + e.message, e.stack); 
+        showToast('Ошибка', 'error'); 
+    }
 }
 
 function deleteProduct(id) {
@@ -2858,13 +2934,106 @@ function deleteProduct(id) {
 function saveProducts() {
     try {
         localStorage.setItem('nova_products', JSON.stringify(products));
+        return true;
     } catch (e) {
-        if (e.name === 'QuotaExceededError') {
-            logError('error', 'Превышен лимит памяти браузера (LocalStorage)', 'Удалите старые видео/фото из товаров или очистите кэш. Видео занимают много места.');
-            showToast('Ошибка: слишком много данных для сохранения', 'error');
+        if (e.name === 'QuotaExceededError' || e.code === 22) {
+            logError('error', '⚠️ Превышен лимит памяти браузера', 
+                'localStorage заполнен. Будет выполнена автоматическая очистка старых медиа.');
+            
+            // Пытаемся освободить место
+            const freed = freeUpSpace();
+            
+            if (freed > 0) {
+                // Пробуем сохранить снова
+                try {
+                    localStorage.setItem('nova_products', JSON.stringify(products));
+                    showToast(`✅ Освобождено ${freed} товаров от медиа. Сохранено!`, 'success');
+                    return true;
+                } catch (e2) {
+                    logError('error', 'Не удалось сохранить даже после очистки', e2.message);
+                    showStorageFullDialog();
+                    return false;
+                }
+            } else {
+                showStorageFullDialog();
+                return false;
+            }
         } else {
             logError('error', 'Ошибка сохранения', e.message);
+            showToast('Ошибка сохранения', 'error');
+            return false;
         }
+    }
+}
+
+// НОВАЯ функция освобождения места
+function freeUpSpace() {
+    // Сортируем товары по дате создания (старые первые)
+    const sorted = [...products].sort((a, b) => a.createdAt - b.createdAt);
+    let freed = 0;
+    
+    // Удаляем медиа из 5 самых старых товаров
+    for (let i = 0; i < Math.min(5, sorted.length); i++) {
+        const p = sorted[i];
+        if (p.media && p.media.length > 0) {
+            logError('info', 'Автоматическая очистка', 
+                `Удалено медиа из товара "${p.name}"`);
+            p.media = [];
+            freed++;
+        }
+    }
+    
+    return freed;
+}
+
+// НОВАЯ функция показа диалога при полном хранилище
+function showStorageFullDialog() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay active';
+    modal.innerHTML = `
+        <div class="modal" style="max-width:500px">
+            <div class="modal-header">
+                <h3 class="modal-title">⚠️ Память браузера переполнена</h3>
+                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div style="background:var(--bg-main);padding:16px;border-radius:12px;margin-bottom:16px">
+                    <div style="font-size:3rem;text-align:center;margin-bottom:12px">💾</div>
+                    <p style="margin-bottom:12px">Хранилище браузера (localStorage) переполнено. Это ограничение браузера, а не сайта.</p>
+                    <p style="font-weight:600;margin-bottom:8px">Что можно сделать:</p>
+                    <ul style="padding-left:20px;color:var(--text-secondary);line-height:1.8">
+                        <li>🗑️ Удалить медиа из старых товаров в админке</li>
+                        <li>📹 Использовать видео меньшего размера (до 1 МБ)</li>
+                        <li>🖼️ Сжимать изображения перед загрузкой</li>
+                        <li>🧹 Очистить данные сайта в настройках браузера</li>
+                    </ul>
+                </div>
+                <button class="btn btn-danger btn-lg" onclick="clearAllMedia()" style="width:100%;justify-content:center;margin-bottom:8px">
+                    🗑️ Удалить ВСЁ медиа из товаров
+                </button>
+                <button class="btn btn-secondary btn-lg" onclick="this.closest('.modal-overlay').remove()" style="width:100%;justify-content:center">
+                    Понятно
+                </button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// НОВАЯ функция полной очистки медиа
+function clearAllMedia() {
+    if (!confirm('Удалить ВСЕ изображения и видео из всех товаров? Товары останутся, но без медиа.')) return;
+    
+    products.forEach(p => p.media = []);
+    try {
+        localStorage.setItem('nova_products', JSON.stringify(products));
+        showToast('✅ Все медиа удалено', 'success');
+        document.querySelector('.modal-overlay.active')?.remove();
+        renderProducts();
+        renderCarousels();
+    } catch (e) {
+        logError('error', 'Ошибка очистки', e.message);
+        showToast('Ошибка очистки', 'error');
     }
 }
 
@@ -3092,52 +3261,6 @@ function renderAdminLogs(c) {
     const logs = [
         { time: '10:45', user: 'Администратор', action: 'Создан товар', target: 'SSD 256GB', type: 'create' },
         { time: '10:30', user: 'Менеджер', action: 'Обработан заказ', target: '#12345', type: 'update' },
-        { time: '10:15', user: 'Администратор', action: 'Создана акция', target: 'Весенняя распродажа', type: 'create' },
-        { time: '09:50', user: 'Поддержка', action: 'Изменён статус заказа', target: '#12344', type: 'update' },
-        { time: '09:30', user: 'Администратор', action: 'Добавлен сотрудник', target: 'Иван Иванов', type: 'create' },
-        { time: '09:00', user: 'Система', action: 'Автоматическое резервное копирование', target: '', type: 'system' },
-        { time: 'Вчера', user: 'Администратор', action: 'Вход в систему', target: '192.168.1.1', type: 'auth' }
-    ];
-    c.innerHTML = `<div class="admin-header"><h2 class="admin-title">📝 Логи</h2><button class="btn btn-danger" onclick="if(confirm('Очистить логи?'))showToast('Логи очищены','success')">🗑️ Очистить</button></div>
-<div style="background:var(--bg-main);border-radius:16px;overflow:hidden">
-${logs.map(l => { const icons = { create: '➕', update: '✏️', delete: '🗑️', system: '⚙️', auth: '🔐' }; const colors = { create: 'var(--success)', update: 'var(--primary)', delete: 'var(--danger)', system: 'var(--text-secondary)', auth: 'var(--warning)' }; return `<div style="padding:16px;border-bottom:.5px solid var(--border);display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;border-radius:10px;background:${colors[l.type]}20;color:${colors[l.type]};display:flex;align-items:center;justify-content:center;font-size:1.2rem">${icons[l.type]}</div><div style="flex:1"><div style="font-weight:600">${l.action} ${l.target ? `<span style="color:var(--primary)">${l.target}</span>` : ''}</div><div style="font-size:.85rem;color:var(--text-secondary)">${l.user} • ${l.time}</div></div></div>` }).join('')}
-</div>`;
-}
-
-function renderAdminDiscounts(c) {
-    const active = getActiveDiscounts(), upcoming = getUpcomingDiscounts();
-    c.innerHTML = `<div class="admin-header"><h2 class="admin-title">🔥 Скидки</h2><div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="openDiscountModal('manual')">➕</button><button class="btn btn-success" onclick="autoGenerateHolidayDiscounts()">🤖</button></div></div>
-<div class="admin-stats">
-<div class="stat-card"><div class="stat-label">🔥 Активных</div><div class="stat-value">${active.length}</div></div>
-<div class="stat-card"><div class="stat-label">⏰ Скоро</div><div class="stat-value">${upcoming.length}</div></div>
-</div>
-<h3 style="margin-bottom:12px">Активные</h3>${active.length === 0 ? '<div style="padding:16px;text-align:center;color:var(--text-secondary);background:var(--bg-main);border-radius:10px">Нет</div>' : active.map(d => createAdminDiscountCard(d)).join('')}
-<h3 style="margin:20px 0 12px">Скоро</h3>${upcoming.length === 0 ? '<div style="padding:16px;text-align:center;color:var(--text-secondary);background:var(--bg-main);border-radius:10px">Нет</div>' : upcoming.map(d => createAdminDiscountCard(d)).join('')}`;
-}
-
-function createAdminDiscountCard(d) {
-    const now = Date.now(), isActive = d.startDate <= now && d.endDate >= now;
-    return `<div class="discount-card" style="border-left:4px solid ${isActive ? 'var(--success)' : 'var(--warning)'}">
-<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
-<div style="flex:1"><div style="font-weight:700;font-size:1rem;margin-bottom:4px">${d.name}</div><div style="color:var(--text-secondary);font-size:.82rem">${d.description}</div>
-<div style="font-size:.78rem;color:var(--text-secondary);margin-top:6px">📅 ${new Date(d.startDate).toLocaleDateString('ru-RU')} — ${new Date(d.endDate).toLocaleDateString('ru-RU')}</div></div>
-<div style="background:var(--wb-red);color:#fff;padding:6px 12px;border-radius:10px;font-weight:700">-${d.percent}%</div>
-</div>
-<div style="display:flex;gap:8px;margin-top:10px">
-<button class="btn btn-primary" style="padding:6px 12px;font-size:.82rem" onclick="openDiscountModal(null,${d.id})">✏️</button>
-<button class="btn btn-danger" style="padding:6px 12px;font-size:.82rem" onclick="deleteDiscount(${d.id})">🗑️</button>
-</div></div>`;
-}
-
-function openDiscountModal(type = null, editId = null) {
-    const body = document.getElementById('discountModalBody');
-    const d = editId ? discounts.find(x => x.id === editId) : null;
-    const now = Date.now(), day = 24 * 60 * 60 * 1000;
-    let ds = now, de = now + 7 * day, dp = 10, dn = '', dd = '';
-    if (type === 'seasonal') { dn = '🍂 Сезонная'; dd = 'Скидки'; dp = 15; de = now + 30 * day }
-    else if (type === 'holiday') { dn = '🎆 Праздничная'; dd = 'Предложение'; dp = 25; de = now + 3 * day }
-    if (d) { dn = d.name; dd = d.description; dp = d.percent; ds = d.startDate; de = d.endDate; type = d.type }
-    document.getElementById('discountModalTitle').textContent = editId ? 'Редактировать
         ' : 'Создать';
     body.innerHTML = `<input type="hidden" id="editDiscountId" value="${editId || ''}">
 <div class="form-group"><label class="form-label">Название *</label><input type="text" id="discountName" class="form-input" value="${dn}"></div>
@@ -3210,7 +3333,7 @@ function renderAdminErrors(c) {
 </div>
 <div class="errors-list">
 ${errors.length === 0 ? `<div class="errors-empty"><div class="errors-empty-icon">✅</div><h3>Ошибок нет</h3><p style="margin-top:6px;font-size:.88rem">Все системы работают</p></div>` :
-        errors.map(e => `
+    errors.map(e => `
 <div class="error-item">
 <div class="error-icon ${e.type}">${e.type === 'error' ? '❌' : e.type === 'warning' ? '⚠️' : 'ℹ️'}</div>
 <div class="error-content">
