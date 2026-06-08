@@ -1337,6 +1337,16 @@ body{padding-bottom:0}
 </div>
 </div>
 
+<div id="staffModal" class="modal-overlay">
+<div class="modal" style="max-width:500px">
+<div class="modal-header">
+<h3 class="modal-title" id="staffModalTitle">Сотрудник</h3>
+<button class="modal-close" onclick="closeModal('staffModal')">✕</button>
+</div>
+<div class="modal-body" id="staffModalBody"></div>
+</div>
+</div>
+
 <!-- FLOATING -->
 <div class="floating-btns">
 <button class="floating-btn top" id="scrollTopBtn" onclick="scrollToTop()">↑</button>
@@ -2754,7 +2764,6 @@ function addSpecRow() {
 
 let tempMedia = [];
 
-// НОВАЯ функция сжатия изображений
 function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -2784,7 +2793,6 @@ function handleMediaUpload(event, type) {
     const files = event.target.files;
     Array.from(files).forEach(async (file) => {
         try {
-            // Уменьшили лимит видео до 1.5 МБ
             if (type === 'video' && file.size > 1.5 * 1024 * 1024) {
                 logError('warning', 'Видео слишком большое', 
                     `Файл "${file.name}" (${(file.size/1024/1024).toFixed(1)} МБ) превышает лимит 1.5 МБ. Используйте видео меньшего размера или сожмите его.`);
@@ -2792,7 +2800,6 @@ function handleMediaUpload(event, type) {
                 return;
             }
             
-            // Лимит для изображений — 5 МБ (потом сожмём)
             if (type === 'image' && file.size > 5 * 1024 * 1024) {
                 logError('warning', 'Изображение слишком большое', 
                     `Файл "${file.name}" (${(file.size/1024/1024).toFixed(1)} МБ)`);
@@ -2805,7 +2812,6 @@ function handleMediaUpload(event, type) {
                 try {
                     let url = e.target.result;
                     
-                    // СЖАТИЕ ИЗОБРАЖЕНИЙ — уменьшает размер в 5-10 раз!
                     if (type === 'image') {
                         const originalSize = url.length;
                         url = await compressImage(url, 800, 0.7);
@@ -2895,14 +2901,9 @@ function saveProduct() {
             });
         }
 
-        // ВАЖНО: проверяем результат сохранения
         const saved = saveProducts();
         if (!saved) {
-            // Откатываем изменения, если не удалось сохранить
             if (!id) products.pop();
-            else {
-                // Можно добавить восстановление старого значения
-            }
             return;
         }
 
@@ -2940,11 +2941,9 @@ function saveProducts() {
             logError('error', '⚠️ Превышен лимит памяти браузера', 
                 'localStorage заполнен. Будет выполнена автоматическая очистка старых медиа.');
             
-            // Пытаемся освободить место
             const freed = freeUpSpace();
             
             if (freed > 0) {
-                // Пробуем сохранить снова
                 try {
                     localStorage.setItem('nova_products', JSON.stringify(products));
                     showToast(`✅ Освобождено ${freed} товаров от медиа. Сохранено!`, 'success');
@@ -2966,13 +2965,10 @@ function saveProducts() {
     }
 }
 
-// НОВАЯ функция освобождения места
 function freeUpSpace() {
-    // Сортируем товары по дате создания (старые первые)
     const sorted = [...products].sort((a, b) => a.createdAt - b.createdAt);
     let freed = 0;
     
-    // Удаляем медиа из 5 самых старых товаров
     for (let i = 0; i < Math.min(5, sorted.length); i++) {
         const p = sorted[i];
         if (p.media && p.media.length > 0) {
@@ -2986,7 +2982,6 @@ function freeUpSpace() {
     return freed;
 }
 
-// НОВАЯ функция показа диалога при полном хранилище
 function showStorageFullDialog() {
     const modal = document.createElement('div');
     modal.className = 'modal-overlay active';
@@ -3020,7 +3015,6 @@ function showStorageFullDialog() {
     document.body.appendChild(modal);
 }
 
-// НОВАЯ функция полной очистки медиа
 function clearAllMedia() {
     if (!confirm('Удалить ВСЕ изображения и видео из всех товаров? Товары останутся, но без медиа.')) return;
     
@@ -3258,10 +3252,39 @@ function showSettingsTab(tab, btn) {
 }
 
 function renderAdminLogs(c) {
-    const logs = [
-        { time: '10:45', user: 'Администратор', action: 'Создан товар', target: 'SSD 256GB', type: 'create' },
-        { time: '10:30', user: 'Менеджер', action: 'Обработан заказ', target: '#12345', type: 'update' },
-        ' : 'Создать';
+    c.innerHTML = `<div class="admin-header"><h2 class="admin-title">📝 Логи действий</h2></div>
+<div style="background:var(--bg-main);border-radius:16px;padding:16px;text-align:center;color:var(--text-secondary)">
+<div style="font-size:3rem;margin-bottom:12px">📋</div>
+<h3>Логирование в разработке</h3>
+<p style="margin-top:6px;font-size:.88rem">Здесь будет отображаться история действий</p>
+</div>`;
+}
+
+function renderAdminDiscounts(c) {
+    c.innerHTML = `<div class="admin-header"><h2 class="admin-title">🔥 Скидки</h2><div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="openDiscountModal()">➕</button><button class="btn btn-secondary" onclick="autoGenerateHolidayDiscounts()">🎄 Праздничные</button></div></div>
+<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Название</th><th>Скидка</th><th>Период</th><th>Статус</th><th></th></tr></thead><tbody>
+${discounts.map(d => {
+        const active = d.active && d.startDate <= Date.now() && d.endDate >= Date.now();
+        const upcoming = d.active && d.startDate > Date.now();
+        let status = active ? 'Активна' : (upcoming ? 'Скоро' : 'Завершена');
+        return `<tr><td data-label="Название"><strong>${d.name}</strong><div style="color:var(--text-secondary);font-size:.75rem">${d.description || ''}</div></td>
+<td data-label="Скидка"><span style="color:var(--danger);font-weight:700">-${d.percent}%</span></td>
+<td data-label="Период">${new Date(d.startDate).toLocaleDateString('ru-RU')}<br>— ${new Date(d.endDate).toLocaleDateString('ru-RU')}</td>
+<td data-label="Статус"><span class="status-badge ${active ? 'status-active' : (upcoming ? 'status-processing' : 'status-hidden')}">${status}</span></td>
+<td data-label=""><button class="btn btn-danger" style="padding:6px 12px;font-size:.8rem" onclick="deleteDiscount(${d.id})">🗑️</button></td></tr>`;
+    }).join('')}
+</tbody>}</table></div>`;
+}
+
+function openDiscountModal(editId = null) {
+    const d = editId ? discounts.find(x => x.id === editId) : null;
+    const dn = d?.name || '';
+    const dd = d?.description || '';
+    const dp = d?.percent || 15;
+    const ds = d?.startDate || Date.now();
+    const de = d?.endDate || Date.now() + 30 * 24 * 60 * 60 * 1000;
+    const body = document.getElementById('discountModalBody');
+    document.getElementById('discountModalTitle').textContent = editId ? 'Редактировать' : 'Создать';
     body.innerHTML = `<input type="hidden" id="editDiscountId" value="${editId || ''}">
 <div class="form-group"><label class="form-label">Название *</label><input type="text" id="discountName" class="form-input" value="${dn}"></div>
 <div class="form-group"><label class="form-label">Описание</label><input type="text" id="discountDesc" class="form-input" value="${dd}"></div>
