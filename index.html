@@ -3138,7 +3138,7 @@ function openDiscountModal(type = null, editId = null) {
     else if (type === 'holiday') { dn = '🎆 Праздничная'; dd = 'Предложение'; dp = 25; de = now + 3 * day }
     if (d) { dn = d.name; dd = d.description; dp = d.percent; ds = d.startDate; de = d.endDate; type = d.type }
     document.getElementById('discountModalTitle').textContent = editId ? 'Редактировать
-      ' : 'Создать';
+        ' : 'Создать';
     body.innerHTML = `<input type="hidden" id="editDiscountId" value="${editId || ''}">
 <div class="form-group"><label class="form-label">Название *</label><input type="text" id="discountName" class="form-input" value="${dn}"></div>
 <div class="form-group"><label class="form-label">Описание</label><input type="text" id="discountDesc" class="form-input" value="${dd}"></div>
